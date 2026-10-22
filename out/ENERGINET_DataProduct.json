@@ -1913,7 +1913,7 @@
                         },
                         "label": "Approve the asset change",
                         "myTasksConfiguration": {
-                            "collection": "ENERGINET.entities.Asset.collection_views.AssetCollectionView"
+                            "collection": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView"
                         },
                         "position": {
                             "x": -120,
@@ -1924,7 +1924,7 @@
                         "assigneeRequiredRole": "GridDataOwner",
                         "entity": "ENERGINET.entities.Asset.Asset",
                         "icon": "images://mdi/clipboard-check-outline.svg",
-                        "stepper": "ENERGINET.entities.Asset.steppers.AuthorAsset",
+                        "stepper": "ENERGINET.entities.Asset.steppers.ReviewAsset",
                         "transitions": [
                             {
                                 "qualifiedName": "ENERGINET.workflows.AssetChangeApproval.Approve.ApproveChange",
@@ -6998,6 +6998,341 @@
                                 "componentProperties": []
                             }
                         ]
+                    },
+                    {
+                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView",
+                        "default": false,
+                        "gridAllowed": false,
+                        "gridColumns": 4,
+                        "gridTextPosition": "BOTTOM",
+                        "gridTileHeight": "1:1",
+                        "gridTileLines": 1,
+                        "listAllowed": true,
+                        "listItemLines": 1,
+                        "listShowDisplayCardAvatar": false,
+                        "listShowDivider": true,
+                        "tableAllowed": true,
+                        "tableDisplayCardColumnLabel": "Asset",
+                        "tableRowLines": 1,
+                        "tableShowDisplayCard": true,
+                        "displayCard": "ENERGINET.entities.Asset.display_cards.AssetDisplayCard",
+                        "tableColumns": [
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.GoldenId",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semIdField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": true,
+                                "value": "AssetId",
+                                "visibleByDefault": true,
+                                "label": "Record id",
+                                "valueDataType": "INTEGER",
+                                "componentProperties": []
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Substation",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semReferenceField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "FDN_Substation",
+                                "visibleByDefault": true,
+                                "referencedEntity": "ENERGINET.entities.Substation.Substation",
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Substation.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN FID_Substation = GoldenRecord.FID_Substation OR COALESCE(FID_Substation, GoldenRecord.FID_Substation) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AssetName",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 2,
+                                "useCustomLabel": false,
+                                "value": "AssetName",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AssetName.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetName = GoldenRecord.AssetName OR COALESCE(AssetName, GoldenRecord.AssetName) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AssetType",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 3,
+                                "useCustomLabel": false,
+                                "value": "AssetType",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AssetType.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetType = GoldenRecord.AssetType OR COALESCE(AssetType, GoldenRecord.AssetType) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.NetworkModelId",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 4,
+                                "useCustomLabel": false,
+                                "value": "NetworkModelId",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.NetworkModelId.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN NetworkModelId = GoldenRecord.NetworkModelId OR COALESCE(NetworkModelId, GoldenRecord.NetworkModelId) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.EamAssetNumber",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 5,
+                                "useCustomLabel": false,
+                                "value": "EamAssetNumber",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.EamAssetNumber.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN EamAssetNumber = GoldenRecord.EamAssetNumber OR COALESCE(EamAssetNumber, GoldenRecord.EamAssetNumber) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Manufacturer",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 6,
+                                "useCustomLabel": false,
+                                "value": "Manufacturer",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Manufacturer.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Manufacturer = GoldenRecord.Manufacturer OR COALESCE(Manufacturer, GoldenRecord.Manufacturer) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Model",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 7,
+                                "useCustomLabel": false,
+                                "value": "Model",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Model.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Model = GoldenRecord.Model OR COALESCE(Model, GoldenRecord.Model) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.SerialNumber",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 8,
+                                "useCustomLabel": false,
+                                "value": "SerialNumber",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.SerialNumber.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN SerialNumber = GoldenRecord.SerialNumber OR COALESCE(SerialNumber, GoldenRecord.SerialNumber) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.VoltageLevel",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 9,
+                                "useCustomLabel": false,
+                                "value": "VoltageLevel",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.VoltageLevel.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN VoltageLevel = GoldenRecord.VoltageLevel OR COALESCE(VoltageLevel, GoldenRecord.VoltageLevel) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.RatedPowerMva",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 10,
+                                "useCustomLabel": false,
+                                "value": "RatedPowerMva",
+                                "visibleByDefault": true,
+                                "valueDataType": "DECIMAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.RatedPowerMva.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN RatedPowerMva = GoldenRecord.RatedPowerMva OR COALESCE(RatedPowerMva, GoldenRecord.RatedPowerMva) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.CommissioningDate",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semDatepickerField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 11,
+                                "useCustomLabel": false,
+                                "value": "CommissioningDate",
+                                "visibleByDefault": true,
+                                "valueDataType": "DATE",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.CommissioningDate.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN CommissioningDate = GoldenRecord.CommissioningDate OR COALESCE(CommissioningDate, GoldenRecord.CommissioningDate) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.OperatingStatus",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 12,
+                                "useCustomLabel": false,
+                                "value": "OperatingStatus",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.OperatingStatus.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN OperatingStatus = GoldenRecord.OperatingStatus OR COALESCE(OperatingStatus, GoldenRecord.OperatingStatus) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Criticality",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 13,
+                                "useCustomLabel": false,
+                                "value": "Criticality",
+                                "visibleByDefault": true,
+                                "valueDataType": "STRING",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.Criticality.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Criticality = GoldenRecord.Criticality OR COALESCE(Criticality, GoldenRecord.Criticality) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.LastInspectionDate",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semDatepickerField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 14,
+                                "useCustomLabel": false,
+                                "value": "LastInspectionDate",
+                                "visibleByDefault": true,
+                                "valueDataType": "DATE",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.LastInspectionDate.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN LastInspectionDate = GoldenRecord.LastInspectionDate OR COALESCE(LastInspectionDate, GoldenRecord.LastInspectionDate) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AgeYears",
+                                "_type": "TableColumn",
+                                "columnAlign": "LEFT",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 15,
+                                "useCustomLabel": false,
+                                "value": "AgeYears",
+                                "visibleByDefault": true,
+                                "valueDataType": "INTEGER",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView.AgeYears.cellBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AgeYears = GoldenRecord.AgeYears OR COALESCE(AgeYears, GoldenRecord.AgeYears) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
                 "displayCards": [
@@ -7426,6 +7761,531 @@
                                 "componentProperties": []
                             }
                         ]
+                    },
+                    {
+                        "default": false,
+                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm",
+                        "formCharts": [],
+                        "formCollections": [],
+                        "formContainers": [
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset",
+                                "_type": "FormTab",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "visibleValueInterpreter": "LITERAL",
+                                "displayFormTabAs": "ICON_LABEL",
+                                "iconUrl": "images://mdi/flash.svg",
+                                "label": "Asset",
+                                "labelWidth": "150",
+                                "visibleValue": "1"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main",
+                                "_type": "FormContainer",
+                                "layoutDirection": "COLUMN",
+                                "posInParent": 0,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1",
+                                "_type": "FormSection2",
+                                "documentationInterpreter": "LITERAL",
+                                "layoutDirection": "COLUMN",
+                                "posInParent": 0,
+                                "visibleValueInterpreter": "LITERAL",
+                                "label": "Identification",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 0,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row2",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 1,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2",
+                                "_type": "FormSection2",
+                                "documentationInterpreter": "LITERAL",
+                                "layoutDirection": "COLUMN",
+                                "posInParent": 1,
+                                "visibleValueInterpreter": "LITERAL",
+                                "label": "Technical data",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 0,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 1,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3",
+                                "_type": "FormSection2",
+                                "documentationInterpreter": "LITERAL",
+                                "layoutDirection": "COLUMN",
+                                "posInParent": 2,
+                                "visibleValueInterpreter": "LITERAL",
+                                "label": "Lifecycle",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 0,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row2",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 1,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4",
+                                "_type": "FormSection2",
+                                "documentationInterpreter": "LITERAL",
+                                "layoutDirection": "COLUMN",
+                                "posInParent": 3,
+                                "visibleValueInterpreter": "LITERAL",
+                                "label": "Source identifiers",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1",
+                                "_type": "FormContainer",
+                                "layoutDirection": "ROW",
+                                "posInParent": 0,
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4"
+                            }
+                        ],
+                        "formDashboards": [],
+                        "formFields": [
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetName",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "AssetName",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetName.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetName = GoldenRecord.AssetName OR COALESCE(AssetName, GoldenRecord.AssetName) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.AssetName, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetName.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetName = GoldenRecord.AssetName OR COALESCE(AssetName, GoldenRecord.AssetName) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetType",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "AssetType",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetType.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetType = GoldenRecord.AssetType OR COALESCE(AssetType, GoldenRecord.AssetType) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.AssetType, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.AssetType.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AssetType = GoldenRecord.AssetType OR COALESCE(AssetType, GoldenRecord.AssetType) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.FDN_Substation",
+                                "_type": "FormField",
+                                "componentName": "semReferenceField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 2,
+                                "useCustomLabel": false,
+                                "value": "FDN_Substation",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1",
+                                "referencedEntity": "ENERGINET.entities.Substation.Substation",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.FDN_Substation.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN FID_Substation = GoldenRecord.FID_Substation OR COALESCE(FID_Substation, GoldenRecord.FID_Substation) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.Substation.SubstationName, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row1.FDN_Substation.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN FID_Substation = GoldenRecord.FID_Substation OR COALESCE(FID_Substation, GoldenRecord.FID_Substation) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row2.Criticality",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "Criticality",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row2",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row2.Criticality.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Criticality = GoldenRecord.Criticality OR COALESCE(Criticality, GoldenRecord.Criticality) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.Criticality, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec1.S1Row2.Criticality.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Criticality = GoldenRecord.Criticality OR COALESCE(Criticality, GoldenRecord.Criticality) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Manufacturer",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "Manufacturer",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Manufacturer.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Manufacturer = GoldenRecord.Manufacturer OR COALESCE(Manufacturer, GoldenRecord.Manufacturer) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.Manufacturer, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Manufacturer.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Manufacturer = GoldenRecord.Manufacturer OR COALESCE(Manufacturer, GoldenRecord.Manufacturer) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Model",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "Model",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Model.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Model = GoldenRecord.Model OR COALESCE(Model, GoldenRecord.Model) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.Model, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.Model.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN Model = GoldenRecord.Model OR COALESCE(Model, GoldenRecord.Model) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.SerialNumber",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 2,
+                                "useCustomLabel": false,
+                                "value": "SerialNumber",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.SerialNumber.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN SerialNumber = GoldenRecord.SerialNumber OR COALESCE(SerialNumber, GoldenRecord.SerialNumber) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.SerialNumber, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row1.SerialNumber.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN SerialNumber = GoldenRecord.SerialNumber OR COALESCE(SerialNumber, GoldenRecord.SerialNumber) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.VoltageLevel",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "VoltageLevel",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.VoltageLevel.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN VoltageLevel = GoldenRecord.VoltageLevel OR COALESCE(VoltageLevel, GoldenRecord.VoltageLevel) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.VoltageLevel, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.VoltageLevel.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN VoltageLevel = GoldenRecord.VoltageLevel OR COALESCE(VoltageLevel, GoldenRecord.VoltageLevel) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.RatedPowerMva",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "RatedPowerMva",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2",
+                                "valueDataType": "DECIMAL",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.RatedPowerMva.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN RatedPowerMva = GoldenRecord.RatedPowerMva OR COALESCE(RatedPowerMva, GoldenRecord.RatedPowerMva) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(SEM_CAST_STRING(GoldenRecord.RatedPowerMva), '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec2.S2Row2.RatedPowerMva.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN RatedPowerMva = GoldenRecord.RatedPowerMva OR COALESCE(RatedPowerMva, GoldenRecord.RatedPowerMva) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.OperatingStatus",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "OperatingStatus",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.OperatingStatus.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN OperatingStatus = GoldenRecord.OperatingStatus OR COALESCE(OperatingStatus, GoldenRecord.OperatingStatus) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.OperatingStatus, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.OperatingStatus.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN OperatingStatus = GoldenRecord.OperatingStatus OR COALESCE(OperatingStatus, GoldenRecord.OperatingStatus) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.CommissioningDate",
+                                "_type": "FormField",
+                                "componentName": "semDatepickerField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "CommissioningDate",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1",
+                                "valueDataType": "DATE",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.CommissioningDate.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN CommissioningDate = GoldenRecord.CommissioningDate OR COALESCE(CommissioningDate, GoldenRecord.CommissioningDate) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(SEM_CAST_STRING(GoldenRecord.CommissioningDate), '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.CommissioningDate.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN CommissioningDate = GoldenRecord.CommissioningDate OR COALESCE(CommissioningDate, GoldenRecord.CommissioningDate) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.AgeYears",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 2,
+                                "useCustomLabel": false,
+                                "value": "AgeYears",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1",
+                                "valueDataType": "INTEGER",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.AgeYears.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AgeYears = GoldenRecord.AgeYears OR COALESCE(AgeYears, GoldenRecord.AgeYears) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(SEM_CAST_STRING(GoldenRecord.AgeYears), '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row1.AgeYears.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN AgeYears = GoldenRecord.AgeYears OR COALESCE(AgeYears, GoldenRecord.AgeYears) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row2.LastInspectionDate",
+                                "_type": "FormField",
+                                "componentName": "semDatepickerField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "LastInspectionDate",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row2",
+                                "valueDataType": "DATE",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row2.LastInspectionDate.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN LastInspectionDate = GoldenRecord.LastInspectionDate OR COALESCE(LastInspectionDate, GoldenRecord.LastInspectionDate) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(SEM_CAST_STRING(GoldenRecord.LastInspectionDate), '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec3.S3Row2.LastInspectionDate.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN LastInspectionDate = GoldenRecord.LastInspectionDate OR COALESCE(LastInspectionDate, GoldenRecord.LastInspectionDate) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.NetworkModelId",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 0,
+                                "useCustomLabel": false,
+                                "value": "NetworkModelId",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.NetworkModelId.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN NetworkModelId = GoldenRecord.NetworkModelId OR COALESCE(NetworkModelId, GoldenRecord.NetworkModelId) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.NetworkModelId, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.NetworkModelId.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN NetworkModelId = GoldenRecord.NetworkModelId OR COALESCE(NetworkModelId, GoldenRecord.NetworkModelId) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.EamAssetNumber",
+                                "_type": "FormField",
+                                "componentName": "semTextField",
+                                "documentationInterpreter": "LITERAL",
+                                "posInParent": 1,
+                                "useCustomLabel": false,
+                                "value": "EamAssetNumber",
+                                "parentFormContainer": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1",
+                                "valueDataType": "STRING",
+                                "visibleValue": "1",
+                                "visibleValueInterpreter": "LITERAL",
+                                "componentProperties": [
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.EamAssetNumber.helperText",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN EamAssetNumber = GoldenRecord.EamAssetNumber OR COALESCE(EamAssetNumber, GoldenRecord.EamAssetNumber) IS NULL THEN NULL ELSE 'Original: ' || COALESCE(GoldenRecord.EamAssetNumber, '<empty>') END",
+                                        "valueInterpreter": "SEMQL"
+                                    },
+                                    {
+                                        "qualifiedName": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset.Main.Sec4.S4Row1.EamAssetNumber.contentBackgroundColor",
+                                        "dataType": "STRING",
+                                        "value": "CASE WHEN EamAssetNumber = GoldenRecord.EamAssetNumber OR COALESCE(EamAssetNumber, GoldenRecord.EamAssetNumber) IS NULL THEN NULL ELSE 'md:pink 50' END",
+                                        "valueInterpreter": "SEMQL"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
                 "searchForms": [],
@@ -7510,6 +8370,89 @@
                                 "formTab": "ENERGINET.entities.Asset.forms.AssetForm.Asset",
                                 "label": "Asset",
                                 "parentCollectionStep": "ENERGINET.entities.Asset.steppers.AuthorAsset.AssetCollection"
+                            }
+                        ]
+                    },
+                    {
+                        "qualifiedName": "ENERGINET.entities.Asset.steppers.ReviewAsset",
+                        "label": "Review asset changes",
+                        "rootCollectionStep": "ENERGINET.entities.Asset.steppers.ReviewAsset.AssetCollection",
+                        "steps": [
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.steppers.ReviewAsset.AssetCollection",
+                                "_type": "CollectionStep",
+                                "canFinishSubLevel": true,
+                                "childDeleteType": "HARD_DELETE",
+                                "childImportModeOnParentEdit": "CREATE_AND_UPDATE",
+                                "collectionView": "ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView",
+                                "createChildUsingManyToManyPicker": false,
+                                "customSortEnabled": false,
+                                "defaultDisplayType": "TABLE",
+                                "displayGridAllowed": false,
+                                "displayListAllowed": true,
+                                "displayTableAllowed": true,
+                                "enableChildCopyOnParentCreate": false,
+                                "enableChildCopyOnParentEdit": false,
+                                "enableChildCreationOnParentCreate": false,
+                                "enableChildCreationOnParentEdit": false,
+                                "enableChildDeleteOnParentEdit": false,
+                                "enableChildEditOnParentCreate": false,
+                                "enableChildEditOnParentEdit": false,
+                                "enableChildExport": false,
+                                "enableChildImportOnParentCreate": true,
+                                "enableChildImportOnParentEdit": false,
+                                "enableChildRemoveOnParentCreate": false,
+                                "enableChildRemoveOnParentEdit": false,
+                                "enabledOnParentCreate": true,
+                                "enabledOnParentEdit": true,
+                                "formFieldsMode": "AUTO",
+                                "linear": false,
+                                "manyToManyCustomSortEnabled": false,
+                                "manyToManyDefaultDisplayType": "GRID",
+                                "manyToManyDisplayGridAllowed": false,
+                                "manyToManyDisplayListAllowed": false,
+                                "manyToManyDisplayTableAllowed": false,
+                                "manyToManyUserDefinedSortEnabled": false,
+                                "skipToChildCreationOnParentCreate": false,
+                                "skipToChildEditingOnParentEdit": false,
+                                "useCustomCollectionLabel": false,
+                                "userDefinedSortEnabled": true,
+                                "label": "Assets"
+                            },
+                            {
+                                "qualifiedName": "ENERGINET.entities.Asset.steppers.ReviewAsset.AssetCollection.Asset",
+                                "_type": "FormStep",
+                                "canFinishSubLevel": true,
+                                "enabledOnParentCreate": true,
+                                "enabledOnParentEdit": true,
+                                "enableMasterValuePicking": true,
+                                "formFieldsMode": "AUTO",
+                                "formStepEnrichers": [
+                                    {
+                                        "enricher": "ENERGINET.entities.Asset.enrichers.TrimAssetName",
+                                        "executedOnDataChange": true
+                                    },
+                                    {
+                                        "enricher": "ENERGINET.entities.Asset.enrichers.NormalizeName",
+                                        "executedOnDataChange": true
+                                    },
+                                    {
+                                        "enricher": "ENERGINET.entities.Asset.enrichers.ComputeAge",
+                                        "executedOnDataChange": true
+                                    }
+                                ],
+                                "formStepValidations": [
+                                    {
+                                        "_type": "FormStepValidation",
+                                        "type": "CHECK",
+                                        "executedOnDataChange": true,
+                                        "executedOnFormOpen": true,
+                                        "validator": "ENERGINET.entities.Asset.validations.SourceIdentifier"
+                                    }
+                                ],
+                                "formTab": "ENERGINET.entities.Asset.forms.AssetReviewForm.Asset",
+                                "label": "Asset",
+                                "parentCollectionStep": "ENERGINET.entities.Asset.steppers.ReviewAsset.AssetCollection"
                             }
                         ]
                     }

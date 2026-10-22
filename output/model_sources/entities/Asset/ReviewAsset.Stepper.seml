@@ -1,0 +1,45 @@
+_package: ENERGINET.entities.Asset.steppers
+_type: Stepper
+_name: ReviewAsset
+entity: ENERGINET.entities.Asset.Asset
+label: Review asset changes
+rootStep:
+  _type: CollectionStep
+  _name: AssetCollection
+  label: Assets
+  canFinishSubLevel: true
+  enabledOnParentCreate: true
+  enabledOnParentEdit: true
+  formFieldsMode: AUTO
+  linear: false
+  childDeleteType: HARD_DELETE
+  collectionView: ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView
+  defaultDisplayType: TABLE
+  customSortEnabled: false
+  userDefinedSortEnabled: true
+  displayGridAllowed: false
+  displayListAllowed: true
+  displayTableAllowed: true
+  useCustomCollectionLabel: false
+  childSteps:
+  - _type: FormStep
+    _name: Asset
+    label: Asset
+    canFinishSubLevel: true
+    enabledOnParentCreate: true
+    enabledOnParentEdit: true
+    formFieldsMode: AUTO
+    enableMasterValuePicking: true
+    formTab: ENERGINET.entities.Asset.forms.AssetReviewForm.Asset
+    formStepEnrichers:
+    - enricher: ENERGINET.entities.Asset.enrichers.TrimAssetName
+      executedOnDataChange: true
+    - enricher: ENERGINET.entities.Asset.enrichers.NormalizeName
+      executedOnDataChange: true
+    - enricher: ENERGINET.entities.Asset.enrichers.ComputeAge
+      executedOnDataChange: true
+    formStepValidations:
+    - validationType: CHECK
+      validator: ENERGINET.entities.Asset.validations.SourceIdentifier
+      executedOnDataChange: true
+      executedOnFormOpen: true

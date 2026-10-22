@@ -114,9 +114,9 @@ steps:
   notificationsOnWorkflowDueDate:
     toCandidatesOrAssignee: false
   entity: ENERGINET.entities.Asset.Asset
-  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  stepper: ENERGINET.entities.Asset.steppers.ReviewAsset
   myTasksConfiguration:
-    collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+    collection: ENERGINET.entities.Asset.collection_views.AssetReviewCollectionView
   transitions:
   - _type: UserTaskTransition
     _name: ApproveChange

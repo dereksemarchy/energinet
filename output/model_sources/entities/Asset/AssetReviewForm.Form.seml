@@ -1,0 +1,219 @@
+_package: ENERGINET.entities.Asset.forms
+_type: Form
+_name: AssetReviewForm
+entity: ENERGINET.entities.Asset.Asset
+default: false
+formTabs:
+- _type: FormTab
+  _name: Asset
+  label: Asset
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/flash.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Identification
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: AssetName
+          value: AssetName
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN AssetName = GoldenRecord.AssetName OR COALESCE(AssetName, GoldenRecord.AssetName) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN AssetName = GoldenRecord.AssetName OR COALESCE(AssetName, GoldenRecord.AssetName) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.AssetName, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: AssetType
+          value: AssetType
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN AssetType = GoldenRecord.AssetType OR COALESCE(AssetType, GoldenRecord.AssetType) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN AssetType = GoldenRecord.AssetType OR COALESCE(AssetType, GoldenRecord.AssetType) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.AssetType, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: ReferenceField
+          _name: FDN_Substation
+          value: FDN_Substation
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Substation.Substation
+          componentProperties:
+            contentBackgroundColor: CASE WHEN FID_Substation = GoldenRecord.FID_Substation OR COALESCE(FID_Substation, GoldenRecord.FID_Substation) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN FID_Substation = GoldenRecord.FID_Substation OR COALESCE(FID_Substation, GoldenRecord.FID_Substation) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.Substation.SubstationName, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+      - _type: FormContainer
+        _name: S1Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Criticality
+          value: Criticality
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN Criticality = GoldenRecord.Criticality OR COALESCE(Criticality, GoldenRecord.Criticality) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN Criticality = GoldenRecord.Criticality OR COALESCE(Criticality, GoldenRecord.Criticality) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.Criticality, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+    - _type: FormSection
+      _name: Sec2
+      label: Technical data
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S2Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Manufacturer
+          value: Manufacturer
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN Manufacturer = GoldenRecord.Manufacturer OR COALESCE(Manufacturer, GoldenRecord.Manufacturer) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN Manufacturer = GoldenRecord.Manufacturer OR COALESCE(Manufacturer, GoldenRecord.Manufacturer) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.Manufacturer, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: Model
+          value: Model
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN Model = GoldenRecord.Model OR COALESCE(Model, GoldenRecord.Model) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN Model = GoldenRecord.Model OR COALESCE(Model, GoldenRecord.Model) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.Model, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: SerialNumber
+          value: SerialNumber
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN SerialNumber = GoldenRecord.SerialNumber OR COALESCE(SerialNumber, GoldenRecord.SerialNumber) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN SerialNumber = GoldenRecord.SerialNumber OR COALESCE(SerialNumber, GoldenRecord.SerialNumber) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.SerialNumber, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+      - _type: FormContainer
+        _name: S2Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: VoltageLevel
+          value: VoltageLevel
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN VoltageLevel = GoldenRecord.VoltageLevel OR COALESCE(VoltageLevel, GoldenRecord.VoltageLevel) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN VoltageLevel = GoldenRecord.VoltageLevel OR COALESCE(VoltageLevel, GoldenRecord.VoltageLevel) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.VoltageLevel, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: RatedPowerMva
+          value: RatedPowerMva
+          useCustomLabel: false
+          dataType: DECIMAL
+          componentProperties:
+            contentBackgroundColor: CASE WHEN RatedPowerMva = GoldenRecord.RatedPowerMva OR COALESCE(RatedPowerMva, GoldenRecord.RatedPowerMva) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN RatedPowerMva = GoldenRecord.RatedPowerMva OR COALESCE(RatedPowerMva, GoldenRecord.RatedPowerMva) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(SEM_CAST_STRING(GoldenRecord.RatedPowerMva), ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+    - _type: FormSection
+      _name: Sec3
+      label: Lifecycle
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S3Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: OperatingStatus
+          value: OperatingStatus
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN OperatingStatus = GoldenRecord.OperatingStatus OR COALESCE(OperatingStatus, GoldenRecord.OperatingStatus) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN OperatingStatus = GoldenRecord.OperatingStatus OR COALESCE(OperatingStatus, GoldenRecord.OperatingStatus) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.OperatingStatus, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: DateField
+          _name: CommissioningDate
+          value: CommissioningDate
+          useCustomLabel: false
+          dataType: DATE
+          componentProperties:
+            contentBackgroundColor: CASE WHEN CommissioningDate = GoldenRecord.CommissioningDate OR COALESCE(CommissioningDate, GoldenRecord.CommissioningDate) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN CommissioningDate = GoldenRecord.CommissioningDate OR COALESCE(CommissioningDate, GoldenRecord.CommissioningDate) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(SEM_CAST_STRING(GoldenRecord.CommissioningDate), ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: AgeYears
+          value: AgeYears
+          useCustomLabel: false
+          dataType: INTEGER
+          componentProperties:
+            contentBackgroundColor: CASE WHEN AgeYears = GoldenRecord.AgeYears OR COALESCE(AgeYears, GoldenRecord.AgeYears) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN AgeYears = GoldenRecord.AgeYears OR COALESCE(AgeYears, GoldenRecord.AgeYears) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(SEM_CAST_STRING(GoldenRecord.AgeYears), ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+      - _type: FormContainer
+        _name: S3Row2
+        layoutDirection: ROW
+        content:
+        - _type: DateField
+          _name: LastInspectionDate
+          value: LastInspectionDate
+          useCustomLabel: false
+          dataType: DATE
+          componentProperties:
+            contentBackgroundColor: CASE WHEN LastInspectionDate = GoldenRecord.LastInspectionDate OR COALESCE(LastInspectionDate, GoldenRecord.LastInspectionDate) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN LastInspectionDate = GoldenRecord.LastInspectionDate OR COALESCE(LastInspectionDate, GoldenRecord.LastInspectionDate) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(SEM_CAST_STRING(GoldenRecord.LastInspectionDate), ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+    - _type: FormSection
+      _name: Sec4
+      label: Source identifiers
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S4Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: NetworkModelId
+          value: NetworkModelId
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN NetworkModelId = GoldenRecord.NetworkModelId OR COALESCE(NetworkModelId, GoldenRecord.NetworkModelId) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN NetworkModelId = GoldenRecord.NetworkModelId OR COALESCE(NetworkModelId, GoldenRecord.NetworkModelId) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.NetworkModelId, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
+        - _type: TextField
+          _name: EamAssetNumber
+          value: EamAssetNumber
+          useCustomLabel: false
+          dataType: STRING
+          componentProperties:
+            contentBackgroundColor: CASE WHEN EamAssetNumber = GoldenRecord.EamAssetNumber OR COALESCE(EamAssetNumber, GoldenRecord.EamAssetNumber) IS NULL THEN NULL ELSE 'md:pink 50' END
+            contentBackgroundColorValueInterpreter: SEMQL
+          helperText: 'CASE WHEN EamAssetNumber = GoldenRecord.EamAssetNumber OR COALESCE(EamAssetNumber, GoldenRecord.EamAssetNumber) IS NULL THEN NULL ELSE ''Original: '' || COALESCE(GoldenRecord.EamAssetNumber, ''<empty>'') END'
+          helperTextValueInterpreter: SEMQL
