@@ -1,0 +1,13 @@
+dataSource: GridData
+sql: select 1 as "Records" from du_asset
+attributes:
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+exportEnabled: true

@@ -1,0 +1,56 @@
+_package: ENERGINET.certification_jobs
+_type: CertificationJob
+_name: INGEST_ALL
+jobType: INTEGRATION
+queueName: Default
+description: INGEST_ALL
+jobParams:
+- _name: V_USER_ROLES
+  _type: ModelJobParam
+  value: ''
+modelTasks:
+- entity: ENERGINET.entities.Substation.Substation
+  _type: ModelJobTask
+  _name: Substation
+  consolidatedDataEnrichmentEnabled: true
+  consolidationEnabled: true
+  matchEnabled: true
+  postConsoValidationEnabled: true
+  sourceDataEnrichmentEnabled: true
+  sourceValidationEnabled: true
+- entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  _type: ModelJobTask
+  _name: TransmissionLine
+  consolidatedDataEnrichmentEnabled: true
+  consolidationEnabled: true
+  matchEnabled: true
+  postConsoValidationEnabled: true
+  sourceDataEnrichmentEnabled: true
+  sourceValidationEnabled: true
+- entity: ENERGINET.entities.Asset.Asset
+  _type: ModelJobTask
+  _name: Asset
+  consolidatedDataEnrichmentEnabled: true
+  consolidationEnabled: true
+  matchEnabled: true
+  postConsoValidationEnabled: true
+  sourceDataEnrichmentEnabled: true
+  sourceValidationEnabled: true
+- entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  _type: ModelJobTask
+  _name: MeasurementPoint
+  consolidatedDataEnrichmentEnabled: true
+  consolidationEnabled: true
+  matchEnabled: true
+  postConsoValidationEnabled: true
+  sourceDataEnrichmentEnabled: true
+  sourceValidationEnabled: true
+- entity: ENERGINET.entities.Measurement.Measurement
+  _type: ModelJobTask
+  _name: Measurement
+  consolidatedDataEnrichmentEnabled: true
+  consolidationEnabled: true
+  matchEnabled: true
+  postConsoValidationEnabled: true
+  sourceDataEnrichmentEnabled: true
+  sourceValidationEnabled: true

@@ -1,0 +1,38 @@
+_package: ENERGINET.entities.Measurement.steppers
+_type: Stepper
+_name: AuthorMeasurement
+entity: ENERGINET.entities.Measurement.Measurement
+label: Measurements
+rootStep:
+  _type: CollectionStep
+  _name: MeasurementCollection
+  label: Measurements
+  canFinishSubLevel: true
+  enabledOnParentCreate: true
+  enabledOnParentEdit: true
+  formFieldsMode: AUTO
+  linear: false
+  childDeleteType: HARD_DELETE
+  collectionView: ENERGINET.entities.Measurement.collection_views.MeasurementCollectionView
+  defaultDisplayType: TABLE
+  customSortEnabled: false
+  userDefinedSortEnabled: true
+  displayGridAllowed: false
+  displayListAllowed: true
+  displayTableAllowed: true
+  useCustomCollectionLabel: false
+  childSteps:
+  - _type: FormStep
+    _name: Measurement
+    label: Measurement
+    canFinishSubLevel: true
+    enabledOnParentCreate: true
+    enabledOnParentEdit: true
+    formFieldsMode: AUTO
+    enableMasterValuePicking: false
+    formTab: ENERGINET.entities.Measurement.forms.MeasurementForm.Measurement
+    formStepValidations:
+    - validationType: CHECK
+      validator: ENERGINET.entities.Measurement.validations.ValueRange
+      executedOnDataChange: true
+      executedOnFormOpen: true

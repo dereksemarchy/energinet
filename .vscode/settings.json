@@ -1,0 +1,6 @@
+{
+    "semarchy.sdp.instanceUrl": "https://valcon.eu.semarchy.net/",
+    "semarchy.sdp.dataLocation": "ENERGINET",
+    "semarchy.sdp.datasource": "datasource0",
+    "semarchy.validation.enforceStrictSemqlValidationOnFunction": false
+}

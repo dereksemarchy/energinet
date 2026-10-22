@@ -1,0 +1,9 @@
+_package: ENERGINET.entities.Asset.validations
+_name: SourceIdentifier
+_type: SemQLValidation
+entity: ENERGINET.entities.Asset.Asset
+label: Source identifier required
+description: Every asset must be traceable to at least one source system.
+validationScope: PRE_CONSO
+validationLabel: An asset needs a network model id (mRID) or an EAM asset number.
+condition: NetworkModelId IS NOT NULL OR EamAssetNumber IS NOT NULL

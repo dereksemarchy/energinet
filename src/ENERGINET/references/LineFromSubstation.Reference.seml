@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Line - From substation
+_name: LineFromSubstation
+description: Modelling start of the line.
+documentation: Modelling start of the line.
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.TransmissionLine.TransmissionLine
+fromRoleName: OutgoingLines
+fromRoleLabel: Outgoing lines
+fromRolePluralLabel: Outgoing lines
+physicalName: LINEFROMSUBSTATION
+toEntity: ENERGINET.entities.Substation.Substation
+toRoleName: FromSubstation
+toRolePhysicalName: FROM_SUBST_REF
+toRoleLabel: From substation
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: FromSubstation
+  entity: ENERGINET.entities.Substation.Substation
+  label: From substation
+  physicalName: FROM_SUBST_REF
+  searchable: true

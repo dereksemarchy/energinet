@@ -1,0 +1,406 @@
+_package: ENERGINET.applications
+_type: Application
+_name: ENERGINET
+label: Grid Asset Data Product
+description: Grid Asset Data Product
+visibility: VISIBLE
+applicationTitle: Grid Asset Data Product
+avatarImageUrl: https://upload.wikimedia.org/wikipedia/commons/1/1f/Energinet_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original
+logoUrl: https://upload.wikimedia.org/wikipedia/commons/1/1f/Energinet_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original
+coverImageUrl: https://stateofgreen.com/en/wp-content/uploads/2022/09/Energinet_thumbnail2.png
+favIcon: https://upload.wikimedia.org/wikipedia/commons/1/1f/Energinet_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original
+titleBarDefaultColor: '#0A515D'
+sortStrategy: POSITION
+historyBrowsingEnabled: true
+historyBrowsingRequiredRole: ''
+defaultAction: ENERGINET.applications.ENERGINET.Root.GeneralActions.GlobalSearch
+documentationConfig:
+  documentation: 'Application of the grid asset and measurement context data product: maintain, govern and consume substations, assets, lines and measurement points.'
+  documentationConfigDiagrams:
+  - _type: DocumentationConfigDiagram
+    _name: Main
+    modelDiagram: ENERGINET.model_diagrams.MasterEntities
+globalSearchConfig:
+  displaySearchForDropdown: true
+  sortBusinessViewsAlphabetically: true
+  globalSearchBusinessViews:
+  - _type: GlobalSearchBoView
+    _name: Substations
+    viewType: GD
+    businessView: ENERGINET.entities.Substation.business_views.SubstationBusinessView
+    searchTypeConfig: ENERGINET.entities.Substation.business_views.SubstationBusinessView.Substation.TextConfig
+    maxResults: 10
+    label: Substations
+  - _type: GlobalSearchBoView
+    _name: Assets
+    viewType: GD
+    businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+    searchTypeConfig: ENERGINET.entities.Asset.business_views.AssetBusinessView.Asset.TextConfig
+    maxResults: 10
+    label: Assets
+  - _type: GlobalSearchBoView
+    _name: TransmissionLines
+    viewType: GD
+    businessView: ENERGINET.entities.TransmissionLine.business_views.TransmissionLineBusinessView
+    searchTypeConfig: ENERGINET.entities.TransmissionLine.business_views.TransmissionLineBusinessView.TransmissionLine.TextConfig
+    maxResults: 10
+    label: Transmission lines
+  - _type: GlobalSearchBoView
+    _name: MeasurementPoints
+    viewType: GD
+    businessView: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView
+    searchTypeConfig: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView.MeasurementPoint.TextConfig
+    maxResults: 10
+    label: Measurement points
+  - _type: GlobalSearchBoView
+    _name: Measurements
+    viewType: GD
+    businessView: ENERGINET.entities.Measurement.business_views.MeasurementBusinessView
+    searchTypeConfig: ENERGINET.entities.Measurement.business_views.MeasurementBusinessView.Measurement.TextConfig
+    maxResults: 10
+    label: Measurements
+navDrawer:
+- _type: FolderNavGroup
+  _name: GeneralActions
+  dividerVisible: true
+  labelVisible: false
+  linkedFolder: ENERGINET.applications.ENERGINET.Root.GeneralActions
+- _type: FolderNavGroup
+  _name: MasterData
+  dividerVisible: true
+  labelVisible: true
+  linkedFolder: ENERGINET.applications.ENERGINET.Root.MasterData
+- _type: FolderNavGroup
+  _name: Stewardship
+  dividerVisible: true
+  labelVisible: true
+  linkedFolder: ENERGINET.applications.ENERGINET.Root.Stewardship
+- _type: FolderNavGroup
+  _name: Administration
+  dividerVisible: true
+  labelVisible: true
+  linkedFolder: ENERGINET.applications.ENERGINET.Root.Administration
+rootFolder:
+  _type: FolderAction
+  _name: Root
+  label: Root folder
+  image: images://mdi/folder.svg
+  imageAlign: MIDDLE_CENTER
+  imageMode: FIT
+  appActions:
+  - _type: FolderAction
+    _name: GeneralActions
+    imageAlign: MIDDLE_CENTER
+    imageMode: FIT
+    label: Quick access
+    appActions:
+    - _type: GlobalSearchAction
+      _name: GlobalSearch
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      description: Search the data product
+      iconColor: md:green
+    - _type: MyTasksAction
+      _name: MyTasks
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      badgeVisible: true
+      description: My tasks
+      image: images://mdi/inbox-multiple.svg
+      iconColor: md:green
+    - _type: OpenDashboardAction
+      _name: DataProductQualityDashboard
+      label: Data product quality
+      description: Consolidation, match and merge, sources, rejections and warnings of the data product
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      image: images://mdi/check-decagram.svg
+      icon: images://mdi/check-decagram.svg
+      iconColor: md:indigo
+      dashboardApplication: ENERGINETAnalytics
+      dashboard: GridDataQuality
+    - _type: OpenDashboardAction
+      _name: GridContextDashboard
+      label: Grid context
+      description: Assets, measurement points and measurement quality across the grid
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      image: images://mdi/transmission-tower.svg
+      icon: images://mdi/transmission-tower.svg
+      iconColor: md:blue
+      dashboardApplication: ENERGINETAnalytics
+      dashboard: GridContext
+  - _type: FolderAction
+    _name: MasterData
+    imageAlign: MIDDLE_CENTER
+    imageMode: FIT
+    label: Grid
+    image: images://mdi/transmission-tower.svg
+    iconColor: md:blue
+    appActions:
+    - _type: BrowseBusinessViewAction
+      _name: BrowseSubstation
+      businessView: ENERGINET.entities.Substation.business_views.SubstationBusinessView
+      label: Substations
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      nbRecordsBadgeVisible: false
+      description: Browse Substations
+      # image: images://mdi/office-building-outline.svg
+      # icon: images://mdi/office-building-outline.svg
+      iconColor: md:blue
+    - _type: BrowseBusinessViewAction
+      _name: BrowseAsset
+      businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+      label: Assets
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      nbRecordsBadgeVisible: false
+      description: Browse Assets
+      image: images://mdi/flash.svg
+      iconColor: md:blue
+    - _type: BrowseBusinessViewAction
+      _name: BrowseTransmissionLine
+      businessView: ENERGINET.entities.TransmissionLine.business_views.TransmissionLineBusinessView
+      label: Transmission lines
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      nbRecordsBadgeVisible: false
+      description: Browse Transmission lines
+      image: images://mdi/transmission-tower.svg
+      iconColor: md:blue
+    - _type: BrowseBusinessViewAction
+      _name: BrowseMeasurementPoint
+      businessView: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView
+      label: Measurement points
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      nbRecordsBadgeVisible: false
+      description: Browse Measurement points
+      image: images://mdi/gauge.svg
+      iconColor: md:blue
+    - _type: FolderAction
+      _name: ReferenceData
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      label: Reference data
+      image: images://mdi/folder.svg
+      iconColor: md:teal
+      appActions: []
+  - _type: FolderAction
+    _name: Stewardship
+    imageAlign: MIDDLE_CENTER
+    imageMode: FIT
+    label: Data stewardship
+    image: images://mdi/clipboard-check-outline.svg
+    iconColor: md:deep-orange
+    description: Match & merge stewardship
+    appActions:
+    - _type: FolderAction
+      _name: Errors
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      label: Records in error
+      image: images://mdi/alert-circle.svg
+      iconColor: md:red
+      appActions:
+      - _type: BrowseBusinessViewAction
+        _name: ErrSubstation
+        businessView: ENERGINET.entities.Substation.business_views.SubstationBusinessView
+        viewType: SDWE
+        label: Substations in error
+        businessViewLabelOverride: Substations in error
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Substations rejected by a validation rule before consolidation (source records).
+        image: images://mdi/office-building-outline.svg
+        iconColor: md:red
+      - _type: BrowseBusinessViewAction
+        _name: ErrAsset
+        businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+        viewType: SDWE
+        label: Assets in error
+        businessViewLabelOverride: Assets in error
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Assets rejected by a validation rule before consolidation (source records).
+        image: images://mdi/flash.svg
+        iconColor: md:red
+      - _type: BrowseBusinessViewAction
+        _name: ErrTransmissionLine
+        businessView: ENERGINET.entities.TransmissionLine.business_views.TransmissionLineBusinessView
+        viewType: SAWE
+        label: Transmission lines in error
+        businessViewLabelOverride: Transmission lines in error
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Transmission lines rejected by a validation rule when they were authored.
+        image: images://mdi/transmission-tower.svg
+        iconColor: md:red
+      - _type: BrowseBusinessViewAction
+        _name: ErrMeasurementPoint
+        businessView: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView
+        viewType: SAWE
+        label: Measurement points in error
+        businessViewLabelOverride: Measurement points in error
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Measurement points rejected by a validation rule when they were authored.
+        image: images://mdi/gauge.svg
+        iconColor: md:red
+      - _type: BrowseBusinessViewAction
+        _name: ErrMeasurement
+        businessView: ENERGINET.entities.Measurement.business_views.MeasurementBusinessView
+        viewType: SAWE
+        label: Measurements in error
+        businessViewLabelOverride: Measurements in error
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Measurements rejected by a validation rule when they were authored.
+        image: images://mdi/chart-line.svg
+        iconColor: md:red
+    - _type: FolderAction
+      _name: Worklists
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      label: Worklists
+      image: images://mdi/clipboard-list-outline.svg
+      iconColor: md:amber
+      appActions:
+      - _type: BrowseBusinessViewAction
+        _name: WLSubstationOutsideDenmark
+        businessView: ENERGINET.entities.Substation.business_views.SubstationBusinessView
+        viewType: GD
+        appliedFilter: ENERGINET.entities.Substation.business_views.SubstationBusinessView.Substation.SubstationOutsideDenmark
+        label: Location outside Denmark
+        businessViewLabelOverride: Location outside Denmark
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: 'Substations whose coordinates fall outside Denmark: swapped or wrongly projected coordinates.'
+        image: images://mdi/map-marker-alert.svg
+        iconColor: md:orange
+      - _type: BrowseBusinessViewAction
+        _name: WLAssetFutureCommissioning
+        businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+        viewType: GD
+        appliedFilter: ENERGINET.entities.Asset.business_views.AssetBusinessView.Asset.AssetFutureCommissioning
+        label: In service, commissioned in the future
+        businessViewLabelOverride: In service, commissioned in the future
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: In-service assets whose commissioning date lies in the future.
+        image: images://mdi/calendar-alert.svg
+        iconColor: md:orange
+      - _type: BrowseBusinessViewAction
+        _name: WLPointAssetElsewhere
+        businessView: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView
+        viewType: GD
+        appliedFilter: ENERGINET.entities.MeasurementPoint.business_views.MeasurementPointBusinessView.MeasurementPoint.PointAssetElsewhere
+        label: Asset in another substation
+        businessViewLabelOverride: Asset in another substation
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Measurement points whose measured asset sits in a different substation than the point.
+        image: images://mdi/link-variant-off.svg
+        iconColor: md:orange
+    - _type: FolderAction
+      _name: MatchingReview
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      label: Matching review
+      image: images://mdi/magnify-scan.svg
+      iconColor: md:deep-orange
+      appActions:
+      - _type: BrowseBusinessViewAction
+        _name: SuggestedAsset
+        businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+        viewType: GD
+        appliedFilter: ENERGINET.entities.Asset.business_views.AssetBusinessView.Asset.SuggestedMerges
+        label: Assets — suggestions
+        businessViewLabelOverride: Assets — suggestions to validate
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Assets the application suggests bringing together as the same record, waiting for someone to confirm.
+        image: images://mdi/lightbulb-on.svg
+        iconColor: md:deep-orange
+      - _type: BrowseBusinessViewAction
+        _name: SuspectAsset
+        businessView: ENERGINET.entities.Asset.business_views.AssetBusinessView
+        viewType: GD
+        appliedFilter: ENERGINET.entities.Asset.business_views.AssetBusinessView.Asset.SuspectDuplicates
+        label: Assets — suspect duplicates
+        businessViewLabelOverride: Assets — suspect duplicates
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        nbRecordsBadgeVisible: true
+        description: Assets that were brought together automatically but with a lower certainty, worth a review.
+        image: images://mdi/account-question.svg
+        iconColor: md:deep-orange
+  - _type: FolderAction
+    _name: Administration
+    imageAlign: MIDDLE_CENTER
+    imageMode: FIT
+    label: Administration
+    image: images://mdi/bookshelf.svg
+    description: Administrative tasks
+    appActions:
+    - _type: OpenDocumentationAction
+      _name: OpenModelDoc
+      iconColor: md:grey
+      label: Data product documentation
+    - _type: BrowseEntitiesFolderAction
+      _name: Entities
+      lineageEnabled: true
+    - _type: FolderAction
+      _name: ImportData
+      icon: images://mdi/database-import.svg
+      image: images://default/folder-item-import.png
+      iconColor: md:grey
+      imageAlign: MIDDLE_CENTER
+      imageMode: FIT
+      label: Data import
+      appActions:
+      - _type: ImportDataAppAction
+        _name: ImportSubstation
+        label: Import Substation
+        image: images://default/folder-item-import.png
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        importAction: ENERGINET.entities.Substation.action_sets.SubstationActionSet.Import
+      - _type: ImportDataAppAction
+        _name: ImportAsset
+        label: Import Asset
+        image: images://default/folder-item-import.png
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        importAction: ENERGINET.entities.Asset.action_sets.AssetActionSet.Import
+      - _type: ImportDataAppAction
+        _name: ImportTransmissionLine
+        label: Import TransmissionLine
+        image: images://default/folder-item-import.png
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        importAction: ENERGINET.entities.TransmissionLine.action_sets.TransmissionLineActionSet.Import
+      - _type: ImportDataAppAction
+        _name: ImportMeasurementPoint
+        label: Import MeasurementPoint
+        image: images://default/folder-item-import.png
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        importAction: ENERGINET.entities.MeasurementPoint.action_sets.MeasurementPointActionSet.Import
+      - _type: ImportDataAppAction
+        _name: ImportMeasurement
+        label: Import Measurement
+        image: images://default/folder-item-import.png
+        imageAlign: MIDDLE_CENTER
+        imageMode: FIT
+        importAction: ENERGINET.entities.Measurement.action_sets.MeasurementActionSet.Import

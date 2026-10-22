@@ -1,0 +1,22 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: OperatingStatus
+label: Operating status
+description: |-
+  Operating status of a grid element.
+
+  AI agent instructions: Only IN_SERVICE elements belong to the operated grid; exclude PLANNED and DECOMMISSIONED from topology and capacity questions.
+length: 20
+lovValues:
+- code: PLANNED
+  label: Planned
+  description: Approved but not yet in service.
+- code: IN_SERVICE
+  label: In service
+  description: Energized and operated.
+- code: OUT_OF_SERVICE
+  label: Out of service
+  description: Temporarily disconnected (maintenance, fault).
+- code: DECOMMISSIONED
+  label: Decommissioned
+  description: Permanently removed from operation.

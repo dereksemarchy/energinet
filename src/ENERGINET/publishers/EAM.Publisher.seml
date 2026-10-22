@@ -1,0 +1,6 @@
+_package: ENERGINET.publishers
+_name: EAM
+_type: Publisher
+label: Asset register (EAM)
+active: true
+code: EAM

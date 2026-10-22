@@ -1,0 +1,253 @@
+_package: ENERGINET.entities.Substation.business_views
+_type: BusinessView
+_name: SubstationBusinessView
+entity: ENERGINET.entities.Substation.Substation
+rootLabel: Substations
+rootPluralLabel: Substations
+displayRootNodeAs: ICON_LABEL
+label: Substation
+rootBusinessViewEntity:
+  _type: BusinessViewEntity
+  _name: Substation
+  entity: ENERGINET.entities.Substation.Substation
+  actionSet: ENERGINET.entities.Substation.action_sets.SubstationActionSet
+  collection: ENERGINET.entities.Substation.collection_views.SubstationCollectionView
+  form: ENERGINET.entities.Substation.forms.SubstationForm
+  outlineVisible: false
+  displayRecordCount: ALWAYS
+  displayCard: ENERGINET.entities.Substation.display_cards.SubstationDisplayCard
+  businessEntitySearchConfigs:
+  - _name: TextConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: TEXT
+  - _name: FormConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: BY_FORM
+  - _name: AdvancedConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: ADVANCED
+  - _name: SemqlConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: SEMQL
+  overrideDefaultSort: false
+  enableUserDefinedSort: true
+  listAllowed: true
+  tableAllowed: true
+  gridAllowed: true
+  businessEntityBuiltInFilters:
+  - _type: BusinessEntityBuiltInFilter
+    _name: SubstationOutsideDenmark
+    label: Location outside Denmark
+    semQlCondition: Latitude < 54 OR Latitude > 58 OR Longitude < 7.5 OR Longitude > 15.5
+    visible: true
+  transitions:
+  - _type: BusinessViewTransition
+    _name: AssetsTab
+    label: Assets
+    useCustomLabel: true
+    transitionPath: Assets
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: AssetsTabEnt
+      entity: ENERGINET.entities.Asset.Asset
+      actionSet: ENERGINET.entities.Asset.action_sets.AssetActionSet
+      collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+      form: ENERGINET.entities.Asset.forms.AssetForm
+      displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Assets
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/flash.svg
+    visibleInFormTabCondition: any Assets has (1=1)
+  - _type: BusinessViewTransition
+    _name: PointsTab
+    label: Measurement points
+    useCustomLabel: true
+    transitionPath: MeasurementPoints
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: PointsTabEnt
+      entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+      actionSet: ENERGINET.entities.MeasurementPoint.action_sets.MeasurementPointActionSet
+      collection: ENERGINET.entities.MeasurementPoint.collection_views.MeasurementPointCollectionView
+      form: ENERGINET.entities.MeasurementPoint.forms.MeasurementPointForm
+      displayCard: ENERGINET.entities.MeasurementPoint.display_cards.MeasurementPointDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Measurement points
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/gauge.svg
+    visibleInFormTabCondition: any MeasurementPoints has (1=1)
+  - _type: BusinessViewTransition
+    _name: OutgoingLinesTab
+    label: Outgoing lines
+    useCustomLabel: true
+    transitionPath: OutgoingLines
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: OutgoingLinesTabEnt
+      entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+      actionSet: ENERGINET.entities.TransmissionLine.action_sets.TransmissionLineActionSet
+      collection: ENERGINET.entities.TransmissionLine.collection_views.TransmissionLineCollectionView
+      form: ENERGINET.entities.TransmissionLine.forms.TransmissionLineForm
+      displayCard: ENERGINET.entities.TransmissionLine.display_cards.TransmissionLineDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Outgoing lines
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/transmission-tower.svg
+    visibleInFormTabCondition: any OutgoingLines has (1=1)
+  - _type: BusinessViewTransition
+    _name: IncomingLinesTab
+    label: Incoming lines
+    useCustomLabel: true
+    transitionPath: IncomingLines
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: IncomingLinesTabEnt
+      entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+      actionSet: ENERGINET.entities.TransmissionLine.action_sets.TransmissionLineActionSet
+      collection: ENERGINET.entities.TransmissionLine.collection_views.TransmissionLineCollectionView
+      form: ENERGINET.entities.TransmissionLine.forms.TransmissionLineForm
+      displayCard: ENERGINET.entities.TransmissionLine.display_cards.TransmissionLineDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Incoming lines
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/transmission-tower.svg
+    visibleInFormTabCondition: any IncomingLines has (1=1)
+  - _type: BusinessViewTransition
+    _name: MasterRecords
+    transitionType: FULLY_QUALIFIED
+    transitionPath: MasterRecords
+    useCustomLabel: true
+    label: Contributing sources
+    pluralLabel: Contributing sources
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/puzzle.svg
+    filter: '1 = 1'
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: SubstationMaster
+      entity: ENERGINET.entities.Substation.Substation
+      collection: ENERGINET.entities.Substation.collection_views.SubstationCollectionView
+      form: ENERGINET.entities.Substation.forms.SubstationForm
+      displayCard: ENERGINET.entities.Substation.display_cards.SubstationDisplayCard
+      displayRecordCount: ALWAYS
+      enableUserDefinedSort: true
+      outlineVisible: false
+      overrideDefaultSort: false
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      transitions:
+      - _type: BusinessViewTransition
+        _name: SourceRecords
+        transitionType: FULLY_QUALIFIED
+        transitionPath: SourceRecords
+        useCustomLabel: true
+        label: Source data
+        pluralLabel: Source data
+        displayFormTabAs: ICON_LABEL
+        displayTransitionNodeAs: ICON_LABEL
+        iconUrl: images://mdi/database-arrow-right.svg
+        filter: '1 = 1'
+        businessViewEntity:
+          _type: BusinessViewEntity
+          _name: SubstationSource
+          entity: ENERGINET.entities.Substation.Substation
+          collection: ENERGINET.entities.Substation.collection_views.SubstationCollectionView
+          form: ENERGINET.entities.Substation.forms.SubstationForm
+          displayCard: ENERGINET.entities.Substation.display_cards.SubstationDisplayCard
+          displayRecordCount: ALWAYS
+          enableUserDefinedSort: true
+          outlineVisible: false
+          overrideDefaultSort: false
+          listAllowed: true
+          tableAllowed: true
+          gridAllowed: false
+          businessEntitySearchConfigs:
+          - _name: TextConfig
+            _type: BusinessEntitySearchTypeConfig
+            searchType: TEXT
+  - _type: BusinessViewTransition
+    _name: GoldenHistory
+    transitionType: FULLY_QUALIFIED
+    transitionPath: GoldenHistoryRecords
+    useCustomLabel: true
+    label: Change history
+    pluralLabel: Change history
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/history.svg
+    filter: '1 = 1'
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: SubstationGoldenHist
+      entity: ENERGINET.entities.Substation.Substation
+      collection: ENERGINET.entities.Substation.collection_views.SubstationCollectionView
+      form: ENERGINET.entities.Substation.forms.SubstationForm
+      displayCard: ENERGINET.entities.Substation.display_cards.SubstationDisplayCard
+      displayRecordCount: ALWAYS
+      enableUserDefinedSort: true
+      outlineVisible: false
+      overrideDefaultSort: false
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+enableHierarchyView: false
+useHierarchyOnOpen: false

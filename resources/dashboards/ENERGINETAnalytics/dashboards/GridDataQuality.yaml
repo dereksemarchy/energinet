@@ -1,0 +1,145 @@
+label: Data product quality
+icon: images://mdi/check-decagram.svg
+tabs:
+- name: Overview
+  label: Overview
+  icon: images://mdi/view-dashboard.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: TEXT
+    name: Intro
+    cells: 12
+    height: 90
+    content: '**Is this data product fit to publish?** Golden records only - every number below moves when a steward
+      fixes a record in the Grid Asset Data Product application.'
+  - type: CHART
+    name: GoldenSubstations
+    chart: KpiGoldenSubstations
+    label: null
+    cells: 2
+    height: 170
+  - type: CHART
+    name: GoldenAssets
+    chart: KpiGoldenAssets
+    label: null
+    cells: 3
+    height: 170
+  - type: CHART
+    name: MergedAway
+    chart: KpiMergedAway
+    label: null
+    cells: 3
+    height: 170
+  - type: CHART
+    name: Rejected
+    chart: KpiRejected
+    label: null
+    cells: 2
+    height: 170
+  - type: CHART
+    name: Warnings
+    chart: KpiWarnings
+    label: null
+    cells: 2
+    height: 170
+  - type: CHART
+    name: Published
+    chart: BarPublished
+    label: null
+    cells: 4
+    height: 320
+  - type: CHART
+    name: RejectedByRule
+    chart: BarRejectedByRule
+    label: null
+    cells: 4
+    height: 320
+  - type: CHART
+    name: WarningsByWorklist
+    chart: BarWarningsByWorklist
+    label: null
+    cells: 4
+    height: 320
+- name: MatchMerge
+  label: Match and merge
+  icon: images://mdi/call-merge.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: CHART
+    name: SourcesVsGolden
+    chart: CombinedConsolidation
+    label: null
+    cells: 6
+    height: 360
+  - type: CHART
+    name: SourcesPerGolden
+    chart: ColumnSourcesPerGolden
+    label: null
+    cells: 6
+    height: 360
+  - type: CHART
+    name: AssetConsolidation
+    chart: DonutAssetConsolidation
+    label: null
+    cells: 4
+    height: 340
+  - type: CHART
+    name: AssetsKnownIn
+    chart: PivotAssetsKnownIn
+    label: null
+    cells: 8
+    height: 340
+  - type: CHART
+    name: MatchBacklog
+    chart: KpiMatchBacklog
+    label: null
+    cells: 4
+    height: 170
+- name: Sources
+  label: Sources
+  icon: images://mdi/database-import.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: CHART
+    name: Contribution
+    chart: BarSourceContribution
+    label: null
+    cells: 8
+    height: 380
+  - type: CHART
+    name: SourceShare
+    chart: DonutSourceShare
+    label: null
+    cells: 4
+    height: 380
+- name: Rules
+  label: Rejections and warnings
+  icon: images://mdi/alert-circle-outline.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: CHART
+    name: RejectionTree
+    chart: TreemapRejections
+    label: null
+    cells: 6
+    height: 360
+  - type: CHART
+    name: WarningList
+    chart: PivotWarningList
+    label: null
+    cells: 6
+    height: 360
+- name: SchemaCheck
+  label: Schema check
+  icon: images://mdi/database-search.svg
+  displayAs: LABEL
+  content:
+  - type: CHART
+    name: Schema
+    chart: PivotSchema
+    label: null
+    cells: 12
+    height: 800
+requiredRole: ''
+parameters: []
+globalSlicers: []

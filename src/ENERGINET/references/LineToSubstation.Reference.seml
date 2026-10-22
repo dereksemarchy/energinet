@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Line - To substation
+_name: LineToSubstation
+description: Modelling end of the line.
+documentation: Modelling end of the line.
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.TransmissionLine.TransmissionLine
+fromRoleName: IncomingLines
+fromRoleLabel: Incoming lines
+fromRolePluralLabel: Incoming lines
+physicalName: LINETOSUBSTATION
+toEntity: ENERGINET.entities.Substation.Substation
+toRoleName: ToSubstation
+toRolePhysicalName: TO_SUBST_REF
+toRoleLabel: To substation
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: ToSubstation
+  entity: ENERGINET.entities.Substation.Substation
+  label: To substation
+  physicalName: TO_SUBST_REF
+  searchable: true

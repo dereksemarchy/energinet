@@ -1,0 +1,128 @@
+_package: ENERGINET.entities.MeasurementPoint.forms
+_type: Form
+_name: MeasurementPointForm
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+default: true
+formTabs:
+- _type: FormTab
+  _name: MeasurementPoint
+  label: Measurement point
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/gauge.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Identification
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: IdField
+          _name: PointTag
+          value: PointTag
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: PointName
+          value: PointName
+          useCustomLabel: false
+          dataType: STRING
+        - _type: CheckboxField
+          _name: Active
+          value: Active
+          useCustomLabel: false
+          dataType: BOOLEAN
+    - _type: FormSection
+      _name: Sec2
+      label: Signal
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S2Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: MeasurementType
+          value: MeasurementType
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: Unit
+          value: Unit
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: DeviceType
+          value: DeviceType
+          useCustomLabel: false
+          dataType: STRING
+      - _type: FormContainer
+        _name: S2Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Phase
+          value: Phase
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: SamplingIntervalMs
+          value: SamplingIntervalMs
+          useCustomLabel: false
+          dataType: INTEGER
+    - _type: FormSection
+      _name: Sec3
+      label: Context
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S3Row1
+        layoutDirection: ROW
+        content:
+        - _type: ReferenceField
+          _name: FDN_Substation
+          value: FDN_Substation
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Substation.Substation
+        - _type: ReferenceField
+          _name: FDN_Asset
+          value: FDN_Asset
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Asset.Asset
+        - _type: ReferenceField
+          _name: FDN_TransmissionLine
+          value: FDN_TransmissionLine
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.TransmissionLine.TransmissionLine
+    - _type: FormSection
+      _name: Sec4
+      label: Limits
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S4Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: AlarmLowLimit
+          value: AlarmLowLimit
+          useCustomLabel: false
+          dataType: DECIMAL
+        - _type: TextField
+          _name: AlarmHighLimit
+          value: AlarmHighLimit
+          useCustomLabel: false
+          dataType: DECIMAL

@@ -1,0 +1,19 @@
+label: Assets
+chartType: NUMBER
+pivotQuery:
+  query: AssetProfile
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+documentation: ''
+labelPlacement: TOP

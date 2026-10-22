@@ -1,0 +1,9 @@
+_package: ENERGINET.entities.Measurement.validations
+_name: ValueRange
+_type: SemQLValidation
+entity: ENERGINET.entities.Measurement.Measurement
+label: Consistent value range
+description: Aggregates that break min <= avg <= max are corrupt.
+validationScope: PRE_CONSO
+validationLabel: Minimum <= average <= maximum must hold.
+condition: (MinValue IS NULL OR MinValue <= AvgValue) AND (MaxValue IS NULL OR AvgValue <= MaxValue)

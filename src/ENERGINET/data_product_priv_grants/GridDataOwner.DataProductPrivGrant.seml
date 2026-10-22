@@ -1,0 +1,53 @@
+_package: ENERGINET.data_product_priv_grants
+_name: GridDataOwner
+_type: DataProductPrivGrant
+roleName: GridDataOwner
+label: Grid data owner
+description: 'Accountable for the data product: approves asset changes, full read/write access.'
+dataAdminRole: true
+entityPrivGrants:
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Substation.Substation
+  _name: Substation
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  _name: TransmissionLine
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Asset.Asset
+  _name: Asset
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  _name: MeasurementPoint
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Measurement.Measurement
+  _name: Measurement
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE

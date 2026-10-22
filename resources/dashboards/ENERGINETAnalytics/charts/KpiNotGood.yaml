@@ -1,0 +1,23 @@
+label: Aggregates not flagged good
+chartType: NUMBER
+pivotQuery:
+  query: MeasurementQuality
+  measures:
+  - name: Measurements
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+filters:
+- attribute: Quality status
+  operator: EQUALS
+  value: Not good
+documentation: ''
+labelPlacement: TOP

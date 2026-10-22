@@ -1,0 +1,6 @@
+_package: ENERGINET.publishers
+_name: SCADA
+_type: Publisher
+label: SCADA / PMU point list
+active: true
+code: SCADA

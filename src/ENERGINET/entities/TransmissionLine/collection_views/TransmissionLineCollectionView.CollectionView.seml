@@ -1,0 +1,78 @@
+_package: ENERGINET.entities.TransmissionLine.collection_views
+_type: CollectionView
+_name: TransmissionLineCollectionView
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+default: true
+displayCard: ENERGINET.entities.TransmissionLine.display_cards.TransmissionLineDisplayCard
+gridAllowed: false
+gridColumns: 4
+gridTextPosition: BOTTOM
+gridTileHeight: '1:1'
+gridTileLines: 1
+listAllowed: true
+listItemLines: 1
+listShowDisplayCardAvatar: false
+listShowDivider: true
+tableAllowed: true
+tableDisplayCardColumnLabel: Transmission line
+tableRowLines: 1
+tableShowDisplayCard: true
+tableColumns:
+- _type: ReferenceColumn
+  _name: FromSubstation
+  value: FDN_FromSubstation
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+  referencedEntity: ENERGINET.entities.Substation.Substation
+- _type: ReferenceColumn
+  _name: ToSubstation
+  value: FDN_ToSubstation
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+  referencedEntity: ENERGINET.entities.Substation.Substation
+- _type: TextColumn
+  _name: LineName
+  value: LineName
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: LineType
+  value: LineType
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: VoltageLevel
+  value: VoltageLevel
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: LengthKm
+  value: LengthKm
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: RatedCapacityMva
+  value: RatedCapacityMva
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: OperatingStatus
+  value: OperatingStatus
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true

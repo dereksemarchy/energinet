@@ -1,0 +1,142 @@
+dataSource: GridData
+sql: |-
+  select a.assetid as "AssetID",
+         1 as "Records",
+         coalesce(a.assetname, '(no name)') as "Asset",
+         case a.assettype when 'POWER_TRANSFORMER' then 'Power transformer' when 'CIRCUIT_BREAKER' then 'Circuit breaker'
+              when 'DISCONNECTOR' then 'Disconnector' when 'BUSBAR' then 'Busbar'
+              when 'CURRENT_TRANSFORMER' then 'Current transformer' when 'VOLTAGE_TRANSFORMER' then 'Voltage transformer'
+              when 'SHUNT_REACTOR' then 'Shunt reactor' when 'CAPACITOR_BANK' then 'Capacitor bank'
+              when 'PROTECTION_RELAY' then 'Protection relay' else '(not set)' end as "Asset type",
+         case a.criticality when 'HIGH' then '1 - High' when 'MEDIUM' then '2 - Medium'
+              when 'LOW' then '3 - Low' else '(not assessed)' end as "Criticality",
+         coalesce(a.voltagelevel || ' kV', '(not set)') as "Voltage level",
+         a.f_substation_ref as "SubstationCode",
+         coalesce(s.substationname, '(no substation)') as "Substation",
+         case s.gridarea when 'DK1' then 'DK1 - West Denmark' when 'DK2' then 'DK2 - East Denmark'
+              else '(not set)' end as "Grid area",
+         coalesce(a.manufacturer, '(not set)') as "Manufacturer",
+         a.b_masterscount as "Source records",
+         case when a.b_masterscount > 1 then 'Merged from several sources' else 'Single source' end as "Consolidation",
+         case when a.networkmodelid is not null and a.eamassetnumber is not null then 'Network model + asset register'
+              when a.networkmodelid is not null then 'Network model only'
+              when a.eamassetnumber is not null then 'Asset register only'
+              else '(no source id)' end as "Known in",
+         case when a.ageyears is null then '(unknown)' when a.ageyears < 10 then '0-9 years'
+              when a.ageyears < 20 then '10-19 years' when a.ageyears < 30 then '20-29 years'
+              else '30+ years' end as "Age band"
+    from gd_asset a
+    left join gd_substation s on s.substationcode = a.f_substation_ref
+attributes:
+  AssetID:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Asset:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Asset type:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Criticality:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Voltage level:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  SubstationCode:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Substation:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Grid area:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Manufacturer:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Source records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Consolidation:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Known in:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Age band:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+queryActions:
+- label: Open asset
+  name: OpenAsset
+  iconUrl: images://mdi/open-in-new.svg
+  requiredRole: ''
+  target: NEW_TAB
+  url: /dm/mdm-app/ENERGINET/ENERGINET/browsing/AssetBusinessView/${AssetID}
+exportEnabled: true

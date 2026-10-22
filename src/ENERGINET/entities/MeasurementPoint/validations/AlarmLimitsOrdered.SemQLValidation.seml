@@ -1,0 +1,9 @@
+_package: ENERGINET.entities.MeasurementPoint.validations
+_name: AlarmLimitsOrdered
+_type: SemQLValidation
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+label: Alarm limits ordered
+description: Operating limits must define a non-empty range.
+validationScope: PRE_CONSO
+validationLabel: The alarm low limit must be lower than the high limit.
+condition: AlarmLowLimit IS NULL OR AlarmHighLimit IS NULL OR AlarmLowLimit < AlarmHighLimit

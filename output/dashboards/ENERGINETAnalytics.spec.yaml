@@ -1,0 +1,791 @@
+# Dashboard application of the ENERGINET data product (Grid Asset Data Product).
+#
+# Source of truth: this spec. Built with
+#   python .claude/skills/seml-dashboard/scripts/build_dashboard.py output/dashboards/ENERGINETAnalytics.spec.yaml \
+#     --out resources/dashboards --catalog output/dashboards/ENERGINET-catalog.json
+#
+# Three dashboards:
+#   GridDataQuality      - closing scene of the demo: consolidation, match & merge, sources, rejections, warnings
+#   GridContext          - what consumers get: assets, measurement points, measurement quality
+#   SubstationScorecard  - one substation (parameter SubstationCode), designed to be embedded in the Substation form
+#
+# Every count is on GOLDEN records, except the consolidation tiles (b_masterscount, proven) and the
+# rejection tiles (se_/ae_ tables, proven). Every query carries `1 as "Records"` so that tiles SUM a
+# numeric measure instead of counting text keys.
+#
+# Queries marked UNVERIFIED read a physical name the platform convention predicts but no SDP export has
+# proven yet (du_ table, b_pubid on md_ tables). Each sits in its own query so a wrong guess breaks its
+# own tiles only; the "Schema check" tab lists the real columns and settles them on first render.
+
+version: 2025.1.10
+databaseType: POSTGRESQL
+
+application:
+  name: ENERGINETAnalytics
+  title: Grid Asset Data Product - Analytics
+  documentation: >-
+    Data quality, consolidation and grid-context indicators computed from the golden records of the
+    Grid Asset Data Product (data location ENERGINET): substations, assets, transmission lines,
+    measurement points and 15-minute measurement aggregates.
+  visible: true
+  navigation:
+    - group: Governance
+      items:
+        - {dashboard: GridDataQuality, label: Data product quality, icon: images://mdi/check-decagram.svg}
+    - group: Consumption
+      items:
+        - {dashboard: GridContext, label: Grid context, icon: images://mdi/transmission-tower.svg}
+        - {dashboard: SubstationScorecard, label: Substation scorecard, icon: images://mdi/card-account-details.svg}
+
+dataSources:
+  GridData: datasource0
+
+queries:
+  # ---------------------------------------------------------------- proven names only
+  AssetProfile:
+    dataSource: GridData
+    sql: |
+      select a.assetid as "AssetID",
+             1 as "Records",
+             coalesce(a.assetname, '(no name)') as "Asset",
+             case a.assettype when 'POWER_TRANSFORMER' then 'Power transformer' when 'CIRCUIT_BREAKER' then 'Circuit breaker'
+                  when 'DISCONNECTOR' then 'Disconnector' when 'BUSBAR' then 'Busbar'
+                  when 'CURRENT_TRANSFORMER' then 'Current transformer' when 'VOLTAGE_TRANSFORMER' then 'Voltage transformer'
+                  when 'SHUNT_REACTOR' then 'Shunt reactor' when 'CAPACITOR_BANK' then 'Capacitor bank'
+                  when 'PROTECTION_RELAY' then 'Protection relay' else '(not set)' end as "Asset type",
+             case a.criticality when 'HIGH' then '1 - High' when 'MEDIUM' then '2 - Medium'
+                  when 'LOW' then '3 - Low' else '(not assessed)' end as "Criticality",
+             coalesce(a.voltagelevel || ' kV', '(not set)') as "Voltage level",
+             a.f_substation_ref as "SubstationCode",
+             coalesce(s.substationname, '(no substation)') as "Substation",
+             case s.gridarea when 'DK1' then 'DK1 - West Denmark' when 'DK2' then 'DK2 - East Denmark'
+                  else '(not set)' end as "Grid area",
+             coalesce(a.manufacturer, '(not set)') as "Manufacturer",
+             a.b_masterscount as "Source records",
+             case when a.b_masterscount > 1 then 'Merged from several sources' else 'Single source' end as "Consolidation",
+             case when a.networkmodelid is not null and a.eamassetnumber is not null then 'Network model + asset register'
+                  when a.networkmodelid is not null then 'Network model only'
+                  when a.eamassetnumber is not null then 'Asset register only'
+                  else '(no source id)' end as "Known in",
+             case when a.ageyears is null then '(unknown)' when a.ageyears < 10 then '0-9 years'
+                  when a.ageyears < 20 then '10-19 years' when a.ageyears < 30 then '20-29 years'
+                  else '30+ years' end as "Age band"
+        from gd_asset a
+        left join gd_substation s on s.substationcode = a.f_substation_ref
+    attributes:
+      AssetID: id
+      Records: measure:0
+      Asset: text
+      Asset type: text
+      Criticality: text
+      Voltage level: text
+      SubstationCode: text
+      Substation: text
+      Grid area: text
+      Manufacturer: text
+      Source records: number
+      Consolidation: text
+      Known in: text
+      Age band: text
+    actions:
+      - {label: Open asset, name: OpenAsset, target: NEW_TAB,
+         url: "/dm/mdm-app/ENERGINET/ENERGINET/browsing/AssetBusinessView/${AssetID}"}
+
+  Consolidation:          # matched entities only: one row per golden record
+    dataSource: GridData
+    sql: |
+      select 'Substation' as "Entity", substationcode as "Record key", 1 as "Golden records",
+             b_masterscount as "Source records", b_masterscount - 1 as "Records merged away",
+             case when b_masterscount = 1 then '1 source' else b_masterscount || ' sources' end as "Sources consolidated"
+        from gd_substation
+      union all
+      select 'Asset', cast(assetid as varchar), 1, b_masterscount, b_masterscount - 1,
+             case when b_masterscount = 1 then '1 source' else b_masterscount || ' sources' end
+        from gd_asset
+    attributes:
+      Entity: text
+      Record key: text
+      Golden records: measure:0
+      Source records: measure:0
+      Records merged away: measure:0
+      Sources consolidated: text
+
+  Rejections:             # se_ for matched entities, ae_ for basic ones (both proven on SDP)
+    dataSource: GridData
+    sql: |
+      with e as (
+        select 'Substation' as entity, b_constraintname as rule from se_substation
+        union all select 'Asset', b_constraintname from se_asset
+        union all select 'Transmission line', b_constraintname from ae_transmissionline
+        union all select 'Measurement point', b_constraintname from ae_measurementpoint
+        union all select 'Measurement', b_constraintname from ae_measurement)
+      select entity as "Entity", 1 as "Records",
+             case when rule ilike '%SourceIdentifier%' then 'Source identifier required'
+                  when rule ilike '%DistinctEndpoints%' then 'Distinct endpoints'
+                  when rule ilike '%PositiveLength%' then 'Positive length'
+                  when rule ilike '%AlarmLimitsOrdered%' then 'Alarm limits ordered'
+                  when rule ilike '%ValueRange%' then 'Consistent value range'
+                  else coalesce(rule, '(unnamed)') end as "Rule"
+        from e
+    attributes:
+      Entity: text
+      Records: measure:0
+      Rule: text
+
+  Warnings:               # warning-level rules recomputed from golden columns (same conditions as the worklists)
+    dataSource: GridData
+    sql: |
+      select 'Location outside Denmark' as "Worklist", 'Substation' as "Entity",
+             s.substationcode as "SubstationCode", coalesce(s.substationname, s.substationcode) as "Record",
+             coalesce(s.substationname, s.substationcode) as "Substation", 1 as "Records"
+        from gd_substation s
+       where s.latitude < 54 or s.latitude > 58 or s.longitude < 7.5 or s.longitude > 15.5
+      union all
+      select 'In service, commissioned in the future', 'Asset', a.f_substation_ref,
+             coalesce(a.assetname, '(no name)'), coalesce(s.substationname, a.f_substation_ref), 1
+        from gd_asset a left join gd_substation s on s.substationcode = a.f_substation_ref
+       where a.operatingstatus = 'IN_SERVICE' and a.commissioningdate > current_date
+      union all
+      select 'Asset in another substation', 'Measurement point', p.f_substation_ref,
+             p.pointtag, coalesce(s.substationname, p.f_substation_ref), 1
+        from gd_measurementpoint p
+        join gd_asset a on a.assetid = p.f_asset_ref
+        left join gd_substation s on s.substationcode = p.f_substation_ref
+       where a.f_substation_ref <> p.f_substation_ref
+    attributes:
+      Worklist: text
+      Entity: text
+      SubstationCode: text
+      Record: text
+      Substation: text
+      Records: measure:0
+
+  EntityVolumes:          # golden records per entity: the "what is published" strip
+    dataSource: GridData
+    sql: |
+      select 'Substations' as "Entity", 1 as "Records" from gd_substation
+      union all select 'Assets', 1 from gd_asset
+      union all select 'Transmission lines', 1 from gd_transmissionline
+      union all select 'Measurement points', 1 from gd_measurementpoint
+      union all select 'Measurements', 1 from gd_measurement
+    attributes:
+      Entity: text
+      Records: measure:0
+
+  PointProfile:
+    dataSource: GridData
+    sql: |
+      select p.pointtag as "PointTag", 1 as "Records",
+             coalesce(p.pointname, p.pointtag) as "Point",
+             case p.measurementtype when 'ACTIVE_POWER' then 'Active power' when 'REACTIVE_POWER' then 'Reactive power'
+                  when 'VOLTAGE' then 'Voltage magnitude' when 'CURRENT' then 'Current' when 'FREQUENCY' then 'Frequency'
+                  when 'PHASE_ANGLE' then 'Voltage phase angle' when 'THD' then 'Total harmonic distortion'
+                  when 'TEMPERATURE' then 'Temperature' when 'OIL_TEMPERATURE' then 'Oil temperature'
+                  else '(not set)' end as "Measurement type",
+             case p.devicetype when 'SCADA_RTU' then 'SCADA RTU' when 'PMU' then 'PMU'
+                  when 'PQ_METER' then 'Power-quality meter' when 'IOT_SENSOR' then 'IoT sensor'
+                  else '(not set)' end as "Device type",
+             case when p.f_asset_ref is not null then 'Linked to an asset'
+                  when p.f_line_ref is not null then 'Linked to a line'
+                  else 'Substation only' end as "Context",
+             case when coalesce(p.active, false) then 'Yes' else 'No' end as "Active",
+             p.f_substation_ref as "SubstationCode",
+             coalesce(s.substationname, '(no substation)') as "Substation"
+        from gd_measurementpoint p
+        left join gd_substation s on s.substationcode = p.f_substation_ref
+    attributes:
+      PointTag: text
+      Records: measure:0
+      Point: text
+      Measurement type: text
+      Device type: text
+      Context: text
+      Active: text
+      SubstationCode: text
+      Substation: text
+    actions:
+      - {label: Open measurement point, name: OpenPoint, target: NEW_TAB,
+         url: "/dm/mdm-app/ENERGINET/ENERGINET/browsing/MeasurementPointBusinessView/${PointTag}"}
+
+  MeasurementQuality:
+    dataSource: GridData
+    sql: |
+      select m.measurementid as "MeasurementID", 1 as "Records",
+             case m.qualityflag when 'GOOD' then 'Good' when 'SUSPECT' then 'Suspect' when 'BAD' then 'Bad'
+                  when 'MISSING' then 'Missing' else '(not set)' end as "Quality",
+             case when m.qualityflag = 'GOOD' then 'Good' else 'Not good' end as "Quality status",
+             to_char(m.periodstart, 'HH24') || ':00' as "Hour",
+             m.f_point_ref as "PointTag",
+             coalesce(p.pointname, m.f_point_ref) as "Point",
+             case p.devicetype when 'SCADA_RTU' then 'SCADA RTU' when 'PMU' then 'PMU'
+                  when 'PQ_METER' then 'Power-quality meter' when 'IOT_SENSOR' then 'IoT sensor'
+                  else '(not set)' end as "Device type",
+             p.f_substation_ref as "SubstationCode",
+             coalesce(s.substationname, '(no substation)') as "Substation"
+        from gd_measurement m
+        left join gd_measurementpoint p on p.pointtag = m.f_point_ref
+        left join gd_substation s on s.substationcode = p.f_substation_ref
+    attributes:
+      MeasurementID: id
+      Records: measure:0
+      Quality: text
+      Quality status: text
+      Hour: text
+      PointTag: text
+      Point: text
+      Device type: text
+      SubstationCode: text
+      Substation: text
+
+  SubstationFootprint:    # what hangs off one substation (assets, points, lines at either end)
+    dataSource: GridData
+    sql: |
+      select f_substation_ref as "SubstationCode", 'Asset' as "Related data",
+             coalesce(assetname, '(no name)') as "Record", coalesce(assettype, '') as "Detail", 1 as "Records"
+        from gd_asset
+      union all
+      select f_substation_ref, 'Measurement point', pointtag, coalesce(measurementtype, ''), 1
+        from gd_measurementpoint
+      union all
+      select f_from_subst_ref, 'Transmission line', coalesce(linename, linecode), 'Outgoing', 1
+        from gd_transmissionline
+      union all
+      select f_to_subst_ref, 'Transmission line', coalesce(linename, linecode), 'Incoming', 1
+        from gd_transmissionline
+    attributes:
+      SubstationCode: text
+      Related data: text
+      Record: text
+      Detail: text
+      Records: measure:0
+
+  # ---------------------------------------------------------------- UNVERIFIED physical names
+  SourceContribution:     # UNVERIFIED: b_pubid on md_ tables. Basic entities have one source system by design.
+    dataSource: GridData
+    sql: |
+      with c as (
+        select 'Substation' as entity, b_pubid as pub from md_substation
+        union all select 'Asset', b_pubid from md_asset
+        union all select 'Transmission line', 'NETMODEL' from gd_transmissionline
+        union all select 'Measurement point', 'SCADA' from gd_measurementpoint
+        union all select 'Measurement', 'HISTORIAN' from gd_measurement)
+      select entity as "Entity", 1 as "Records",
+             case pub when 'NETMODEL' then 'Network model' when 'EAM' then 'Asset register'
+                  when 'SCADA' then 'SCADA / PMU point list' when 'HISTORIAN' then 'Measurement historian'
+                  when 'UI' then 'Manual entry (data steward)' else coalesce(pub, '(unknown)') end as "Source system"
+        from c
+    attributes:
+      Entity: text
+      Records: measure:0
+      Source system: text
+
+  MatchBacklog:           # UNVERIFIED: du_asset (duplicates table of the fuzzy-matched Asset), row count only
+    dataSource: GridData
+    sql: |
+      select 1 as "Records" from du_asset
+    attributes:
+      Records: measure:0
+
+  SchemaCheck:            # settles every UNVERIFIED name above on first render
+    dataSource: GridData
+    sql: |
+      select table_name as "Table", column_name as "Column", data_type as "Data type",
+             ordinal_position as "Position"
+        from information_schema.columns
+       where table_schema = current_schema()
+         and table_name in ('du_asset', 'md_asset', 'md_substation', 'se_asset', 'ge_asset', 'gd_asset')
+    attributes:
+      Table: text
+      Column: text
+      Data type: text
+      Position: number
+
+charts:
+  # ================================================================ GridDataQuality / Overview
+  KpiGoldenSubstations:
+    label: Golden substations
+    chartType: NUMBER
+    pivotQuery:
+      query: EntityVolumes
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+    filters: [{attribute: Entity, operator: EQUALS, value: Substations}]
+  KpiGoldenAssets:
+    label: Golden assets
+    chartType: NUMBER
+    pivotQuery:
+      query: EntityVolumes
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+    filters: [{attribute: Entity, operator: EQUALS, value: Assets}]
+  KpiMergedAway:
+    label: Source records merged away
+    documentation: >-
+      Source records that did not become a golden record of their own because they describe the same
+      substation or asset as another source (network model + asset register).
+    chartType: NUMBER
+    pivotQuery:
+      query: Consolidation
+      measures: [{name: Merged, label: Merged away, attribute: Records merged away, aggregationType: SUM,
+                  format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+  KpiRejected:
+    label: Source records rejected
+    documentation: Records blocked by a blocking rule before consolidation. They never reach consumers.
+    chartType: NUMBER
+    pivotQuery:
+      query: Rejections
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+  KpiWarnings:
+    label: Records in steward worklists
+    documentation: Golden records flagged by a warning rule. Published, but routed to the data steward.
+    chartType: NUMBER
+    pivotQuery:
+      query: Warnings
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+  BarPublished:
+    label: Golden records published, by entity
+    chartType: BAR
+    pivotQuery:
+      query: EntityVolumes
+      rows: [{name: Entity, attribute: Entity,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Records}}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+    categoriesAxis: {hideTitle: true, hideLabels: false, showGrid: false}
+  BarRejectedByRule:
+    label: Rejected by blocking rule
+    chartType: BAR
+    pivotQuery:
+      query: Rejections
+      rows: [{name: Rule, attribute: Rule,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Records}}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+    categoriesAxis: {hideTitle: true, hideLabels: false, showGrid: false}
+  BarWarningsByWorklist:
+    label: Steward worklists
+    chartType: BAR
+    pivotQuery:
+      query: Warnings
+      rows: [{name: Worklist, attribute: Worklist,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Records}}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+    categoriesAxis: {hideTitle: true, hideLabels: false, showGrid: false}
+  # ================================================================ GridDataQuality / Match & merge
+  CombinedConsolidation:
+    label: Source records vs golden records
+    chartType: COMBINED
+    pivotQuery:
+      query: Consolidation
+      rows: [{name: Entity, attribute: Entity}]
+      measures:
+        - {name: Sources, label: Source records, attribute: Source records, aggregationType: SUM}
+        - {name: Golden, label: Golden records, attribute: Golden records, aggregationType: SUM}
+      measuresLocation: LAST_COLUMN
+    categoriesAxis: {title: Entity, hideTitle: false, showGrid: false}
+    primaryValueAxis: {title: Records, hideTitle: false, showGrid: false}
+    series:
+      - {path: {dimensionValues: {}, measureName: Sources}, valueAxis: PRIMARY, chartType: COLUMN, fillColor: '#b0bec5'}
+      - {path: {dimensionValues: {}, measureName: Golden}, valueAxis: PRIMARY, chartType: COLUMN, fillColor: '#1565c0'}
+    showLabelDivider: false
+  ColumnSourcesPerGolden:
+    label: Golden records by number of sources consolidated
+    chartType: COLUMN
+    pivotQuery:
+      query: Consolidation
+      rows: [{name: SourcesConsolidated, attribute: Sources consolidated,
+              valuesSortStrategy: {sortBy: DIMENSION, sortDirection: ASC}}]
+      columns: [{name: Entity, attribute: Entity}]
+      measures: [{name: Golden, label: Golden records, attribute: Golden records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+  DonutAssetConsolidation:
+    label: Assets - merged vs single source
+    chartType: DONUT
+    pivotQuery:
+      query: AssetProfile
+      columns: [{name: Consolidation, attribute: Consolidation}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+    donutHoleSizePct: 55
+    dataLabels: {dataLabelPlacement: AUTO, series: LABEL_VALUE, categories: LABEL_VALUE,
+                 showValue: true, showPercentage: true, showMeasureLabel: null}
+  PivotAssetsKnownIn:
+    label: Assets by asset type and source coverage
+    chartType: PIVOT_TABLE
+    pivotQuery:
+      query: AssetProfile
+      showRowTotals: true
+      showColumnTotals: true
+      rows: [{name: AssetType, attribute: Asset type}]
+      columns: [{name: KnownIn, attribute: Known in}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+  KpiMatchBacklog:
+    label: Asset match entries for steward review
+    documentation: >-
+      Rows of the asset duplicates table (match pairs the matcher recorded). Verify the meaning on first
+      render against the Matching review screen of the application.
+    chartType: NUMBER
+    pivotQuery:
+      query: MatchBacklog
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+  # ================================================================ GridDataQuality / Sources
+  BarSourceContribution:
+    label: Records contributed, by source system and entity
+    chartType: BAR
+    pivotQuery:
+      query: SourceContribution
+      rows: [{name: Entity, attribute: Entity}]
+      columns: [{name: SourceSystem, attribute: Source system}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+  DonutSourceShare:
+    label: Share of source records, by source system
+    chartType: DONUT
+    pivotQuery:
+      query: SourceContribution
+      columns: [{name: SourceSystem, attribute: Source system}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+    donutHoleSizePct: 55
+    dataLabels: {dataLabelPlacement: AUTO, series: LABEL_VALUE, categories: LABEL_VALUE,
+                 showValue: true, showPercentage: true, showMeasureLabel: null}
+  # ================================================================ GridDataQuality / Rejections & warnings
+  TreemapRejections:
+    label: Rejections by entity and rule
+    chartType: TREEMAP
+    pivotQuery:
+      query: Rejections
+      rows: [{name: Entity, attribute: Entity}, {name: Rule, attribute: Rule}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+  PivotWarningList:
+    label: Warning worklist detail
+    chartType: PIVOT_TABLE
+    pivotQuery:
+      query: Warnings
+      rows: [{name: Worklist, attribute: Worklist}, {name: Entity, attribute: Entity},
+             {name: Record, attribute: Record}, {name: Substation, attribute: Substation}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  PivotSchema:
+    label: Physical columns (verification)
+    chartType: PIVOT_TABLE
+    pivotQuery:
+      query: SchemaCheck
+      rows: [{name: Table, attribute: Table}, {name: Column, attribute: Column}, {name: DataType, attribute: Data type}]
+      measures: [{name: Position, attribute: Position, aggregationType: MIN}]
+      measuresLocation: LAST_COLUMN
+  # ================================================================ GridContext / Assets
+  KpiContextAssets:
+    label: Assets
+    chartType: NUMBER
+    pivotQuery:
+      query: AssetProfile
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  BarAssetsByTypeCriticality:
+    label: Assets by type and criticality
+    chartType: BAR
+    pivotQuery:
+      query: AssetProfile
+      rows: [{name: AssetType, attribute: Asset type,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Assets}}]
+      columns: [{name: Criticality, attribute: Criticality}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode, Substation]
+  DonutAssetsByGridArea:
+    label: Assets by grid area
+    chartType: DONUT
+    pivotQuery:
+      query: AssetProfile
+      columns: [{name: GridArea, attribute: Grid area}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [Substation]
+    donutHoleSizePct: 55
+    dataLabels: {dataLabelPlacement: AUTO, series: LABEL_VALUE, categories: LABEL_VALUE,
+                 showValue: true, showPercentage: true, showMeasureLabel: null}
+  ColumnAssetsByVoltage:
+    label: Assets by voltage level
+    chartType: COLUMN
+    pivotQuery:
+      query: AssetProfile
+      rows: [{name: VoltageLevel, attribute: Voltage level,
+              valuesSortStrategy: {sortBy: DIMENSION, sortDirection: DESC}}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [Substation]
+  ColumnAssetsByAge:
+    label: Assets by age band
+    chartType: COLUMN
+    pivotQuery:
+      query: AssetProfile
+      rows: [{name: AgeBand, attribute: Age band,
+              valuesSortStrategy: {sortBy: DIMENSION, sortDirection: ASC}}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [Substation]
+  PivotSubstationAssets:
+    label: Substation x asset type
+    chartType: PIVOT_TABLE
+    pivotQuery:
+      query: AssetProfile
+      showRowTotals: true
+      showColumnTotals: true
+      rows: [{name: Substation, attribute: Substation}]
+      columns: [{name: AssetType, attribute: Asset type}]
+      measures: [{name: Assets, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+  # ================================================================ GridContext / Measurements
+  KpiPoints:
+    label: Measurement points
+    chartType: NUMBER
+    pivotQuery:
+      query: PointProfile
+      measures: [{name: Points, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  KpiMeasurements:
+    label: 15-minute aggregates
+    chartType: NUMBER
+    pivotQuery:
+      query: MeasurementQuality
+      measures: [{name: Measurements, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  KpiNotGood:
+    label: Aggregates not flagged good
+    chartType: NUMBER
+    pivotQuery:
+      query: MeasurementQuality
+      measures: [{name: Measurements, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Quality status, operator: EQUALS, value: Not good}]
+  BarPointsByType:
+    label: Measurement points by measurement type and device
+    chartType: BAR
+    pivotQuery:
+      query: PointProfile
+      rows: [{name: MeasurementType, attribute: Measurement type,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Points}}]
+      columns: [{name: DeviceType, attribute: Device type}]
+      measures: [{name: Points, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  DonutPointContext:
+    label: Measurement points by context link
+    chartType: DONUT
+    pivotQuery:
+      query: PointProfile
+      columns: [{name: Context, attribute: Context}]
+      measures: [{name: Points, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    donutHoleSizePct: 55
+    dataLabels: {dataLabelPlacement: AUTO, series: LABEL_VALUE, categories: LABEL_VALUE,
+                 showValue: true, showPercentage: true, showMeasureLabel: null}
+  ColumnQualityByHour:
+    label: Non-good aggregates by hour (2026-10-14)
+    chartType: COLUMN
+    pivotQuery:
+      query: MeasurementQuality
+      rows: [{name: Hour, attribute: Hour, valuesSortStrategy: {sortBy: DIMENSION, sortDirection: ASC}}]
+      columns: [{name: Quality, attribute: Quality}]
+      measures: [{name: Measurements, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Quality status, operator: EQUALS, value: Not good}]
+  BarPointsWithIssues:
+    label: Points with suspect or missing aggregates
+    chartType: BAR
+    pivotQuery:
+      query: MeasurementQuality
+      rows: [{name: Point, attribute: Point,
+              valuesSortStrategy: {sortBy: MEASURE, sortDirection: DESC, measureName: Measurements}}]
+      columns: [{name: Quality, attribute: Quality}]
+      measures: [{name: Measurements, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Quality status, operator: EQUALS, value: Not good}]
+  # ================================================================ SubstationScorecard (one substation)
+  KpiScAssets:
+    label: Assets
+    chartType: NUMBER
+    pivotQuery:
+      query: SubstationFootprint
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Related data, operator: EQUALS, value: Asset}]
+  KpiScPoints:
+    label: Measurement points
+    chartType: NUMBER
+    pivotQuery:
+      query: SubstationFootprint
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Related data, operator: EQUALS, value: Measurement point}]
+  KpiScLines:
+    label: Connected lines
+    chartType: NUMBER
+    pivotQuery:
+      query: SubstationFootprint
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+    filters: [{attribute: Related data, operator: EQUALS, value: Transmission line}]
+  KpiScWarnings:
+    label: Open warnings
+    chartType: NUMBER
+    pivotQuery:
+      query: Warnings
+      measures: [{name: Records, attribute: Records, aggregationType: SUM, format: {decimalPlaces: 0}}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+  PivotScFootprint:
+    label: Related records
+    chartType: PIVOT_TABLE
+    pivotQuery:
+      query: SubstationFootprint
+      rows: [{name: RelatedData, attribute: Related data}, {name: Record, attribute: Record},
+             {name: Detail, attribute: Detail}]
+      measures: [{name: Records, attribute: Records, aggregationType: SUM}]
+      measuresLocation: LAST_COLUMN
+      additionalParameters: [SubstationCode]
+
+dashboards:
+  GridDataQuality:
+    label: Data product quality
+    icon: images://mdi/check-decagram.svg
+    tabs:
+      - name: Overview
+        label: Overview
+        icon: images://mdi/view-dashboard.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: TEXT, name: Intro, cells: 12, height: 90,
+             content: "**Is this data product fit to publish?** Golden records only - every number below moves
+               when a steward fixes a record in the Grid Asset Data Product application."}
+          - {type: CHART, name: GoldenSubstations, chart: KpiGoldenSubstations, label: null, cells: 2, height: 170}
+          - {type: CHART, name: GoldenAssets, chart: KpiGoldenAssets, label: null, cells: 3, height: 170}
+          - {type: CHART, name: MergedAway, chart: KpiMergedAway, label: null, cells: 3, height: 170}
+          - {type: CHART, name: Rejected, chart: KpiRejected, label: null, cells: 2, height: 170}
+          - {type: CHART, name: Warnings, chart: KpiWarnings, label: null, cells: 2, height: 170}
+          - {type: CHART, name: Published, chart: BarPublished, label: null, cells: 4, height: 320}
+          - {type: CHART, name: RejectedByRule, chart: BarRejectedByRule, label: null, cells: 4, height: 320}
+          - {type: CHART, name: WarningsByWorklist, chart: BarWarningsByWorklist, label: null, cells: 4, height: 320}
+      - name: MatchMerge
+        label: Match and merge
+        icon: images://mdi/call-merge.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: CHART, name: SourcesVsGolden, chart: CombinedConsolidation, label: null, cells: 6, height: 360}
+          - {type: CHART, name: SourcesPerGolden, chart: ColumnSourcesPerGolden, label: null, cells: 6, height: 360}
+          - {type: CHART, name: AssetConsolidation, chart: DonutAssetConsolidation, label: null, cells: 4, height: 340}
+          - {type: CHART, name: AssetsKnownIn, chart: PivotAssetsKnownIn, label: null, cells: 8, height: 340}
+          - {type: CHART, name: MatchBacklog, chart: KpiMatchBacklog, label: null, cells: 4, height: 170}
+      - name: Sources
+        label: Sources
+        icon: images://mdi/database-import.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: CHART, name: Contribution, chart: BarSourceContribution, label: null, cells: 8, height: 380}
+          - {type: CHART, name: SourceShare, chart: DonutSourceShare, label: null, cells: 4, height: 380}
+      - name: Rules
+        label: Rejections and warnings
+        icon: images://mdi/alert-circle-outline.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: CHART, name: RejectionTree, chart: TreemapRejections, label: null, cells: 6, height: 360}
+          - {type: CHART, name: WarningList, chart: PivotWarningList, label: null, cells: 6, height: 360}
+      - name: SchemaCheck
+        label: Schema check
+        icon: images://mdi/database-search.svg
+        displayAs: LABEL
+        content:
+          - {type: CHART, name: Schema, chart: PivotSchema, label: null, cells: 12, height: 800}
+
+  GridContext:
+    label: Grid context
+    icon: images://mdi/transmission-tower.svg
+    tabs:
+      - name: Assets
+        label: Assets
+        icon: images://mdi/flash.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: SLICER, name: SubstationSlicer, label: Substation, cells: 3, height: 320,
+             appliesTo: [{dashboardChartName: AssetsByType, queryAttribute: Substation},
+                         {dashboardChartName: AssetsByArea, queryAttribute: Substation},
+                         {dashboardChartName: AssetsByVoltage, queryAttribute: Substation},
+                         {dashboardChartName: AssetsByAge, queryAttribute: Substation}],
+             multiSelect: true, selectUnselectAll: true, showItemWithNoData: true,
+             greyOutItemWithNoData: true, showItemWithNoDataLast: true}
+          - {type: CHART, name: AssetsByType, chart: BarAssetsByTypeCriticality, label: null, cells: 9, height: 320}
+          - {type: CHART, name: AssetsByArea, chart: DonutAssetsByGridArea, label: null, cells: 4, height: 320}
+          - {type: CHART, name: AssetsByVoltage, chart: ColumnAssetsByVoltage, label: null, cells: 4, height: 320}
+          - {type: CHART, name: AssetsByAge, chart: ColumnAssetsByAge, label: null, cells: 4, height: 320}
+          - {type: CHART, name: SubstationMatrix, chart: PivotSubstationAssets, label: null, cells: 12, height: 460}
+      - name: Measurements
+        label: Measurements
+        icon: images://mdi/chart-line.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: CHART, name: Points, chart: KpiPoints, label: null, cells: 4, height: 170}
+          - {type: CHART, name: Measurements, chart: KpiMeasurements, label: null, cells: 4, height: 170}
+          - {type: CHART, name: NotGood, chart: KpiNotGood, label: null, cells: 4, height: 170}
+          - {type: CHART, name: PointsByType, chart: BarPointsByType, label: null, cells: 8, height: 360}
+          - {type: CHART, name: PointContext, chart: DonutPointContext, label: null, cells: 4, height: 360}
+          - {type: CHART, name: QualityByHour, chart: ColumnQualityByHour, label: null, cells: 6, height: 360}
+          - {type: CHART, name: PointsWithIssues, chart: BarPointsWithIssues, label: null, cells: 6, height: 360}
+
+  SubstationScorecard:
+    label: Substation scorecard
+    icon: images://mdi/card-account-details.svg
+    # Designed for the Substation form (FormDashboard, tab Scorecard, SubstationCode = the record's code).
+    # Opened from the drawer, the parameter is empty and the tiles show the whole grid.
+    parameters:
+      - name: SubstationCode
+        appliesTo:
+          - {dashboardChartName: Assets, queryAttribute: SubstationCode}
+          - {dashboardChartName: Points, queryAttribute: SubstationCode}
+          - {dashboardChartName: Lines, queryAttribute: SubstationCode}
+          - {dashboardChartName: OpenWarnings, queryAttribute: SubstationCode}
+          - {dashboardChartName: AssetMix, queryAttribute: SubstationCode}
+          - {dashboardChartName: Related, queryAttribute: SubstationCode}
+          - {dashboardChartName: WarningList, queryAttribute: SubstationCode}
+          - {dashboardChartName: NotGood, queryAttribute: SubstationCode}
+          - {dashboardChartName: PointsWithIssues, queryAttribute: SubstationCode}
+    tabs:
+      - name: Scorecard
+        label: Scorecard
+        icon: images://mdi/card-account-details.svg
+        displayAs: ICON_LABEL
+        content:
+          - {type: CHART, name: Assets, chart: KpiScAssets, label: null, cells: 2, height: 150}
+          - {type: CHART, name: Points, chart: KpiScPoints, label: null, cells: 3, height: 150}
+          - {type: CHART, name: Lines, chart: KpiScLines, label: null, cells: 2, height: 150}
+          - {type: CHART, name: NotGood, chart: KpiNotGood, label: null, cells: 3, height: 150}
+          - {type: CHART, name: OpenWarnings, chart: KpiScWarnings, label: null, cells: 2, height: 150}
+          - {type: CHART, name: AssetMix, chart: BarAssetsByTypeCriticality, label: null, cells: 6, height: 340}
+          - {type: CHART, name: PointsWithIssues, chart: BarPointsWithIssues, label: null, cells: 6, height: 340}
+          - {type: CHART, name: Related, chart: PivotScFootprint, label: null, cells: 6, height: 400}
+          - {type: CHART, name: WarningList, chart: PivotWarningList, label: null, cells: 6, height: 400}
+
+# Human-readable map of where the data product will reach this application (plain strings the build
+# never resolves; audit-model.py checks them once wired in the generator).
+integration:
+  - {kind: OpenDashboardAction, where: "application Quick access", dashboard: GridDataQuality}
+  - {kind: FormDashboard, where: "Substation form, tab Scorecard", dashboard: SubstationScorecard, tab: Scorecard,
+     parameters: {SubstationCode: "SubstationCode (SEMQL)"}}

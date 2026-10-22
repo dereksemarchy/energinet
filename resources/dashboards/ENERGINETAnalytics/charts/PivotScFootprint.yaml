@@ -1,0 +1,23 @@
+label: Related records
+chartType: PIVOT_TABLE
+pivotQuery:
+  query: SubstationFootprint
+  rows:
+  - name: RelatedData
+    attribute: Related data
+  - name: Record
+    attribute: Record
+  - name: Detail
+    attribute: Detail
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+documentation: ''
+labelPlacement: TOP

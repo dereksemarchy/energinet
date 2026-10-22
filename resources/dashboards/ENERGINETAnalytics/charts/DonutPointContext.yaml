@@ -1,0 +1,27 @@
+label: Measurement points by context link
+chartType: DONUT
+pivotQuery:
+  query: PointProfile
+  columns:
+  - name: Context
+    attribute: Context
+  measures:
+  - name: Points
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+donutHoleSizePct: 55
+dataLabels:
+  dataLabelPlacement: AUTO
+  series: LABEL_VALUE
+  categories: LABEL_VALUE
+  showValue: true
+  showPercentage: true
+  showMeasureLabel: null
+documentation: ''
+labelPlacement: TOP

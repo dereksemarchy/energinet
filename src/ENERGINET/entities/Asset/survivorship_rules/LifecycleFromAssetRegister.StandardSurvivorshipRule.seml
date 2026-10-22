@@ -1,0 +1,28 @@
+_package: ENERGINET.entities.Asset.survivorship_rules
+_type: StandardSurvivorshipRule
+_name: LifecycleFromAssetRegister
+entity: ENERGINET.entities.Asset.Asset
+label: Lifecycle (asset register first)
+description: Lifecycle and technical attributes come from the asset register first.
+documentation: Lifecycle and technical attributes come from the asset register first.
+defaultRule: true
+consolidationStrategy: PREFERRED_PUBLISHER
+consolidationSkipNulls: false
+overrideStrategy: UNTIL_CONSOLIDATED_VAL_CHANGE
+attributes:
+- attributeName: EamAssetNumber
+- attributeName: Manufacturer
+- attributeName: Model
+- attributeName: SerialNumber
+- attributeName: RatedPowerMva
+- attributeName: CommissioningDate
+- attributeName: OperatingStatus
+- attributeName: Criticality
+- attributeName: LastInspectionDate
+publisherRankings:
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.EAM
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.NETMODEL
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.UI

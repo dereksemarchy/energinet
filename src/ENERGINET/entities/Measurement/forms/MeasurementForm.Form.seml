@@ -1,0 +1,73 @@
+_package: ENERGINET.entities.Measurement.forms
+_type: Form
+_name: MeasurementForm
+entity: ENERGINET.entities.Measurement.Measurement
+default: true
+formTabs:
+- _type: FormTab
+  _name: Measurement
+  label: Measurement
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/chart-line.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Measurement
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: ReferenceField
+          _name: FDN_MeasurementPoint
+          value: FDN_MeasurementPoint
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+        - _type: DateField
+          _name: PeriodStart
+          value: PeriodStart
+          useCustomLabel: false
+          dataType: DATE
+        - _type: TextField
+          _name: AggregationInterval
+          value: AggregationInterval
+          useCustomLabel: false
+          dataType: STRING
+      - _type: FormContainer
+        _name: S1Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: AvgValue
+          value: AvgValue
+          useCustomLabel: false
+          dataType: DECIMAL
+        - _type: TextField
+          _name: MinValue
+          value: MinValue
+          useCustomLabel: false
+          dataType: DECIMAL
+        - _type: TextField
+          _name: MaxValue
+          value: MaxValue
+          useCustomLabel: false
+          dataType: DECIMAL
+      - _type: FormContainer
+        _name: S1Row3
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: QualityFlag
+          value: QualityFlag
+          useCustomLabel: false
+          dataType: STRING

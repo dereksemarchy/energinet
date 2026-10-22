@@ -1,0 +1,10 @@
+_package: ENERGINET.entities.TransmissionLine.enrichers
+_name: TrimLineName
+_type: SemQLEnricher
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+label: Trim name
+description: Removes leading and trailing spaces from LineName.
+enricherExecutionScope: PRE_CONSO
+semQlEnricherExpressions:
+- attributeName: LineName
+  expression: RTRIM(LTRIM(LineName))

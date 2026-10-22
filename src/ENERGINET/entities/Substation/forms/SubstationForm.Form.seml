@@ -1,0 +1,117 @@
+_package: ENERGINET.entities.Substation.forms
+_type: Form
+_name: SubstationForm
+entity: ENERGINET.entities.Substation.Substation
+default: true
+formTabs:
+- _type: FormTab
+  _name: Substation
+  label: Substation
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/office-building-cog.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Identification
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: IdField
+          _name: SubstationCode
+          value: SubstationCode
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: SubstationName
+          value: SubstationName
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: GridArea
+          value: GridArea
+          useCustomLabel: false
+          dataType: STRING
+      - _type: FormContainer
+        _name: S1Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: HighestVoltageLevel
+          value: HighestVoltageLevel
+          useCustomLabel: false
+          dataType: STRING
+    - _type: FormSection
+      _name: Sec2
+      label: Location
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S2Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Latitude
+          value: Latitude
+          useCustomLabel: false
+          dataType: DECIMAL
+        - _type: TextField
+          _name: Longitude
+          value: Longitude
+          useCustomLabel: false
+          dataType: DECIMAL
+    - _type: FormSection
+      _name: Sec3
+      label: Lifecycle
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S3Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: OperatingStatus
+          value: OperatingStatus
+          useCustomLabel: false
+          dataType: STRING
+        - _type: DateField
+          _name: CommissioningDate
+          value: CommissioningDate
+          useCustomLabel: false
+          dataType: DATE
+        - _type: TextField
+          _name: Description
+          value: Description
+          useCustomLabel: false
+          dataType: STRING
+- _type: FormTab
+  _name: ScorecardDashboardTab
+  label: Scorecard
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/card-account-details.svg
+  labelWidth: '150'
+  content:
+  - _type: FormDashboard
+    _name: ScorecardDashboard
+    dashboardApplication: ENERGINETAnalytics
+    dashboard: SubstationScorecard
+    tab: Scorecard
+    parameters:
+    - _type: FormDashboardParameter
+      _name: SubstationCode
+      value: SubstationCode
+      valueInterpreter: SEMQL
+    height: 1100

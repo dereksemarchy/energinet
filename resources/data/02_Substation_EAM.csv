@@ -1,0 +1,11 @@
+SubstationCode,SubstationName,GridArea,HighestVoltageLevel,Latitude,Longitude,OperatingStatus,CommissioningDate,Description
+SUB-NOR,Nordvig,DK1,400,,,IN_SERVICE,1986-12-14,"400 kV substation Nordvig, maintained by the regional asset team."
+SUB-OST,Osterby,DK1,400,,,IN_SERVICE,1985-10-20,"400 kV substation Østerby, maintained by the regional asset team."
+SUB-KRA,Kragholm,DK1,150,,,IN_SERVICE,2007-07-01,"150 kV substation Kragholm, maintained by the regional asset team."
+SUB-VES,Vesterlund,DK1,400,,,IN_SERVICE,2011-02-24,"400 kV substation Vesterlund, maintained by the regional asset team."
+SUB-BAK,Bakkedal,DK1,150,,,IN_SERVICE,1968-12-09,"150 kV substation Bakkedal, maintained by the regional asset team."
+SUB-STR,Strandhoj,DK2,400,,,IN_SERVICE,1971-08-13,"400 kV substation Strandhøj, maintained by the regional asset team."
+SUB-LYN,Lyngmose,DK2,132,,,IN_SERVICE,1970-09-06,"132 kV substation Lyngmose, maintained by the regional asset team."
+SUB-FJO,Fjordby,DK2,400,,,IN_SERVICE,1985-05-31,"400 kV substation Fjordby, maintained by the regional asset team."
+SUB-HAV,Havrevang,DK2,132,,,IN_SERVICE,2005-11-27,"132 kV substation Havrevang, maintained by the regional asset team."
+SUB-SKA,Skaerbaek Oest,DK2,132,,,IN_SERVICE,2003-07-03,"132 kV substation Skærbæk Øst, maintained by the regional asset team."

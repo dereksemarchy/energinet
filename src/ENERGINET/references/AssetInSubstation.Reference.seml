@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Asset - Substation
+_name: AssetInSubstation
+description: The substation an asset is installed in.
+documentation: The substation an asset is installed in.
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.Asset.Asset
+fromRoleName: Assets
+fromRoleLabel: Assets
+fromRolePluralLabel: Assets
+physicalName: ASSETINSUBSTATION
+toEntity: ENERGINET.entities.Substation.Substation
+toRoleName: Substation
+toRolePhysicalName: SUBSTATION_REF
+toRoleLabel: Substation
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: Substation
+  entity: ENERGINET.entities.Substation.Substation
+  label: Substation
+  physicalName: SUBSTATION_REF
+  searchable: true

@@ -1,0 +1,30 @@
+title: Grid Asset Data Product - Analytics
+avatar: ''
+documentation: 'Data quality, consolidation and grid-context indicators computed from the golden records of the
+  Grid Asset Data Product (data location ENERGINET): substations, assets, transmission lines, measurement points
+  and 15-minute measurement aggregates.'
+palette:
+  type: MD_COLORFUL
+  shade: '500'
+navigationDrawer:
+  groups:
+  - label: Governance
+    showDivider: false
+    items:
+    - dashboard: GridDataQuality
+      label: Data product quality
+      icon: images://mdi/check-decagram.svg
+      dashboardArguments: []
+  - label: Consumption
+    showDivider: false
+    items:
+    - dashboard: GridContext
+      label: Grid context
+      icon: images://mdi/transmission-tower.svg
+      dashboardArguments: []
+    - dashboard: SubstationScorecard
+      label: Substation scorecard
+      icon: images://mdi/card-account-details.svg
+      dashboardArguments: []
+requiredRole: null
+visible: true

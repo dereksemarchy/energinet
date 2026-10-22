@@ -1,0 +1,144 @@
+_package: ENERGINET.entities.Asset.forms
+_type: Form
+_name: AssetForm
+entity: ENERGINET.entities.Asset.Asset
+default: true
+formTabs:
+- _type: FormTab
+  _name: Asset
+  label: Asset
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/flash.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Identification
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: AssetName
+          value: AssetName
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: AssetType
+          value: AssetType
+          useCustomLabel: false
+          dataType: STRING
+        - _type: ReferenceField
+          _name: FDN_Substation
+          value: FDN_Substation
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Substation.Substation
+      - _type: FormContainer
+        _name: S1Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Criticality
+          value: Criticality
+          useCustomLabel: false
+          dataType: STRING
+    - _type: FormSection
+      _name: Sec2
+      label: Technical data
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S2Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: Manufacturer
+          value: Manufacturer
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: Model
+          value: Model
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: SerialNumber
+          value: SerialNumber
+          useCustomLabel: false
+          dataType: STRING
+      - _type: FormContainer
+        _name: S2Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: VoltageLevel
+          value: VoltageLevel
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: RatedPowerMva
+          value: RatedPowerMva
+          useCustomLabel: false
+          dataType: DECIMAL
+    - _type: FormSection
+      _name: Sec3
+      label: Lifecycle
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S3Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: OperatingStatus
+          value: OperatingStatus
+          useCustomLabel: false
+          dataType: STRING
+        - _type: DateField
+          _name: CommissioningDate
+          value: CommissioningDate
+          useCustomLabel: false
+          dataType: DATE
+        - _type: TextField
+          _name: AgeYears
+          value: AgeYears
+          useCustomLabel: false
+          dataType: INTEGER
+      - _type: FormContainer
+        _name: S3Row2
+        layoutDirection: ROW
+        content:
+        - _type: DateField
+          _name: LastInspectionDate
+          value: LastInspectionDate
+          useCustomLabel: false
+          dataType: DATE
+    - _type: FormSection
+      _name: Sec4
+      label: Source identifiers
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S4Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: NetworkModelId
+          value: NetworkModelId
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: EamAssetNumber
+          value: EamAssetNumber
+          useCustomLabel: false
+          dataType: STRING

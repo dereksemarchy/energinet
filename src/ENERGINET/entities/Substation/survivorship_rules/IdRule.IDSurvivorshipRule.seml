@@ -1,0 +1,16 @@
+_package: ENERGINET.entities.Substation.survivorship_rules
+_type: IDSurvivorshipRule
+_name: IdRule
+entity: ENERGINET.entities.Substation.Substation
+label: Identity
+description: Identity
+documentation: Identity
+consolidationStrategy: PREFERRED_PUBLISHER
+consolidationSkipNulls: false
+publisherRankings:
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.NETMODEL
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.EAM
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.UI

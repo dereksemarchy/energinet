@@ -1,0 +1,94 @@
+dataSource: GridData
+sql: |-
+  select p.pointtag as "PointTag", 1 as "Records",
+         coalesce(p.pointname, p.pointtag) as "Point",
+         case p.measurementtype when 'ACTIVE_POWER' then 'Active power' when 'REACTIVE_POWER' then 'Reactive power'
+              when 'VOLTAGE' then 'Voltage magnitude' when 'CURRENT' then 'Current' when 'FREQUENCY' then 'Frequency'
+              when 'PHASE_ANGLE' then 'Voltage phase angle' when 'THD' then 'Total harmonic distortion'
+              when 'TEMPERATURE' then 'Temperature' when 'OIL_TEMPERATURE' then 'Oil temperature'
+              else '(not set)' end as "Measurement type",
+         case p.devicetype when 'SCADA_RTU' then 'SCADA RTU' when 'PMU' then 'PMU'
+              when 'PQ_METER' then 'Power-quality meter' when 'IOT_SENSOR' then 'IoT sensor'
+              else '(not set)' end as "Device type",
+         case when p.f_asset_ref is not null then 'Linked to an asset'
+              when p.f_line_ref is not null then 'Linked to a line'
+              else 'Substation only' end as "Context",
+         case when coalesce(p.active, false) then 'Yes' else 'No' end as "Active",
+         p.f_substation_ref as "SubstationCode",
+         coalesce(s.substationname, '(no substation)') as "Substation"
+    from gd_measurementpoint p
+    left join gd_substation s on s.substationcode = p.f_substation_ref
+attributes:
+  PointTag:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Point:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Measurement type:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Device type:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Context:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Active:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  SubstationCode:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Substation:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+queryActions:
+- label: Open measurement point
+  name: OpenPoint
+  iconUrl: images://mdi/open-in-new.svg
+  requiredRole: ''
+  target: NEW_TAB
+  url: /dm/mdm-app/ENERGINET/ENERGINET/browsing/MeasurementPointBusinessView/${PointTag}
+exportEnabled: true

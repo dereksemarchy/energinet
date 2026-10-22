@@ -1,0 +1,65 @@
+dataSource: GridData
+sql: |-
+  select 'Location outside Denmark' as "Worklist", 'Substation' as "Entity",
+         s.substationcode as "SubstationCode", coalesce(s.substationname, s.substationcode) as "Record",
+         coalesce(s.substationname, s.substationcode) as "Substation", 1 as "Records"
+    from gd_substation s
+   where s.latitude < 54 or s.latitude > 58 or s.longitude < 7.5 or s.longitude > 15.5
+  union all
+  select 'In service, commissioned in the future', 'Asset', a.f_substation_ref,
+         coalesce(a.assetname, '(no name)'), coalesce(s.substationname, a.f_substation_ref), 1
+    from gd_asset a left join gd_substation s on s.substationcode = a.f_substation_ref
+   where a.operatingstatus = 'IN_SERVICE' and a.commissioningdate > current_date
+  union all
+  select 'Asset in another substation', 'Measurement point', p.f_substation_ref,
+         p.pointtag, coalesce(s.substationname, p.f_substation_ref), 1
+    from gd_measurementpoint p
+    join gd_asset a on a.assetid = p.f_asset_ref
+    left join gd_substation s on s.substationcode = p.f_substation_ref
+   where a.f_substation_ref <> p.f_substation_ref
+attributes:
+  Worklist:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Entity:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  SubstationCode:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Record:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Substation:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+exportEnabled: true

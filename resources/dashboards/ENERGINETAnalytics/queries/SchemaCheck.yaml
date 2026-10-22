@@ -1,0 +1,39 @@
+dataSource: GridData
+sql: |-
+  select table_name as "Table", column_name as "Column", data_type as "Data type",
+         ordinal_position as "Position"
+    from information_schema.columns
+   where table_schema = current_schema()
+     and table_name in ('du_asset', 'md_asset', 'md_substation', 'se_asset', 'ge_asset', 'gd_asset')
+attributes:
+  Table:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Column:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Data type:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Position:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+exportEnabled: true

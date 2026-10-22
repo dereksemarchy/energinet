@@ -1,0 +1,24 @@
+_package: ENERGINET.entities.Substation.survivorship_rules
+_type: StandardSurvivorshipRule
+_name: TopologyFromNetworkModel
+entity: ENERGINET.entities.Substation.Substation
+label: Topology and naming (network model first)
+description: Name, grid area, voltage level and location come from the network model first.
+documentation: Name, grid area, voltage level and location come from the network model first.
+defaultRule: true
+consolidationStrategy: PREFERRED_PUBLISHER
+consolidationSkipNulls: false
+overrideStrategy: UNTIL_CONSOLIDATED_VAL_CHANGE
+attributes:
+- attributeName: SubstationName
+- attributeName: GridArea
+- attributeName: HighestVoltageLevel
+- attributeName: Latitude
+- attributeName: Longitude
+publisherRankings:
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.NETMODEL
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.EAM
+- _type: ConsoPublisherRanking
+  publisher: ENERGINET.publishers.UI

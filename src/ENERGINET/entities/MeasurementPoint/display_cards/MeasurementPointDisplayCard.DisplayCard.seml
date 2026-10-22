@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.MeasurementPoint.display_cards
+_type: DisplayCard
+_name: MeasurementPointDisplayCard
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+default: true
+primaryTextExpression: PointName
+avatarImageValue: images://mdi/gauge.svg
+primaryImageValueInterpreter: LITERAL
+avatarImageSourceType: URL
+primaryImageAlign: MIDDLE_CENTER
+primaryImageMode: FIT
+primaryImageFallbackValueInterpreter: LITERAL
+primaryImageFallbackSourceType: URL
+avatarImageValueInterpreter: LITERAL
+primaryImageSourceType: URL
+avatarImageAlign: MIDDLE_CENTER
+avatarImageMode: FIT

@@ -1,0 +1,53 @@
+dataSource: GridData
+sql: |-
+  select f_substation_ref as "SubstationCode", 'Asset' as "Related data",
+         coalesce(assetname, '(no name)') as "Record", coalesce(assettype, '') as "Detail", 1 as "Records"
+    from gd_asset
+  union all
+  select f_substation_ref, 'Measurement point', pointtag, coalesce(measurementtype, ''), 1
+    from gd_measurementpoint
+  union all
+  select f_from_subst_ref, 'Transmission line', coalesce(linename, linecode), 'Outgoing', 1
+    from gd_transmissionline
+  union all
+  select f_to_subst_ref, 'Transmission line', coalesce(linename, linecode), 'Incoming', 1
+    from gd_transmissionline
+attributes:
+  SubstationCode:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Related data:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Record:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Detail:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+exportEnabled: true

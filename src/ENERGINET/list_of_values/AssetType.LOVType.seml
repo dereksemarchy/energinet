@@ -1,0 +1,34 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: AssetType
+label: Asset type
+description: Kind of grid equipment.
+length: 30
+lovValues:
+- code: POWER_TRANSFORMER
+  label: Power transformer
+  description: Transforms power between two voltage levels.
+- code: CIRCUIT_BREAKER
+  label: Circuit breaker
+  description: Switches load and fault currents.
+- code: DISCONNECTOR
+  label: Disconnector
+  description: Provides a visible isolation point, operated off-load.
+- code: BUSBAR
+  label: Busbar
+  description: Collects and distributes power inside a substation.
+- code: CURRENT_TRANSFORMER
+  label: Current transformer
+  description: Instrument transformer for current measurement.
+- code: VOLTAGE_TRANSFORMER
+  label: Voltage transformer
+  description: Instrument transformer for voltage measurement.
+- code: SHUNT_REACTOR
+  label: Shunt reactor
+  description: Absorbs reactive power for voltage control.
+- code: CAPACITOR_BANK
+  label: Capacitor bank
+  description: Supplies reactive power for voltage control.
+- code: PROTECTION_RELAY
+  label: Protection relay
+  description: Detects faults and trips the circuit breakers.

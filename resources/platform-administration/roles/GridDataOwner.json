@@ -1,0 +1,7 @@
+{
+  "name": "GridDataOwner",
+  "label": "Grid data owner",
+  "description": "Accountable for the data product: approves asset changes, full read/write access.",
+  "emails": [],
+  "grants": []
+}

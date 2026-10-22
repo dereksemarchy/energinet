@@ -1,0 +1,45 @@
+label: Source records vs golden records
+chartType: COMBINED
+pivotQuery:
+  query: Consolidation
+  rows:
+  - name: Entity
+    attribute: Entity
+  measures:
+  - name: Sources
+    label: Source records
+    attribute: Source records
+    aggregationType: SUM
+  - name: Golden
+    label: Golden records
+    attribute: Golden records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+  additionalParameters: []
+categoriesAxis:
+  title: Entity
+  hideTitle: false
+  showGrid: false
+primaryValueAxis:
+  title: Records
+  hideTitle: false
+  showGrid: false
+series:
+- path:
+    dimensionValues: {}
+    measureName: Sources
+  valueAxis: PRIMARY
+  chartType: COLUMN
+  fillColor: '#b0bec5'
+- path:
+    dimensionValues: {}
+    measureName: Golden
+  valueAxis: PRIMARY
+  chartType: COLUMN
+  fillColor: '#1565c0'
+showLabelDivider: false
+documentation: ''
+labelPlacement: TOP

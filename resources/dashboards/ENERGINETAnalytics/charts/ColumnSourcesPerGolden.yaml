@@ -1,0 +1,24 @@
+label: Golden records by number of sources consolidated
+chartType: COLUMN
+pivotQuery:
+  query: Consolidation
+  rows:
+  - name: SourcesConsolidated
+    attribute: Sources consolidated
+    valuesSortStrategy:
+      sortBy: DIMENSION
+      sortDirection: ASC
+  columns:
+  - name: Entity
+    attribute: Entity
+  measures:
+  - name: Golden
+    label: Golden records
+    attribute: Golden records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

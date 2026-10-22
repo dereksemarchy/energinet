@@ -1,0 +1,20 @@
+label: Rejections by entity and rule
+chartType: TREEMAP
+pivotQuery:
+  query: Rejections
+  rows:
+  - name: Entity
+    attribute: Entity
+  - name: Rule
+    attribute: Rule
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

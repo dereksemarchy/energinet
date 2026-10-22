@@ -1,0 +1,22 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: QualityFlag
+label: Quality flag
+description: |-
+  Historian quality of an aggregated measurement.
+
+  AI agent instructions: Use only GOOD values in calculations unless the question is about data quality itself.
+length: 10
+lovValues:
+- code: GOOD
+  label: Good
+  description: Value is valid.
+- code: SUSPECT
+  label: Suspect
+  description: Value may be wrong (stale, out of range).
+- code: BAD
+  label: Bad
+  description: Value is invalid.
+- code: MISSING
+  label: Missing
+  description: No data for the window.

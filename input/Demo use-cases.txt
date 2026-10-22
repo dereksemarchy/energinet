@@ -1,0 +1,21 @@
+Please demonstrate/show the system functions to support the following use case: For
+the demonstrated use case, please clearly identify which capabilities are available as
+standard product functionality, which require configuration or custom development,
+and which depend on third-party products or future roadmap items.[10:30 AM]Use case: Creating and publishing a new data product
+
+Objective:
+The purpose of this use case is to demonstrate how a data owner or data steward can create,
+govern, publish, and maintain a new data product based on existing operational data.
+Scenario:
+
+A data owner wants to establish a new data product using data already available within, or accessible to, the proposed solution.
+
+The data product could, for example, be based on:
+• SCADA measurements
+• PMU or power-quality measurements
+• Substation or sensor data
+• Asset information
+
+Metadata or contextual information from an authoritative network model
+
+The resulting data product is intended for use by one or more consumers, such as control centre applications, operational planning, analytics, or Asset Management.

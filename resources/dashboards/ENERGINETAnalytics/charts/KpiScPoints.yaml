@@ -1,0 +1,23 @@
+label: Measurement points
+chartType: NUMBER
+pivotQuery:
+  query: SubstationFootprint
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+filters:
+- attribute: Related data
+  operator: EQUALS
+  value: Measurement point
+documentation: ''
+labelPlacement: TOP

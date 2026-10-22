@@ -1,0 +1,26 @@
+label: Assets by type and criticality
+chartType: BAR
+pivotQuery:
+  query: AssetProfile
+  rows:
+  - name: AssetType
+    attribute: Asset type
+    valuesSortStrategy:
+      sortBy: MEASURE
+      sortDirection: DESC
+      measureName: Assets
+  columns:
+  - name: Criticality
+    attribute: Criticality
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  - Substation
+  showRowTotals: false
+  showColumnTotals: false
+documentation: ''
+labelPlacement: TOP

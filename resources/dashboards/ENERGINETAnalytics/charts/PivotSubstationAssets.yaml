@@ -1,0 +1,20 @@
+label: Substation x asset type
+chartType: PIVOT_TABLE
+pivotQuery:
+  query: AssetProfile
+  showRowTotals: true
+  showColumnTotals: true
+  rows:
+  - name: Substation
+    attribute: Substation
+  columns:
+  - name: AssetType
+    attribute: Asset type
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

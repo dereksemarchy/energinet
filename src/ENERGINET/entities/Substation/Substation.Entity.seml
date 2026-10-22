@@ -1,0 +1,119 @@
+_package: ENERGINET.entities.Substation
+_type: Entity
+_name: Substation
+label: Substation
+pluralLabel: Substations
+entityType: ID_MATCHED
+physicalTableName: SUBSTATION
+iconUrl: images://mdi/office-building-outline.svg
+description: |-
+  Physical grid node (switchyard or station) of the transmission grid, consolidated from the network model and the asset register, which share the substation code.
+
+  AI agent instructions: Reason on golden records; the network model is authoritative for name, grid area, voltage and location, the asset register for status and commissioning.
+documentation: |-
+  Physical grid node (switchyard or station) of the transmission grid, consolidated from the network model and the asset register, which share the substation code.
+
+  AI agent instructions: Reason on golden records; the network model is authoritative for name, grid area, voltage and location, the asset register for status and commissioning.
+historizeGolden: true
+historizeMaster: false
+enableDelete: true
+attributes:
+- _type: EntityAttribute
+  _name: SubstationCode
+  label: Substation code
+  physicalName: SUBSTATIONCODE
+  dataType: String
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: Business key of the substation, shared by the network model and the asset register.
+  documentation: Business key of the substation, shared by the network model and the asset register.
+  length: 30
+- _type: EntityAttribute
+  _name: SubstationName
+  label: Substation name
+  physicalName: SUBSTATIONNAME
+  dataType: String
+  length: 100
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: Name of the substation.
+  documentation: Name of the substation.
+- _type: EntityAttribute
+  _name: GridArea
+  label: Grid area
+  physicalName: GRIDAREA
+  dataType: ENERGINET.list_of_values.GridArea
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Danish grid area (DK1 / DK2).
+  documentation: Danish grid area (DK1 / DK2).
+- _type: EntityAttribute
+  _name: HighestVoltageLevel
+  label: Highest voltage level
+  physicalName: HIGHESTVOLTAGELEVEL
+  dataType: ENERGINET.list_of_values.VoltageLevel
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Highest nominal voltage present in the substation.
+  documentation: Highest nominal voltage present in the substation.
+- _type: EntityAttribute
+  _name: Latitude
+  label: Latitude
+  physicalName: LATITUDE
+  dataType: Decimal
+  precision: 9
+  scale: 6
+  mandatory: false
+  searchable: true
+  description: WGS84 latitude of the substation.
+  documentation: WGS84 latitude of the substation.
+- _type: EntityAttribute
+  _name: Longitude
+  label: Longitude
+  physicalName: LONGITUDE
+  dataType: Decimal
+  precision: 9
+  scale: 6
+  mandatory: false
+  searchable: true
+  description: WGS84 longitude of the substation.
+  documentation: WGS84 longitude of the substation.
+- _type: EntityAttribute
+  _name: OperatingStatus
+  label: Operating status
+  physicalName: OPERATINGSTATUS
+  dataType: ENERGINET.list_of_values.OperatingStatus
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Operating status of the substation.
+  documentation: Operating status of the substation.
+- _type: EntityAttribute
+  _name: CommissioningDate
+  label: Commissioning date
+  physicalName: COMMISSIONINGDATE
+  dataType: Date
+  mandatory: false
+  searchable: true
+  description: Date the substation was put into service.
+  documentation: Date the substation was put into service.
+- _type: EntityAttribute
+  _name: Description
+  label: Description
+  physicalName: DESCRIPTION
+  dataType: String
+  length: 1000
+  mandatory: false
+  searchable: true
+  description: Free-text description of the substation.
+  documentation: Free-text description of the substation.
+primaryKey: ENERGINET.entities.Substation.Substation.SubstationCode
+sourceIdGeneration:
+  mode: MANUAL

@@ -1,0 +1,22 @@
+label: Assets by voltage level
+chartType: COLUMN
+pivotQuery:
+  query: AssetProfile
+  rows:
+  - name: VoltageLevel
+    attribute: Voltage level
+    valuesSortStrategy:
+      sortBy: DIMENSION
+      sortDirection: DESC
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - Substation
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+documentation: ''
+labelPlacement: TOP

@@ -1,0 +1,20 @@
+label: Assets by asset type and source coverage
+chartType: PIVOT_TABLE
+pivotQuery:
+  query: AssetProfile
+  showRowTotals: true
+  showColumnTotals: true
+  rows:
+  - name: AssetType
+    attribute: Asset type
+  columns:
+  - name: KnownIn
+    attribute: Known in
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.Asset.display_cards
+_type: DisplayCard
+_name: AssetBrowseDisplayCard
+entity: ENERGINET.entities.Asset.Asset
+default: false
+primaryTextExpression: AssetName
+avatarImageValue: images://mdi/flash.svg
+primaryImageValueInterpreter: LITERAL
+avatarImageSourceType: URL
+primaryImageAlign: MIDDLE_CENTER
+primaryImageMode: FIT
+primaryImageFallbackValueInterpreter: LITERAL
+primaryImageFallbackSourceType: URL
+avatarImageValueInterpreter: LITERAL
+primaryImageSourceType: URL
+avatarImageAlign: MIDDLE_CENTER
+avatarImageMode: FIT

@@ -1,0 +1,6 @@
+_package: ENERGINET.publishers
+_name: NETMODEL
+_type: Publisher
+label: Network model
+active: true
+code: NETMODEL

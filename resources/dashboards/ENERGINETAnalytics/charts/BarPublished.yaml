@@ -1,0 +1,26 @@
+label: Golden records published, by entity
+chartType: BAR
+pivotQuery:
+  query: EntityVolumes
+  rows:
+  - name: Entity
+    attribute: Entity
+    valuesSortStrategy:
+      sortBy: MEASURE
+      sortDirection: DESC
+      measureName: Records
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+  additionalParameters: []
+categoriesAxis:
+  hideTitle: true
+  hideLabels: false
+  showGrid: false
+documentation: ''
+labelPlacement: TOP

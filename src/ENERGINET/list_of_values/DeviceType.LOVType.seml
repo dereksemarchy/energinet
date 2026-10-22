@@ -1,0 +1,19 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: DeviceType
+label: Device type
+description: Device family producing the signal.
+length: 15
+lovValues:
+- code: SCADA_RTU
+  label: SCADA RTU
+  description: Remote terminal unit scanned by SCADA (seconds).
+- code: PMU
+  label: PMU
+  description: Phasor measurement unit, time-synchronised (50 frames per second).
+- code: PQ_METER
+  label: Power-quality meter
+  description: Power-quality analyser (harmonics, flicker).
+- code: IOT_SENSOR
+  label: IoT sensor
+  description: Condition-monitoring sensor.

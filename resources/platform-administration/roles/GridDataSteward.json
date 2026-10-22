@@ -1,0 +1,7 @@
+{
+  "name": "GridDataSteward",
+  "label": "Grid data steward",
+  "description": "Maintains substations, assets, lines and measurement points; reviews duplicates; reads measurements.",
+  "emails": [],
+  "grants": []
+}

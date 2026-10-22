@@ -1,0 +1,107 @@
+label: Grid context
+icon: images://mdi/transmission-tower.svg
+tabs:
+- name: Assets
+  label: Assets
+  icon: images://mdi/flash.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: SLICER
+    name: SubstationSlicer
+    label: Substation
+    cells: 3
+    height: 320
+    appliesTo:
+    - dashboardChartName: AssetsByType
+      queryAttribute: Substation
+    - dashboardChartName: AssetsByArea
+      queryAttribute: Substation
+    - dashboardChartName: AssetsByVoltage
+      queryAttribute: Substation
+    - dashboardChartName: AssetsByAge
+      queryAttribute: Substation
+    multiSelect: true
+    selectUnselectAll: true
+    showItemWithNoData: true
+    greyOutItemWithNoData: true
+    showItemWithNoDataLast: true
+  - type: CHART
+    name: AssetsByType
+    chart: BarAssetsByTypeCriticality
+    label: null
+    cells: 9
+    height: 320
+  - type: CHART
+    name: AssetsByArea
+    chart: DonutAssetsByGridArea
+    label: null
+    cells: 4
+    height: 320
+  - type: CHART
+    name: AssetsByVoltage
+    chart: ColumnAssetsByVoltage
+    label: null
+    cells: 4
+    height: 320
+  - type: CHART
+    name: AssetsByAge
+    chart: ColumnAssetsByAge
+    label: null
+    cells: 4
+    height: 320
+  - type: CHART
+    name: SubstationMatrix
+    chart: PivotSubstationAssets
+    label: null
+    cells: 12
+    height: 460
+- name: Measurements
+  label: Measurements
+  icon: images://mdi/chart-line.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: CHART
+    name: Points
+    chart: KpiPoints
+    label: null
+    cells: 4
+    height: 170
+  - type: CHART
+    name: Measurements
+    chart: KpiMeasurements
+    label: null
+    cells: 4
+    height: 170
+  - type: CHART
+    name: NotGood
+    chart: KpiNotGood
+    label: null
+    cells: 4
+    height: 170
+  - type: CHART
+    name: PointsByType
+    chart: BarPointsByType
+    label: null
+    cells: 8
+    height: 360
+  - type: CHART
+    name: PointContext
+    chart: DonutPointContext
+    label: null
+    cells: 4
+    height: 360
+  - type: CHART
+    name: QualityByHour
+    chart: ColumnQualityByHour
+    label: null
+    cells: 6
+    height: 360
+  - type: CHART
+    name: PointsWithIssues
+    chart: BarPointsWithIssues
+    label: null
+    cells: 6
+    height: 360
+requiredRole: ''
+parameters: []
+globalSlicers: []

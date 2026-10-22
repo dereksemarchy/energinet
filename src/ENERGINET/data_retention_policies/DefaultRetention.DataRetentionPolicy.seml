@@ -1,0 +1,16 @@
+_package: ENERGINET.data_retention_policies
+_type: DataRetentionPolicy
+_name: DefaultRetention
+description: Default data retention policy.
+historyType: FOREVER
+historyDuration: 1
+historyUnit: YEAR
+deletionsType: FOREVER
+deletionsDuration: 1
+deletionsUnit: YEAR
+sourceDataType: FOREVER
+sourceDataDuration: 1
+sourceDataUnit: YEAR
+sourceErrorsType: FOREVER
+sourceErrorsDuration: 1
+sourceErrorsUnit: YEAR

@@ -1,0 +1,54 @@
+_package: ENERGINET.data_product_priv_grants
+_name: SemAdmin
+_type: DataProductPrivGrant
+roleName: semarchyAdmin
+label: Semarchy administrator
+description: 'Platform administrators: full access, data administration and loads.'
+integrationWsRole: true
+dataAdminRole: true
+entityPrivGrants:
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Substation.Substation
+  _name: Substation
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  _name: TransmissionLine
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Asset.Asset
+  _name: Asset
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  _name: MeasurementPoint
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Measurement.Measurement
+  _name: Measurement
+  checkoutAllowed: true
+  createAllowed: true
+  deleteAllowed: true
+  exportAllowed: true
+  removeAllowed: true
+  defaultAccessType: READ_WRITE

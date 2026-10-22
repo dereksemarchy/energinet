@@ -1,0 +1,36 @@
+_package: ENERGINET.entities.Substation.steppers
+_type: Stepper
+_name: AuthorSubstation
+entity: ENERGINET.entities.Substation.Substation
+label: Substations
+rootStep:
+  _type: CollectionStep
+  _name: SubstationCollection
+  label: Substations
+  canFinishSubLevel: true
+  enabledOnParentCreate: true
+  enabledOnParentEdit: true
+  formFieldsMode: AUTO
+  linear: false
+  childDeleteType: HARD_DELETE
+  collectionView: ENERGINET.entities.Substation.collection_views.SubstationCollectionView
+  defaultDisplayType: TABLE
+  customSortEnabled: false
+  userDefinedSortEnabled: true
+  displayGridAllowed: false
+  displayListAllowed: true
+  displayTableAllowed: true
+  useCustomCollectionLabel: false
+  childSteps:
+  - _type: FormStep
+    _name: Substation
+    label: Substation
+    canFinishSubLevel: true
+    enabledOnParentCreate: true
+    enabledOnParentEdit: true
+    formFieldsMode: AUTO
+    enableMasterValuePicking: false
+    formTab: ENERGINET.entities.Substation.forms.SubstationForm.Substation
+    formStepEnrichers:
+    - enricher: ENERGINET.entities.Substation.enrichers.TrimSubstationName
+      executedOnDataChange: true

@@ -1,0 +1,34 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: MeasurementType
+label: Measurement type
+description: Physical quantity a measurement point captures.
+length: 20
+lovValues:
+- code: ACTIVE_POWER
+  label: Active power
+  description: Real power flow (SCADA).
+- code: REACTIVE_POWER
+  label: Reactive power
+  description: Reactive power flow (SCADA).
+- code: VOLTAGE
+  label: Voltage magnitude
+  description: Voltage magnitude (SCADA or PMU).
+- code: CURRENT
+  label: Current
+  description: Current magnitude (SCADA or PMU).
+- code: FREQUENCY
+  label: Frequency
+  description: System frequency (PMU).
+- code: PHASE_ANGLE
+  label: Voltage phase angle
+  description: Synchrophasor angle (PMU).
+- code: THD
+  label: Total harmonic distortion
+  description: Power-quality indicator (PQ meter).
+- code: TEMPERATURE
+  label: Temperature
+  description: Ambient or equipment temperature (sensor).
+- code: OIL_TEMPERATURE
+  label: Oil temperature
+  description: Transformer top-oil temperature (sensor).

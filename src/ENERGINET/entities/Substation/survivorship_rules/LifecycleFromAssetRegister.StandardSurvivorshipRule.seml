@@ -1,0 +1,16 @@
+_package: ENERGINET.entities.Substation.survivorship_rules
+_type: StandardSurvivorshipRule
+_name: LifecycleFromAssetRegister
+entity: ENERGINET.entities.Substation.Substation
+label: Lifecycle (asset register first)
+description: Status, commissioning date and description come from the asset register first.
+documentation: Status, commissioning date and description come from the asset register first.
+defaultRule: false
+consolidationStrategy: CUSTOM_RANKING
+consolidationSkipNulls: false
+overrideStrategy: UNTIL_CONSOLIDATED_VAL_CHANGE
+attributes:
+- attributeName: OperatingStatus
+- attributeName: CommissioningDate
+- attributeName: Description
+consolidationOrderByExpression: CASE PublisherID WHEN 'EAM' THEN 1 WHEN 'NETMODEL' THEN 2 WHEN 'UI' THEN 3 ELSE 4 END

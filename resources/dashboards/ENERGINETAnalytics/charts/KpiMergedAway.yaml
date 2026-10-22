@@ -1,0 +1,20 @@
+label: Source records merged away
+documentation: Source records that did not become a golden record of their own because they describe the same substation
+  or asset as another source (network model + asset register).
+chartType: NUMBER
+pivotQuery:
+  query: Consolidation
+  measures:
+  - name: Merged
+    label: Merged away
+    attribute: Records merged away
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+  additionalParameters: []
+labelPlacement: TOP

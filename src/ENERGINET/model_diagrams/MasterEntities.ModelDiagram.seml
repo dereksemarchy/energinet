@@ -1,0 +1,82 @@
+_package: ENERGINET.model_diagrams
+_type: ModelDiagram
+_name: MasterEntities
+label: Grid asset data product
+description: Entities and relationships of the ENERGINET data product.
+attributeNameFormat: LABEL
+entityNameFormat: LABEL
+referenceRoleNameFormat: LABEL
+referenceNameFormat: LABEL
+showAttributeDataType: false
+showForeignAttribute: true
+showInheritLinkName: false
+showInheritedAttributes: true
+showReferenceCardinality: true
+showReferenceName: false
+showReferenceRoles: true
+entityShapes:
+- _type: EntityShape
+  _name: Substation
+  entity: ENERGINET.entities.Substation.Substation
+  borderColor: '#1565c0'
+  fontTitleColor: ''
+  height: -1
+  position:
+    x: -600
+    y: -400
+  width: -1
+- _type: EntityShape
+  _name: Asset
+  entity: ENERGINET.entities.Asset.Asset
+  borderColor: '#6a1b9a'
+  fontTitleColor: ''
+  height: -1
+  position:
+    x: -80
+    y: -400
+  width: -1
+- _type: EntityShape
+  _name: TransmissionLine
+  entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  borderColor: '#00838f'
+  fontTitleColor: ''
+  height: -1
+  position:
+    x: 440
+    y: -400
+  width: -1
+- _type: EntityShape
+  _name: MeasurementPoint
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  borderColor: '#2e7d32'
+  fontTitleColor: ''
+  height: -1
+  position:
+    x: 960
+    y: -400
+  width: -1
+- _type: EntityShape
+  _name: Measurement
+  entity: ENERGINET.entities.Measurement.Measurement
+  borderColor: '#ef6c00'
+  fontTitleColor: ''
+  height: -1
+  position:
+    x: -600
+    y: 120
+  width: -1
+referenceLinks:
+- bendPoints: []
+  reference: ENERGINET.references.AssetInSubstation
+- bendPoints: []
+  reference: ENERGINET.references.PointInSubstation
+- bendPoints: []
+  reference: ENERGINET.references.PointMeasuresAsset
+- bendPoints: []
+  reference: ENERGINET.references.PointOnLine
+- bendPoints: []
+  reference: ENERGINET.references.MeasurementOfPoint
+- bendPoints: []
+  reference: ENERGINET.references.LineFromSubstation
+- bendPoints: []
+  reference: ENERGINET.references.LineToSubstation

@@ -1,0 +1,204 @@
+_package: ENERGINET.entities.Asset.business_views
+_type: BusinessView
+_name: AssetBusinessView
+entity: ENERGINET.entities.Asset.Asset
+rootLabel: Assets
+rootPluralLabel: Assets
+displayRootNodeAs: ICON_LABEL
+label: Asset
+rootBusinessViewEntity:
+  _type: BusinessViewEntity
+  _name: Asset
+  entity: ENERGINET.entities.Asset.Asset
+  actionSet: ENERGINET.entities.Asset.action_sets.AssetActionSet
+  collection: ENERGINET.entities.Asset.collection_views.AssetBrowseCollectionView
+  form: ENERGINET.entities.Asset.forms.AssetForm
+  outlineVisible: false
+  displayRecordCount: ALWAYS
+  displayCard: ENERGINET.entities.Asset.display_cards.AssetBrowseDisplayCard
+  businessEntitySearchConfigs:
+  - _name: TextConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: TEXT
+  - _name: FormConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: BY_FORM
+  - _name: AdvancedConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: ADVANCED
+  - _name: SemqlConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: SEMQL
+  overrideDefaultSort: false
+  enableUserDefinedSort: true
+  listAllowed: true
+  tableAllowed: true
+  gridAllowed: true
+  businessEntityBuiltInFilters:
+  - _type: BusinessEntityBuiltInFilter
+    _name: SuggestedMerges
+    label: Suggestions to validate
+    description: Records the application suggests bringing together as the same record, waiting for confirmation.
+    semQlCondition: SuggestedMergeID IS NOT NULL
+    visible: true
+  - _type: BusinessEntityBuiltInFilter
+    _name: SuspectDuplicates
+    label: Suspect duplicates
+    description: Records brought together automatically with a lower certainty, worth a review.
+    semQlCondition: MastersCount > 1 and ConfirmationStatus = 'PARTIALLY_CONFIRMED'
+    visible: true
+  - _type: BusinessEntityBuiltInFilter
+    _name: AssetFutureCommissioning
+    label: In service, commissioned in the future
+    semQlCondition: OperatingStatus = 'IN_SERVICE' AND CommissioningDate > NOW()
+    visible: true
+  transitions:
+  - _type: BusinessViewTransition
+    _name: PointsTab
+    label: Measurement points
+    useCustomLabel: true
+    transitionPath: MeasurementPoints
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: PointsTabEnt
+      entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+      actionSet: ENERGINET.entities.MeasurementPoint.action_sets.MeasurementPointActionSet
+      collection: ENERGINET.entities.MeasurementPoint.collection_views.MeasurementPointCollectionView
+      form: ENERGINET.entities.MeasurementPoint.forms.MeasurementPointForm
+      displayCard: ENERGINET.entities.MeasurementPoint.display_cards.MeasurementPointDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Measurement points
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/gauge.svg
+    visibleInFormTabCondition: any MeasurementPoints has (1=1)
+  - _type: BusinessViewTransition
+    _name: MasterRecords
+    transitionType: FULLY_QUALIFIED
+    transitionPath: MasterRecords
+    useCustomLabel: true
+    label: Contributing sources
+    pluralLabel: Contributing sources
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/puzzle.svg
+    filter: '1 = 1'
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: AssetMaster
+      entity: ENERGINET.entities.Asset.Asset
+      collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+      form: ENERGINET.entities.Asset.forms.AssetForm
+      displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+      displayRecordCount: ALWAYS
+      enableUserDefinedSort: true
+      outlineVisible: false
+      overrideDefaultSort: false
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      transitions:
+      - _type: BusinessViewTransition
+        _name: SourceRecords
+        transitionType: FULLY_QUALIFIED
+        transitionPath: SourceRecords
+        useCustomLabel: true
+        label: Source data
+        pluralLabel: Source data
+        displayFormTabAs: ICON_LABEL
+        displayTransitionNodeAs: ICON_LABEL
+        iconUrl: images://mdi/database-arrow-right.svg
+        filter: '1 = 1'
+        businessViewEntity:
+          _type: BusinessViewEntity
+          _name: AssetSource
+          entity: ENERGINET.entities.Asset.Asset
+          collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+          form: ENERGINET.entities.Asset.forms.AssetForm
+          displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+          displayRecordCount: ALWAYS
+          enableUserDefinedSort: true
+          outlineVisible: false
+          overrideDefaultSort: false
+          listAllowed: true
+          tableAllowed: true
+          gridAllowed: false
+          businessEntitySearchConfigs:
+          - _name: TextConfig
+            _type: BusinessEntitySearchTypeConfig
+            searchType: TEXT
+      - _type: BusinessViewTransition
+        _name: MasterHistory
+        transitionType: FULLY_QUALIFIED
+        transitionPath: MasterHistoryRecords
+        useCustomLabel: true
+        label: Source history
+        pluralLabel: Source history
+        displayFormTabAs: ICON_LABEL
+        displayTransitionNodeAs: ICON_LABEL
+        iconUrl: images://mdi/history.svg
+        filter: '1 = 1'
+        businessViewEntity:
+          _type: BusinessViewEntity
+          _name: AssetMasterHist
+          entity: ENERGINET.entities.Asset.Asset
+          collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+          form: ENERGINET.entities.Asset.forms.AssetForm
+          displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+          displayRecordCount: ALWAYS
+          enableUserDefinedSort: true
+          outlineVisible: false
+          overrideDefaultSort: false
+          listAllowed: true
+          tableAllowed: true
+          gridAllowed: false
+          businessEntitySearchConfigs:
+          - _name: TextConfig
+            _type: BusinessEntitySearchTypeConfig
+            searchType: TEXT
+  - _type: BusinessViewTransition
+    _name: GoldenHistory
+    transitionType: FULLY_QUALIFIED
+    transitionPath: GoldenHistoryRecords
+    useCustomLabel: true
+    label: Change history
+    pluralLabel: Change history
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/history.svg
+    filter: '1 = 1'
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: AssetGoldenHist
+      entity: ENERGINET.entities.Asset.Asset
+      collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+      form: ENERGINET.entities.Asset.forms.AssetForm
+      displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+      displayRecordCount: ALWAYS
+      enableUserDefinedSort: true
+      outlineVisible: false
+      overrideDefaultSort: false
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+enableHierarchyView: false
+useHierarchyOnOpen: false

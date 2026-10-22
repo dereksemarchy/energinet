@@ -1,0 +1,75 @@
+_package: ENERGINET.entities.MeasurementPoint.business_views
+_type: BusinessView
+_name: MeasurementPointBusinessView
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+rootLabel: Measurement points
+rootPluralLabel: Measurement points
+displayRootNodeAs: ICON_LABEL
+label: Measurement point
+rootBusinessViewEntity:
+  _type: BusinessViewEntity
+  _name: MeasurementPoint
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  actionSet: ENERGINET.entities.MeasurementPoint.action_sets.MeasurementPointActionSet
+  collection: ENERGINET.entities.MeasurementPoint.collection_views.MeasurementPointCollectionView
+  form: ENERGINET.entities.MeasurementPoint.forms.MeasurementPointForm
+  outlineVisible: false
+  displayRecordCount: ALWAYS
+  displayCard: ENERGINET.entities.MeasurementPoint.display_cards.MeasurementPointDisplayCard
+  businessEntitySearchConfigs:
+  - _name: TextConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: TEXT
+  - _name: FormConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: BY_FORM
+  - _name: AdvancedConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: ADVANCED
+  - _name: SemqlConfig
+    _type: BusinessEntitySearchTypeConfig
+    searchType: SEMQL
+  overrideDefaultSort: false
+  enableUserDefinedSort: true
+  listAllowed: true
+  tableAllowed: true
+  gridAllowed: true
+  businessEntityBuiltInFilters:
+  - _type: BusinessEntityBuiltInFilter
+    _name: PointAssetElsewhere
+    label: Asset in another substation
+    semQlCondition: FID_Asset IS NOT NULL AND Asset.FID_Substation <> FID_Substation
+    visible: true
+  transitions:
+  - _type: BusinessViewTransition
+    _name: MeasurementsTab
+    label: Measurements
+    useCustomLabel: true
+    transitionPath: Measurements
+    transitionType: FULLY_QUALIFIED
+    businessViewEntity:
+      _type: BusinessViewEntity
+      _name: MeasurementsTabEnt
+      entity: ENERGINET.entities.Measurement.Measurement
+      actionSet: ENERGINET.entities.Measurement.action_sets.MeasurementActionSet
+      collection: ENERGINET.entities.Measurement.collection_views.MeasurementCollectionView
+      form: ENERGINET.entities.Measurement.forms.MeasurementForm
+      displayCard: ENERGINET.entities.Measurement.display_cards.MeasurementDisplayCard
+      outlineVisible: false
+      displayRecordCount: ALWAYS
+      businessEntitySearchConfigs:
+      - _name: TextConfig
+        _type: BusinessEntitySearchTypeConfig
+        searchType: TEXT
+      overrideDefaultSort: false
+      enableUserDefinedSort: true
+      listAllowed: true
+      tableAllowed: true
+      gridAllowed: false
+    pluralLabel: Measurements
+    displayFormTabAs: ICON_LABEL
+    displayTransitionNodeAs: ICON_LABEL
+    iconUrl: images://mdi/chart-line.svg
+    visibleInFormTabCondition: any Measurements has (1=1)
+enableHierarchyView: false
+useHierarchyOnOpen: false

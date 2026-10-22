@@ -1,0 +1,16 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: LineType
+label: Line type
+description: Construction type of a transmission line.
+length: 20
+lovValues:
+- code: OVERHEAD
+  label: Overhead line
+  description: Conductors carried by towers.
+- code: UNDERGROUND_CABLE
+  label: Underground cable
+  description: Buried land cable.
+- code: SUBMARINE_CABLE
+  label: Submarine cable
+  description: Sea cable, including interconnectors.

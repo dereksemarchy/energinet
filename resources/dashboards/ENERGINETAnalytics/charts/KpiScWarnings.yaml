@@ -1,0 +1,19 @@
+label: Open warnings
+chartType: NUMBER
+pivotQuery:
+  query: Warnings
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+documentation: ''
+labelPlacement: TOP

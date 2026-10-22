@@ -1,0 +1,10 @@
+_package: ENERGINET.entities.Asset.enrichers
+_name: ComputeAge
+_type: SemQLEnricher
+entity: ENERGINET.entities.Asset.Asset
+label: Compute age
+description: Whole years between the commissioning date and the certification date.
+enricherExecutionScope: POST_CONSO
+semQlEnricherExpressions:
+- attributeName: AgeYears
+  expression: SEM_CAST_INTEGER(DATE_PART('year', AGE(NOW(), CommissioningDate)))

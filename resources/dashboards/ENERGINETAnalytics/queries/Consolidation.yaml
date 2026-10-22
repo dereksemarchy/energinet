@@ -1,0 +1,60 @@
+dataSource: GridData
+sql: |-
+  select 'Substation' as "Entity", substationcode as "Record key", 1 as "Golden records",
+         b_masterscount as "Source records", b_masterscount - 1 as "Records merged away",
+         case when b_masterscount = 1 then '1 source' else b_masterscount || ' sources' end as "Sources consolidated"
+    from gd_substation
+  union all
+  select 'Asset', cast(assetid as varchar), 1, b_masterscount, b_masterscount - 1,
+         case when b_masterscount = 1 then '1 source' else b_masterscount || ' sources' end
+    from gd_asset
+attributes:
+  Entity:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Record key:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Golden records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Source records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Records merged away:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Sources consolidated:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+exportEnabled: true

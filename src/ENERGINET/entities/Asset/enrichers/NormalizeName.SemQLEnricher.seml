@@ -1,0 +1,10 @@
+_package: ENERGINET.entities.Asset.enrichers
+_name: NormalizeName
+_type: SemQLEnricher
+entity: ENERGINET.entities.Asset.Asset
+label: Normalize name for matching
+description: 'Builds the matching key: Danish letters transliterated, accents folded, upper case, everything but letters and digits removed.'
+enricherExecutionScope: PRE_CONSO
+semQlEnricherExpressions:
+- attributeName: NormalizedName
+  expression: REGEXP_REPLACE(UPPER(SEM_NORMALIZE(REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(AssetName, '[Ææ]', 'AE', 'g'), '[Øø]', 'O', 'g'), '[Åå]', 'AA', 'g'))), '[^A-Z0-9]', '', 'g')

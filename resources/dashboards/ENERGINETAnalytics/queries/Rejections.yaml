@@ -1,0 +1,41 @@
+dataSource: GridData
+sql: |-
+  with e as (
+    select 'Substation' as entity, b_constraintname as rule from se_substation
+    union all select 'Asset', b_constraintname from se_asset
+    union all select 'Transmission line', b_constraintname from ae_transmissionline
+    union all select 'Measurement point', b_constraintname from ae_measurementpoint
+    union all select 'Measurement', b_constraintname from ae_measurement)
+  select entity as "Entity", 1 as "Records",
+         case when rule ilike '%SourceIdentifier%' then 'Source identifier required'
+              when rule ilike '%DistinctEndpoints%' then 'Distinct endpoints'
+              when rule ilike '%PositiveLength%' then 'Positive length'
+              when rule ilike '%AlarmLimitsOrdered%' then 'Alarm limits ordered'
+              when rule ilike '%ValueRange%' then 'Consistent value range'
+              else coalesce(rule, '(unnamed)') end as "Rule"
+    from e
+attributes:
+  Entity:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Rule:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+exportEnabled: true

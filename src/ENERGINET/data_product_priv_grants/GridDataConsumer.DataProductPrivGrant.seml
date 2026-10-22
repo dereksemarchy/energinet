@@ -1,0 +1,52 @@
+_package: ENERGINET.data_product_priv_grants
+_name: GridDataConsumer
+_type: DataProductPrivGrant
+roleName: GridDataConsumer
+label: Grid data consumer
+description: Read-only access for control-centre, planning, analytics and asset-management consumers.
+entityPrivGrants:
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Substation.Substation
+  _name: Substation
+  checkoutAllowed: true
+  createAllowed: false
+  deleteAllowed: false
+  exportAllowed: true
+  removeAllowed: false
+  defaultAccessType: READ
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  _name: TransmissionLine
+  checkoutAllowed: true
+  createAllowed: false
+  deleteAllowed: false
+  exportAllowed: true
+  removeAllowed: false
+  defaultAccessType: READ
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Asset.Asset
+  _name: Asset
+  checkoutAllowed: true
+  createAllowed: false
+  deleteAllowed: false
+  exportAllowed: true
+  removeAllowed: false
+  defaultAccessType: READ
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  _name: MeasurementPoint
+  checkoutAllowed: true
+  createAllowed: false
+  deleteAllowed: false
+  exportAllowed: true
+  removeAllowed: false
+  defaultAccessType: READ
+- _type: EntityPrivGrant
+  entity: ENERGINET.entities.Measurement.Measurement
+  _name: Measurement
+  checkoutAllowed: true
+  createAllowed: false
+  deleteAllowed: false
+  exportAllowed: true
+  removeAllowed: false
+  defaultAccessType: READ

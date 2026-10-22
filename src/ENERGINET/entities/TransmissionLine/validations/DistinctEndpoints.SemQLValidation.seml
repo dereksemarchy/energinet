@@ -1,0 +1,9 @@
+_package: ENERGINET.entities.TransmissionLine.validations
+_name: DistinctEndpoints
+_type: SemQLValidation
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+label: Distinct endpoints
+description: A line cannot start and end in the same substation.
+validationScope: PRE_CONSO
+validationLabel: A line must connect two different substations.
+condition: FID_FromSubstation IS NULL OR FID_ToSubstation IS NULL OR FID_FromSubstation <> FID_ToSubstation

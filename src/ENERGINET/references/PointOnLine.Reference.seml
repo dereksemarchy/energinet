@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Measurement point - Line
+_name: PointOnLine
+description: Line-end measurement (power flow, phasors).
+documentation: Line-end measurement (power flow, phasors).
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+fromRoleName: MeasurementPoints
+fromRoleLabel: Measurement points
+fromRolePluralLabel: Measurement points
+physicalName: POINTONLINE
+toEntity: ENERGINET.entities.TransmissionLine.TransmissionLine
+toRoleName: TransmissionLine
+toRolePhysicalName: LINE_REF
+toRoleLabel: Transmission line
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: TransmissionLine
+  entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+  label: Transmission line
+  physicalName: LINE_REF
+  searchable: true

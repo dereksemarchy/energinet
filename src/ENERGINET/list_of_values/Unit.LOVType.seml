@@ -1,0 +1,31 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: Unit
+label: Unit
+description: Engineering unit of the measured values.
+length: 5
+lovValues:
+- code: MW
+  label: MW
+  description: Megawatt.
+- code: MVAR
+  label: Mvar
+  description: Megavolt-ampere reactive.
+- code: KV
+  label: kV
+  description: Kilovolt.
+- code: A
+  label: A
+  description: Ampere.
+- code: HZ
+  label: Hz
+  description: Hertz.
+- code: DEG
+  label: deg
+  description: Angle in degrees.
+- code: PCT
+  label: '%'
+  description: Percentage.
+- code: DEGC
+  label: °C
+  description: Degree Celsius.

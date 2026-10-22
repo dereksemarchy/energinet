@@ -1,0 +1,19 @@
+label: Measurement points
+chartType: NUMBER
+pivotQuery:
+  query: PointProfile
+  measures:
+  - name: Points
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+documentation: ''
+labelPlacement: TOP

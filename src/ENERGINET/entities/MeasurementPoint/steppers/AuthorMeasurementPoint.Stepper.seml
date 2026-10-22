@@ -1,0 +1,41 @@
+_package: ENERGINET.entities.MeasurementPoint.steppers
+_type: Stepper
+_name: AuthorMeasurementPoint
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+label: Measurement points
+rootStep:
+  _type: CollectionStep
+  _name: MeasurementPointCollection
+  label: Measurement points
+  canFinishSubLevel: true
+  enabledOnParentCreate: true
+  enabledOnParentEdit: true
+  formFieldsMode: AUTO
+  linear: false
+  childDeleteType: HARD_DELETE
+  collectionView: ENERGINET.entities.MeasurementPoint.collection_views.MeasurementPointCollectionView
+  defaultDisplayType: TABLE
+  customSortEnabled: false
+  userDefinedSortEnabled: true
+  displayGridAllowed: false
+  displayListAllowed: true
+  displayTableAllowed: true
+  useCustomCollectionLabel: false
+  childSteps:
+  - _type: FormStep
+    _name: MeasurementPoint
+    label: Measurement point
+    canFinishSubLevel: true
+    enabledOnParentCreate: true
+    enabledOnParentEdit: true
+    formFieldsMode: AUTO
+    enableMasterValuePicking: false
+    formTab: ENERGINET.entities.MeasurementPoint.forms.MeasurementPointForm.MeasurementPoint
+    formStepEnrichers:
+    - enricher: ENERGINET.entities.MeasurementPoint.enrichers.TrimPointName
+      executedOnDataChange: true
+    formStepValidations:
+    - validationType: CHECK
+      validator: ENERGINET.entities.MeasurementPoint.validations.AlarmLimitsOrdered
+      executedOnDataChange: true
+      executedOnFormOpen: true

@@ -1,0 +1,22 @@
+label: Assets by age band
+chartType: COLUMN
+pivotQuery:
+  query: AssetProfile
+  rows:
+  - name: AgeBand
+    attribute: Age band
+    valuesSortStrategy:
+      sortBy: DIMENSION
+      sortDirection: ASC
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - Substation
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+documentation: ''
+labelPlacement: TOP

@@ -1,0 +1,7 @@
+{
+  "name": "GridDataConsumer",
+  "label": "Grid data consumer",
+  "description": "Read-only access for control-centre, planning, analytics and asset-management consumers.",
+  "emails": [],
+  "grants": []
+}

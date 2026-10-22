@@ -1,0 +1,6 @@
+_package: ENERGINET.publishers
+_name: HISTORIAN
+_type: Publisher
+label: Measurement historian
+active: true
+code: HISTORIAN

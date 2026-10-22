@@ -1,0 +1,100 @@
+_package: ENERGINET.entities.Asset.action_sets
+_type: ActionSet
+_name: AssetActionSet
+entity: ENERGINET.entities.Asset.Asset
+label: Asset actions
+defaultActionSet: true
+actions:
+- _type: CreateAction
+  _name: Create
+  label: Create
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  createMultiple: false
+  createdRecordType: GOLDEN
+  waitDialogEnabled: false
+  allowOtherPublishers: true
+- _type: EditAction
+  _name: Edit
+  label: Edit
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  multipleSelectionAllowed: true
+  availableForGoldenData: true
+  availableForMasterData: false
+  availableForErrorData: false
+  waitDialogEnabled: false
+- _type: MassUpdateAction
+  _name: MassUpdate
+  label: Mass update
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  availableForGoldenData: true
+  availableForErrorData: false
+  availableForMasterData: false
+  waitDialogEnabled: false
+- _type: DeleteAction
+  _name: Delete
+  label: Delete
+  useCustomLabel: true
+  multipleSelectionAllowed: true
+  deleteType: HARD_DELETE
+  waitDialogEnabled: false
+  availableForGoldenData: true
+  availableForMasterData: false
+- _type: ExportAction
+  _name: Export
+  label: Export
+  useCustomLabel: true
+  waitDialogEnabled: false
+- _type: ImportAction
+  _name: Import
+  label: Import
+  useCustomLabel: true
+  importMode: CREATE_AND_UPDATE
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  importedRecordType: MASTER
+  waitDialogEnabled: false
+  allowOtherPublishers: true
+- _type: StartWorkflowEntityAction
+  _name: StartApproval
+  label: Submit for approval
+  useCustomLabel: true
+  startEvent: ENERGINET.workflows.AssetChangeApproval.Start
+  waitDialogEnabled: false
+- _type: DirectConfirmDupsAction
+  _name: DirectConfirmDuplicates
+  label: Direct confirmation
+  useCustomLabel: false
+  waitDialogEnabled: false
+- _type: ReviewAndConfirm
+  _name: ReviewAndConfirm
+  label: Review and confirm duplicates
+  useCustomLabel: true
+  dupsManager: ENERGINET.entities.Asset.dups_managers.ManageAssetDups
+  enableEdit: true
+  mandateConfirmAll: false
+  waitDialogEnabled: false
+- _type: MergeOrSplit
+  _name: MergeOrSplit
+  label: Merge or split
+  useCustomLabel: true
+  dupsManager: ENERGINET.entities.Asset.dups_managers.ManageAssetDups
+  enableEdit: true
+  waitDialogEnabled: false
+- _type: ReviewSuggestions
+  _name: ReviewSuggestions
+  label: Review suggestions
+  useCustomLabel: true
+  dupsManager: ENERGINET.entities.Asset.dups_managers.ManageAssetDups
+  enableEdit: true
+  waitDialogEnabled: false
+  onAcceptPromptGoldenId: false
+  mandateResolveAllSuggestions: false
+- _type: ExplainRecordAction
+  _name: ExplainRecord
+  label: Explain record
+  useCustomLabel: true
+  displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+  formTab: ENERGINET.entities.Asset.forms.AssetForm.Asset
+  waitDialogEnabled: false

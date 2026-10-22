@@ -1,0 +1,130 @@
+_package: ENERGINET.entities.MeasurementPoint
+_type: Entity
+_name: MeasurementPoint
+label: Measurement point
+pluralLabel: Measurement points
+entityType: BASIC
+physicalTableName: MEASUREMENTPOINT
+iconUrl: images://mdi/gauge.svg
+description: |-
+  Catalogue entry of one measured signal (SCADA point, PMU channel, power-quality meter or sensor): what is measured, where, by which device, in which unit and at which rate. It links an operational data stream to its network context.
+
+  AI agent instructions: The raw stream stays in the historian under the same PointTag; this record describes it. The unit of every value of the point is the Unit attribute.
+documentation: |-
+  Catalogue entry of one measured signal (SCADA point, PMU channel, power-quality meter or sensor): what is measured, where, by which device, in which unit and at which rate. It links an operational data stream to its network context.
+
+  AI agent instructions: The raw stream stays in the historian under the same PointTag; this record describes it. The unit of every value of the point is the Unit attribute.
+historizeGolden: true
+historizeMaster: false
+enableDelete: true
+attributes:
+- _type: EntityAttribute
+  _name: PointTag
+  label: Point tag
+  physicalName: POINTTAG
+  dataType: String
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: SCADA / PMU tag of the signal.
+  documentation: SCADA / PMU tag of the signal.
+  length: 80
+- _type: EntityAttribute
+  _name: PointName
+  label: Point name
+  physicalName: POINTNAME
+  dataType: String
+  length: 150
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: Human-readable signal name.
+  documentation: Human-readable signal name.
+- _type: EntityAttribute
+  _name: MeasurementType
+  label: Measurement type
+  physicalName: MEASUREMENTTYPE
+  dataType: ENERGINET.list_of_values.MeasurementType
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Measured quantity.
+  documentation: Measured quantity.
+- _type: EntityAttribute
+  _name: Unit
+  label: Unit
+  physicalName: UNIT
+  dataType: ENERGINET.list_of_values.Unit
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Engineering unit.
+  documentation: Engineering unit.
+- _type: EntityAttribute
+  _name: DeviceType
+  label: Device type
+  physicalName: DEVICETYPE
+  dataType: ENERGINET.list_of_values.DeviceType
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Device producing the signal.
+  documentation: Device producing the signal.
+- _type: EntityAttribute
+  _name: Phase
+  label: Phase
+  physicalName: PHASE
+  dataType: ENERGINET.list_of_values.Phase
+  mandatory: false
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Electrical phase of the signal.
+  documentation: Electrical phase of the signal.
+- _type: EntityAttribute
+  _name: SamplingIntervalMs
+  label: Sampling interval (ms)
+  physicalName: SAMPLINGINTERVALMS
+  dataType: Integer
+  precision: 9
+  mandatory: false
+  searchable: true
+  description: Interval between two raw samples in milliseconds (e.g. 2000 for SCADA, 20 for PMU).
+  documentation: Interval between two raw samples in milliseconds (e.g. 2000 for SCADA, 20 for PMU).
+- _type: EntityAttribute
+  _name: AlarmLowLimit
+  label: Alarm low limit
+  physicalName: ALARMLOWLIMIT
+  dataType: Decimal
+  precision: 14
+  scale: 4
+  mandatory: false
+  searchable: true
+  description: Lower operating limit, in the point's unit.
+  documentation: Lower operating limit, in the point's unit.
+- _type: EntityAttribute
+  _name: AlarmHighLimit
+  label: Alarm high limit
+  physicalName: ALARMHIGHLIMIT
+  dataType: Decimal
+  precision: 14
+  scale: 4
+  mandatory: false
+  searchable: true
+  description: Upper operating limit, in the point's unit.
+  documentation: Upper operating limit, in the point's unit.
+- _type: EntityAttribute
+  _name: Active
+  label: Active
+  physicalName: ACTIVE
+  dataType: Boolean
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: The point is currently scanned.
+  documentation: The point is currently scanned.
+primaryKey: ENERGINET.entities.MeasurementPoint.MeasurementPoint.PointTag
+sourceIdGeneration:
+  mode: MANUAL

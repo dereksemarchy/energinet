@@ -1,0 +1,10 @@
+_package: ENERGINET.entities.Substation.enrichers
+_name: TrimSubstationName
+_type: SemQLEnricher
+entity: ENERGINET.entities.Substation.Substation
+label: Trim name
+description: Removes leading and trailing spaces from SubstationName.
+enricherExecutionScope: PRE_CONSO
+semQlEnricherExpressions:
+- attributeName: SubstationName
+  expression: RTRIM(LTRIM(SubstationName))

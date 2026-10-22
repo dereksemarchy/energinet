@@ -1,0 +1,25 @@
+label: Warning worklist detail
+chartType: PIVOT_TABLE
+pivotQuery:
+  query: Warnings
+  rows:
+  - name: Worklist
+    attribute: Worklist
+  - name: Entity
+    attribute: Entity
+  - name: Record
+    attribute: Record
+  - name: Substation
+    attribute: Substation
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+documentation: ''
+labelPlacement: TOP

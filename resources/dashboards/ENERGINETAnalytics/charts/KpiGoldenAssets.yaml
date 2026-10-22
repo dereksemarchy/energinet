@@ -1,0 +1,22 @@
+label: Golden assets
+chartType: NUMBER
+pivotQuery:
+  query: EntityVolumes
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+    format:
+      decimalPlaces: 0
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  columns: []
+  additionalParameters: []
+filters:
+- attribute: Entity
+  operator: EQUALS
+  value: Assets
+documentation: ''
+labelPlacement: TOP

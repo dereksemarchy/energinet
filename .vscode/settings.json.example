@@ -1,0 +1,52 @@
+// Semarchy SDP extension — WORKSPACE settings. One target per developer.
+//
+// HOW TO USE: copy this file to `.vscode/settings.json` and replace every <placeholder>
+// with YOUR own target. VS Code accepts these `//` comments in settings.json, so you can
+// keep them.
+//
+// WHY THIS FILE EXISTS: `.vscode/settings.json` is gitignored on purpose — it points the
+// IDE at a personal data location, so committing it hijacks every teammate's deploy
+// target. Only this .example is versioned. (It was tracked by mistake until 2026-08-21:
+// a .gitignore rule does not untrack an already-tracked file — `git rm --cached` does.)
+//
+// The IDE deploy and the CLI take the SAME settings:
+//   sem-design data-product deploy --data-product-folder "src/<Model>" \
+//     --instance-url <instanceUrl> --data-source <datasource> --data-location <dataLocation>
+//   (+ --enable-ai-preview when the model declares a Vector attribute)
+//
+// AUTHENTICATION is NOT configured here: run `sem-design auth login --url <tenant>` once
+// (browser device flow) and the shared session in ~/.sem/config.yaml covers the IDE, the
+// CLI deploys and the REST loads/query APIs — no secret to store. If you ever use a
+// key-based setting instead, keep it out of the repo (see tutorial § 2.5).
+{
+  // ---- Vector attributes (SEML 2.1+) -- REQUIRED to build a model that uses them ----
+  // `dataType: Vector` is gated behind this experimental setting in the IDE. The CLI equivalent is
+  // the `--enable-ai-preview` flag, on build AND deploy (measured on CLI 2.1.0). `--force` is NOT
+  // the way round it: the gate check returns BEFORE the vector validations, so forcing skips them
+  // and emits an unvalidated artifact. Leave both lines commented out unless the model actually
+  // declares a vector.
+  // "semarchy.experimental.enable": true,
+  // "semarchy.experimental.aiPreview": true,
+
+  // Tenant root — NO trailing slash and NO `/dm` suffix (SEML 2.0 / data products).
+  "semarchy.sdp.instanceUrl": "https://<tenant>.eu.semarchy.net",
+
+  // From DXP 2.1, LEAVE THIS SETTING OUT. Probe your instance if a deploy answers 404:
+  //     curl https://<tenant>/.well-known/sem-api
+  // (A) It answers 200 with apis.deploy.v1.baseUrl -> no overwrite. The deploy routes itself
+  //     and follows the platform.
+  // (B) No usable well-known -> set the FULL ENDPOINT url, never a component base.
+  // The POST goes to this value VERBATIM (nothing is appended), so a base such as
+  // `https://<tenant>/dpc` posts to that exact URL and the deploy fails with a bare `404 Not Found`
+  // right after a successful build - which looks like a model problem and is pure routing.
+  // "semarchy.sdp.overwriteDeploymentUrl": "<full endpoint, only in case (B)>",
+
+  // Target datasource. A data location occupies exactly ONE datasource; find a free one
+  // by crossing `sem dm data-locations` with `sem dm admin datasources`.
+  "semarchy.sdp.datasource": "<datasourceNN>",
+
+  // Target data location. Control what it already holds BEFORE deploying (pre-deploy
+  // guardrail): `sem dm data-locations get <DL>` — new DL / upgrade of the same data
+  // product / conflict with another one are three very different situations.
+  "semarchy.sdp.dataLocation": "<MY_DATA_LOCATION>"
+}

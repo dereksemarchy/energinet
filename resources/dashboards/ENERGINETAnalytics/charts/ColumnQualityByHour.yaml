@@ -1,0 +1,28 @@
+label: Non-good aggregates by hour (2026-10-14)
+chartType: COLUMN
+pivotQuery:
+  query: MeasurementQuality
+  rows:
+  - name: Hour
+    attribute: Hour
+    valuesSortStrategy:
+      sortBy: DIMENSION
+      sortDirection: ASC
+  columns:
+  - name: Quality
+    attribute: Quality
+  measures:
+  - name: Measurements
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+filters:
+- attribute: Quality status
+  operator: EQUALS
+  value: Not good
+documentation: ''
+labelPlacement: TOP

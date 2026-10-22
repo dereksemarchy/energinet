@@ -1,0 +1,9 @@
+_package: ENERGINET.entities.TransmissionLine.validations
+_name: PositiveLength
+_type: SemQLValidation
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+label: Positive length
+description: The circuit length, when known, is positive.
+validationScope: PRE_CONSO
+validationLabel: The line length must be greater than zero.
+condition: LengthKm IS NULL OR LengthKm > 0

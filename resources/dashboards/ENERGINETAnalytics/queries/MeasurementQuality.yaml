@@ -1,0 +1,93 @@
+dataSource: GridData
+sql: |-
+  select m.measurementid as "MeasurementID", 1 as "Records",
+         case m.qualityflag when 'GOOD' then 'Good' when 'SUSPECT' then 'Suspect' when 'BAD' then 'Bad'
+              when 'MISSING' then 'Missing' else '(not set)' end as "Quality",
+         case when m.qualityflag = 'GOOD' then 'Good' else 'Not good' end as "Quality status",
+         to_char(m.periodstart, 'HH24') || ':00' as "Hour",
+         m.f_point_ref as "PointTag",
+         coalesce(p.pointname, m.f_point_ref) as "Point",
+         case p.devicetype when 'SCADA_RTU' then 'SCADA RTU' when 'PMU' then 'PMU'
+              when 'PQ_METER' then 'Power-quality meter' when 'IOT_SENSOR' then 'IoT sensor'
+              else '(not set)' end as "Device type",
+         p.f_substation_ref as "SubstationCode",
+         coalesce(s.substationname, '(no substation)') as "Substation"
+    from gd_measurement m
+    left join gd_measurementpoint p on p.pointtag = m.f_point_ref
+    left join gd_substation s on s.substationcode = p.f_substation_ref
+attributes:
+  MeasurementID:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Quality:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Quality status:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Hour:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  PointTag:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Point:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Device type:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  SubstationCode:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Substation:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+exportEnabled: true

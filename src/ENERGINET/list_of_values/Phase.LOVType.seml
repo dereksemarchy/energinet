@@ -1,0 +1,22 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: Phase
+label: Phase
+description: Electrical phase of the signal.
+length: 15
+lovValues:
+- code: L1
+  label: L1
+  description: Phase 1.
+- code: L2
+  label: L2
+  description: Phase 2.
+- code: L3
+  label: L3
+  description: Phase 3.
+- code: THREE_PHASE
+  label: Three-phase
+  description: Aggregated over the three phases.
+- code: POS_SEQ
+  label: Positive sequence
+  description: Positive-sequence component, as published by PMUs.

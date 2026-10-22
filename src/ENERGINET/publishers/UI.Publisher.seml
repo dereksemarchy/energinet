@@ -1,0 +1,6 @@
+_package: ENERGINET.publishers
+_name: UI
+_type: Publisher
+label: Manual entry (data steward)
+active: true
+code: UI

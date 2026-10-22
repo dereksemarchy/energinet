@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.Asset.survivorship_rules
+_type: StandardSurvivorshipRule
+_name: TopologyFromNetworkModel
+entity: ENERGINET.entities.Asset.Asset
+label: Topology and naming (network model first)
+description: Name, mRID, voltage level and type come from the network model first.
+documentation: Name, mRID, voltage level and type come from the network model first.
+defaultRule: false
+consolidationStrategy: CUSTOM_RANKING
+consolidationSkipNulls: false
+overrideStrategy: UNTIL_CONSOLIDATED_VAL_CHANGE
+attributes:
+- attributeName: AssetName
+- attributeName: NetworkModelId
+- attributeName: VoltageLevel
+- attributeName: AssetType
+consolidationOrderByExpression: CASE PublisherID WHEN 'NETMODEL' THEN 1 WHEN 'EAM' THEN 2 WHEN 'UI' THEN 3 ELSE 4 END

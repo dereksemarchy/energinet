@@ -1,0 +1,25 @@
+label: Measurement points by measurement type and device
+chartType: BAR
+pivotQuery:
+  query: PointProfile
+  rows:
+  - name: MeasurementType
+    attribute: Measurement type
+    valuesSortStrategy:
+      sortBy: MEASURE
+      sortDirection: DESC
+      measureName: Points
+  columns:
+  - name: DeviceType
+    attribute: Device type
+  measures:
+  - name: Points
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+documentation: ''
+labelPlacement: TOP

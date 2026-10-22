@@ -1,0 +1,10 @@
+_package: ENERGINET
+_type: DataProductProfile
+_name: ENERGINET
+label: Grid Asset Data Product
+description: |-
+  Grid asset and measurement context data product of a transmission system operator: substations, grid equipment, transmission lines (topology from the network model), the catalogue of measurement points (SCADA, PMU, power-quality and sensor signals) and their 15-minute aggregates. Consumers: control-centre applications, operational planning, analytics and asset management.
+
+  AI agent instructions: Reason on golden records. Measurements are aggregates; raw streams stay in the operational historian under the measurement point tag. Units come from the measurement point.
+modelConfiguration:
+  type: POSTGRESQL

@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.Substation.display_cards
+_type: DisplayCard
+_name: SubstationDisplayCard
+entity: ENERGINET.entities.Substation.Substation
+default: true
+primaryTextExpression: SubstationName
+avatarImageValue: images://mdi/office-building-outline.svg
+primaryImageValueInterpreter: LITERAL
+avatarImageSourceType: URL
+primaryImageAlign: MIDDLE_CENTER
+primaryImageMode: FIT
+primaryImageFallbackValueInterpreter: LITERAL
+primaryImageFallbackSourceType: URL
+avatarImageValueInterpreter: LITERAL
+primaryImageSourceType: URL
+avatarImageAlign: MIDDLE_CENTER
+avatarImageMode: FIT

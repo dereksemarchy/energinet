@@ -1,0 +1,181 @@
+_package: ENERGINET.workflows
+_type: Workflow
+_name: AssetChangeApproval
+label: Asset change approval
+workflowAdminRole: GridDataOwner
+notifications:
+  workflowAdminOnDueDate: false
+generalProperties:
+  attachmentMaxFileCount: 5
+  attachmentMaxFileSize: 10000
+  attachmentMimeTypes: '*'
+retentionPolicy:
+  retentionTimeUnit: DAYS
+  retentionType: FOREVER
+dataScope:
+- _type: RootEntity
+  _name: Asset
+  entity: ENERGINET.entities.Asset.Asset
+  cardinality: SINGLE_RECORD
+  displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+steps:
+- _type: StartFromSelectionEvent
+  _name: Start
+  position:
+    x: -640
+    y: 0
+  label: Submit asset for approval
+  initiatorRequiredRole: GridDataSteward
+  defaultPriority: NORMAL
+  authoredEntity: ENERGINET.entities.Asset.Asset
+  selectionSourceType: GOLDEN_DATA
+  conditionOnSelection: '1=1'
+  startupParameters:
+    attachmentParamRequired: false
+    attachmentParamSupported: false
+    commentParamRequired: false
+    commentParamSupported: true
+    descriptionParamSupported: false
+    dueDateParamRequired: false
+    dueDateParamSupported: false
+    nextTaskAssigneeRequired: false
+    nextTaskAssigneeSupported: false
+    priorityParamSupported: false
+    showWaitDialog: true
+  transition:
+    _type: StartEventTransition
+    _name: outgoing
+    toStep: ENERGINET.workflows.AssetChangeApproval.Prepare
+    bendPoints: []
+- _type: UserTask
+  _name: Prepare
+  label: Prepare the asset change
+  icon: images://mdi/pencil.svg
+  position:
+    x: -400
+    y: 0
+  application: ENERGINET.applications.ENERGINET
+  assigneeRequiredRole: GridDataSteward
+  assigneeCanRelease: true
+  taskType: DATA_AUTHORING
+  notificationsOnTaskAssignment:
+    toAssignee: true
+    toCandidates: true
+  notificationsOnTaskExpiration:
+    taskMaxDuration: 0
+    toAdmin: false
+    toCandidatesOrAssignee: false
+    toRole: ''
+  notificationsOnWorkflowDueDate:
+    toCandidatesOrAssignee: false
+  entity: ENERGINET.entities.Asset.Asset
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  myTasksConfiguration:
+    collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+  transitions:
+  - _type: UserTaskTransition
+    _name: SubmitToOwner
+    label: Submit to data owner
+    toStep: ENERGINET.workflows.AssetChangeApproval.Approve
+    userTaskCompletionRequired: true
+    behaviorOnTransition: KEEP_DATA
+    showWaitDialog: true
+    transitionParameters:
+      nextTaskAssigneeSupported: false
+      nextTaskAssigneeRequired: false
+      descriptionParamSupported: false
+      commentParamSupported: true
+      commentParamRequired: false
+      priorityParamSupported: false
+      dueDateParamSupported: false
+      dueDateParamRequired: false
+      attachmentParamSupported: false
+      attachmentParamRequired: false
+    bendPoints: []
+- _type: UserTask
+  _name: Approve
+  label: Approve the asset change
+  icon: images://mdi/clipboard-check-outline.svg
+  position:
+    x: -120
+    y: 0
+  application: ENERGINET.applications.ENERGINET
+  assigneeRequiredRole: GridDataOwner
+  assigneeCanRelease: true
+  taskType: DATA_AUTHORING
+  notificationsOnTaskAssignment:
+    toAssignee: true
+    toCandidates: true
+  notificationsOnTaskExpiration:
+    taskMaxDuration: 0
+    toAdmin: false
+    toCandidatesOrAssignee: false
+    toRole: ''
+  notificationsOnWorkflowDueDate:
+    toCandidatesOrAssignee: false
+  entity: ENERGINET.entities.Asset.Asset
+  stepper: ENERGINET.entities.Asset.steppers.AuthorAsset
+  myTasksConfiguration:
+    collection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+  transitions:
+  - _type: UserTaskTransition
+    _name: ApproveChange
+    label: Approve and publish
+    toStep: ENERGINET.workflows.AssetChangeApproval.Publish
+    userTaskCompletionRequired: true
+    behaviorOnTransition: KEEP_DATA
+    showWaitDialog: true
+    transitionParameters:
+      nextTaskAssigneeSupported: false
+      nextTaskAssigneeRequired: false
+      descriptionParamSupported: false
+      commentParamSupported: true
+      commentParamRequired: false
+      priorityParamSupported: false
+      dueDateParamSupported: false
+      dueDateParamRequired: false
+      attachmentParamSupported: false
+      attachmentParamRequired: false
+    bendPoints: []
+  - _type: UserTaskTransition
+    _name: RejectChange
+    label: Reject - back to the data steward
+    toStep: ENERGINET.workflows.AssetChangeApproval.Prepare
+    userTaskCompletionRequired: false
+    behaviorOnTransition: KEEP_DATA
+    showWaitDialog: true
+    transitionParameters:
+      nextTaskAssigneeSupported: false
+      nextTaskAssigneeRequired: false
+      descriptionParamSupported: false
+      commentParamSupported: true
+      commentParamRequired: true
+      priorityParamSupported: false
+      dueDateParamSupported: false
+      dueDateParamRequired: false
+      attachmentParamSupported: false
+      attachmentParamRequired: false
+    bendPoints:
+    - x: -120
+      y: 140
+    - x: -400
+      y: 140
+- _type: SubmitAutomation
+  _name: Publish
+  label: Certify and publish the asset
+  position:
+    x: 140
+    y: 0
+  integrationJob: ENERGINET.certification_jobs.INGEST_ALL
+  submitUserExpression: WorkflowInstance.InitiatorName
+  transition:
+    _type: AutomationTransition
+    _name: outgoing
+    label: Outgoing
+    toStep: ENERGINET.workflows.AssetChangeApproval.End
+    bendPoints: []
+- _type: EndEvent
+  _name: End
+  position:
+    x: 380
+    y: 0

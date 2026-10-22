@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.Asset.dups_managers
+_type: DupsManager
+_name: ManageAssetDups
+label: Manage Asset duplicates
+description: Duplicate management space for Asset.
+entity: ENERGINET.entities.Asset.Asset
+enableMasterValuePicking: true
+displayCard: ENERGINET.entities.Asset.display_cards.AssetDisplayCard
+formTab: ENERGINET.entities.Asset.forms.AssetForm.Asset
+tableViewCollection: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+collectionView: ENERGINET.entities.Asset.collection_views.AssetCollectionView
+checkoutCustomSortEnabled: false
+checkoutUserDefinedSortEnabled: true
+checkoutDefaultDisplayType: TABLE
+checkoutDisplayGridAllowed: false
+checkoutDisplayListAllowed: true
+checkoutDisplayTableAllowed: true

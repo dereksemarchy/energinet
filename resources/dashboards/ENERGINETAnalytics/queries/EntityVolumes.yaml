@@ -1,0 +1,25 @@
+dataSource: GridData
+sql: |-
+  select 'Substations' as "Entity", 1 as "Records" from gd_substation
+  union all select 'Assets', 1 from gd_asset
+  union all select 'Transmission lines', 1 from gd_transmissionline
+  union all select 'Measurement points', 1 from gd_measurementpoint
+  union all select 'Measurements', 1 from gd_measurement
+attributes:
+  Entity:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+exportEnabled: true

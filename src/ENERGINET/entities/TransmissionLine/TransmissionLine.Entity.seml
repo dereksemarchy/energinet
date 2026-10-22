@@ -1,0 +1,100 @@
+_package: ENERGINET.entities.TransmissionLine
+_type: Entity
+_name: TransmissionLine
+label: Transmission line
+pluralLabel: Transmission lines
+entityType: BASIC
+physicalTableName: TRANSMISSIONLINE
+iconUrl: images://mdi/transmission-tower.svg
+description: |-
+  Overhead line or cable connecting two substations, from the authoritative network model.
+
+  AI agent instructions: A line is undirected electrically: From and To only record the modelling direction, so look at both sides when asking which lines connect a substation.
+documentation: |-
+  Overhead line or cable connecting two substations, from the authoritative network model.
+
+  AI agent instructions: A line is undirected electrically: From and To only record the modelling direction, so look at both sides when asking which lines connect a substation.
+historizeGolden: true
+historizeMaster: false
+enableDelete: true
+attributes:
+- _type: EntityAttribute
+  _name: LineCode
+  label: Line code
+  physicalName: LINECODE
+  dataType: String
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: Business key of the line in the network model.
+  documentation: Business key of the line in the network model.
+  length: 40
+- _type: EntityAttribute
+  _name: LineName
+  label: Line name
+  physicalName: LINENAME
+  dataType: String
+  length: 150
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  searchable: true
+  description: Name of the line.
+  documentation: Name of the line.
+- _type: EntityAttribute
+  _name: LineType
+  label: Line type
+  physicalName: LINETYPE
+  dataType: ENERGINET.list_of_values.LineType
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Overhead line or cable.
+  documentation: Overhead line or cable.
+- _type: EntityAttribute
+  _name: VoltageLevel
+  label: Voltage level
+  physicalName: VOLTAGELEVEL
+  dataType: ENERGINET.list_of_values.VoltageLevel
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Operating voltage of the line.
+  documentation: Operating voltage of the line.
+- _type: EntityAttribute
+  _name: LengthKm
+  label: Length (km)
+  physicalName: LENGTHKM
+  dataType: Decimal
+  precision: 8
+  scale: 2
+  mandatory: false
+  searchable: true
+  description: Circuit length in kilometres.
+  documentation: Circuit length in kilometres.
+- _type: EntityAttribute
+  _name: RatedCapacityMva
+  label: Rated capacity (MVA)
+  physicalName: RATEDCAPACITYMVA
+  dataType: Decimal
+  precision: 10
+  scale: 2
+  mandatory: false
+  searchable: true
+  description: Thermal rating in MVA.
+  documentation: Thermal rating in MVA.
+- _type: EntityAttribute
+  _name: OperatingStatus
+  label: Operating status
+  physicalName: OPERATINGSTATUS
+  dataType: ENERGINET.list_of_values.OperatingStatus
+  mandatory: true
+  mandatoryValidationScope: PRE_CONSO
+  lovValidationScope: PRE_CONSO
+  searchable: true
+  description: Operating status of the line.
+  documentation: Operating status of the line.
+primaryKey: ENERGINET.entities.TransmissionLine.TransmissionLine.LineCode
+sourceIdGeneration:
+  mode: MANUAL

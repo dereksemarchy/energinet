@@ -1,0 +1,10 @@
+_package: ENERGINET.entities.MeasurementPoint.enrichers
+_name: TrimPointName
+_type: SemQLEnricher
+entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+label: Trim name
+description: Removes leading and trailing spaces from PointName.
+enricherExecutionScope: PRE_CONSO
+semQlEnricherExpressions:
+- attributeName: PointName
+  expression: RTRIM(LTRIM(PointName))

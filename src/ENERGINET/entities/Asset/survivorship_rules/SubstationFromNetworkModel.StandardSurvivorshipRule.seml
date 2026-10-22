@@ -1,0 +1,14 @@
+_package: ENERGINET.entities.Asset.survivorship_rules
+_type: StandardSurvivorshipRule
+_name: SubstationFromNetworkModel
+entity: ENERGINET.entities.Asset.Asset
+label: Substation (network model first)
+description: The substation an asset belongs to is owned by the network model and cannot be overridden.
+documentation: The substation an asset belongs to is owned by the network model and cannot be overridden.
+defaultRule: false
+consolidationStrategy: CUSTOM_RANKING
+consolidationSkipNulls: false
+overrideStrategy: NO_OVERRIDE
+attributes:
+- attributeName: Substation
+consolidationOrderByExpression: CASE PublisherID WHEN 'NETMODEL' THEN 1 WHEN 'EAM' THEN 2 WHEN 'UI' THEN 3 ELSE 4 END

@@ -1,0 +1,29 @@
+label: Points with suspect or missing aggregates
+chartType: BAR
+pivotQuery:
+  query: MeasurementQuality
+  rows:
+  - name: Point
+    attribute: Point
+    valuesSortStrategy:
+      sortBy: MEASURE
+      sortDirection: DESC
+      measureName: Measurements
+  columns:
+  - name: Quality
+    attribute: Quality
+  measures:
+  - name: Measurements
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - SubstationCode
+  showRowTotals: false
+  showColumnTotals: false
+filters:
+- attribute: Quality status
+  operator: EQUALS
+  value: Not good
+documentation: ''
+labelPlacement: TOP

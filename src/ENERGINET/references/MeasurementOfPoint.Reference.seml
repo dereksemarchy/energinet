@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Measurement - Measurement point
+_name: MeasurementOfPoint
+description: The measurement point an aggregated value belongs to.
+documentation: The measurement point an aggregated value belongs to.
+deletePropagation: CASCADE
+fromEntity: ENERGINET.entities.Measurement.Measurement
+fromRoleName: Measurements
+fromRoleLabel: Measurements
+fromRolePluralLabel: Measurements
+physicalName: MEASUREMENTOFPOINT
+toEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+toRoleName: MeasurementPoint
+toRolePhysicalName: POINT_REF
+toRoleLabel: Measurement point
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: MeasurementPoint
+  entity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+  label: Measurement point
+  physicalName: POINT_REF
+  searchable: true

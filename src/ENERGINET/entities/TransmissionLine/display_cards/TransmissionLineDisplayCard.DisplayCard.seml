@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.TransmissionLine.display_cards
+_type: DisplayCard
+_name: TransmissionLineDisplayCard
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+default: true
+primaryTextExpression: LineName
+avatarImageValue: images://mdi/transmission-tower.svg
+primaryImageValueInterpreter: LITERAL
+avatarImageSourceType: URL
+primaryImageAlign: MIDDLE_CENTER
+primaryImageMode: FIT
+primaryImageFallbackValueInterpreter: LITERAL
+primaryImageFallbackSourceType: URL
+avatarImageValueInterpreter: LITERAL
+primaryImageSourceType: URL
+avatarImageAlign: MIDDLE_CENTER
+avatarImageMode: FIT

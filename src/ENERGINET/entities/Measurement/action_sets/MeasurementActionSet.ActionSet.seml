@@ -1,0 +1,58 @@
+_package: ENERGINET.entities.Measurement.action_sets
+_type: ActionSet
+_name: MeasurementActionSet
+entity: ENERGINET.entities.Measurement.Measurement
+label: Measurement actions
+defaultActionSet: true
+actions:
+- _type: CreateAction
+  _name: Create
+  label: Create
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Measurement.steppers.AuthorMeasurement
+  createMultiple: false
+  createdRecordType: GOLDEN
+  waitDialogEnabled: false
+  allowOtherPublishers: true
+- _type: EditAction
+  _name: Edit
+  label: Edit
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Measurement.steppers.AuthorMeasurement
+  multipleSelectionAllowed: true
+  availableForGoldenData: true
+  availableForMasterData: false
+  availableForErrorData: false
+  waitDialogEnabled: false
+- _type: MassUpdateAction
+  _name: MassUpdate
+  label: Mass update
+  useCustomLabel: true
+  stepper: ENERGINET.entities.Measurement.steppers.AuthorMeasurement
+  availableForGoldenData: true
+  availableForErrorData: false
+  availableForMasterData: false
+  waitDialogEnabled: false
+- _type: DeleteAction
+  _name: Delete
+  label: Delete
+  useCustomLabel: true
+  multipleSelectionAllowed: true
+  deleteType: HARD_DELETE
+  waitDialogEnabled: false
+  availableForGoldenData: true
+  availableForMasterData: false
+- _type: ExportAction
+  _name: Export
+  label: Export
+  useCustomLabel: true
+  waitDialogEnabled: false
+- _type: ImportAction
+  _name: Import
+  label: Import
+  useCustomLabel: true
+  importMode: CREATE_AND_UPDATE
+  stepper: ENERGINET.entities.Measurement.steppers.AuthorMeasurement
+  importedRecordType: GOLDEN
+  waitDialogEnabled: false
+  allowOtherPublishers: true

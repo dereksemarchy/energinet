@@ -1,0 +1,98 @@
+_package: ENERGINET.entities.TransmissionLine.forms
+_type: Form
+_name: TransmissionLineForm
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+default: true
+formTabs:
+- _type: FormTab
+  _name: TransmissionLine
+  label: Transmission line
+  documentationInterpreter: LITERAL
+  visibleValue: '1'
+  visibleValueInterpreter: LITERAL
+  displayFormTabAs: ICON_LABEL
+  iconUrl: images://mdi/transmission-tower.svg
+  labelWidth: '150'
+  content:
+  - _type: FormContainer
+    _name: Main
+    layoutDirection: COLUMN
+    content:
+    - _type: FormSection
+      _name: Sec1
+      label: Identification
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S1Row1
+        layoutDirection: ROW
+        content:
+        - _type: IdField
+          _name: LineCode
+          value: LineCode
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: LineName
+          value: LineName
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: LineType
+          value: LineType
+          useCustomLabel: false
+          dataType: STRING
+    - _type: FormSection
+      _name: Sec2
+      label: Topology
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S2Row1
+        layoutDirection: ROW
+        content:
+        - _type: ReferenceField
+          _name: FDN_FromSubstation
+          value: FDN_FromSubstation
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Substation.Substation
+        - _type: ReferenceField
+          _name: FDN_ToSubstation
+          value: FDN_ToSubstation
+          useCustomLabel: false
+          dataType: STRING
+          referencedEntity: ENERGINET.entities.Substation.Substation
+    - _type: FormSection
+      _name: Sec3
+      label: Technical data
+      layoutDirection: COLUMN
+      content:
+      - _type: FormContainer
+        _name: S3Row1
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: VoltageLevel
+          value: VoltageLevel
+          useCustomLabel: false
+          dataType: STRING
+        - _type: TextField
+          _name: LengthKm
+          value: LengthKm
+          useCustomLabel: false
+          dataType: DECIMAL
+        - _type: TextField
+          _name: RatedCapacityMva
+          value: RatedCapacityMva
+          useCustomLabel: false
+          dataType: DECIMAL
+      - _type: FormContainer
+        _name: S3Row2
+        layoutDirection: ROW
+        content:
+        - _type: TextField
+          _name: OperatingStatus
+          value: OperatingStatus
+          useCustomLabel: false
+          dataType: STRING

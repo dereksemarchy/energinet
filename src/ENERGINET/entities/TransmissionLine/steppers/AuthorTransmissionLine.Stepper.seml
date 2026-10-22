@@ -1,0 +1,45 @@
+_package: ENERGINET.entities.TransmissionLine.steppers
+_type: Stepper
+_name: AuthorTransmissionLine
+entity: ENERGINET.entities.TransmissionLine.TransmissionLine
+label: Transmission lines
+rootStep:
+  _type: CollectionStep
+  _name: TransmissionLineCollection
+  label: Transmission lines
+  canFinishSubLevel: true
+  enabledOnParentCreate: true
+  enabledOnParentEdit: true
+  formFieldsMode: AUTO
+  linear: false
+  childDeleteType: HARD_DELETE
+  collectionView: ENERGINET.entities.TransmissionLine.collection_views.TransmissionLineCollectionView
+  defaultDisplayType: TABLE
+  customSortEnabled: false
+  userDefinedSortEnabled: true
+  displayGridAllowed: false
+  displayListAllowed: true
+  displayTableAllowed: true
+  useCustomCollectionLabel: false
+  childSteps:
+  - _type: FormStep
+    _name: TransmissionLine
+    label: Transmission line
+    canFinishSubLevel: true
+    enabledOnParentCreate: true
+    enabledOnParentEdit: true
+    formFieldsMode: AUTO
+    enableMasterValuePicking: false
+    formTab: ENERGINET.entities.TransmissionLine.forms.TransmissionLineForm.TransmissionLine
+    formStepEnrichers:
+    - enricher: ENERGINET.entities.TransmissionLine.enrichers.TrimLineName
+      executedOnDataChange: true
+    formStepValidations:
+    - validationType: CHECK
+      validator: ENERGINET.entities.TransmissionLine.validations.DistinctEndpoints
+      executedOnDataChange: true
+      executedOnFormOpen: true
+    - validationType: CHECK
+      validator: ENERGINET.entities.TransmissionLine.validations.PositiveLength
+      executedOnDataChange: true
+      executedOnFormOpen: true

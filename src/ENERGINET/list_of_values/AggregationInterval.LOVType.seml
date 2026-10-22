@@ -1,0 +1,13 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: AggregationInterval
+label: Aggregation interval
+description: Length of the aggregation window (ISO 8601 duration code).
+length: 5
+lovValues:
+- code: PT15M
+  label: '15 minutes'
+  description: '15-minute aggregation window.'
+- code: PT1H
+  label: '1 hour'
+  description: Hourly aggregation window.

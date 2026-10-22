@@ -1,0 +1,7 @@
+{
+  "name": "GridIntegration",
+  "label": "Grid integration service",
+  "description": "Technical role of the source feeds calling the loads API.",
+  "emails": [],
+  "grants": []
+}

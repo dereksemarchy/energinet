@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Measurement point - Substation
+_name: PointInSubstation
+description: Where the signal is measured.
+documentation: Where the signal is measured.
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+fromRoleName: MeasurementPoints
+fromRoleLabel: Measurement points
+fromRolePluralLabel: Measurement points
+physicalName: POINTINSUBSTATION
+toEntity: ENERGINET.entities.Substation.Substation
+toRoleName: Substation
+toRolePhysicalName: SUBSTATION_REF
+toRoleLabel: Substation
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: Substation
+  entity: ENERGINET.entities.Substation.Substation
+  label: Substation
+  physicalName: SUBSTATION_REF
+  searchable: true

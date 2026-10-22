@@ -1,0 +1,17 @@
+_package: ENERGINET.entities.Measurement.display_cards
+_type: DisplayCard
+_name: MeasurementDisplayCard
+entity: ENERGINET.entities.Measurement.Measurement
+default: true
+primaryTextExpression: FID_MeasurementPoint || ' @ ' || SEM_CAST_STRING(PeriodStart)
+avatarImageValue: images://mdi/chart-line.svg
+primaryImageValueInterpreter: LITERAL
+avatarImageSourceType: URL
+primaryImageAlign: MIDDLE_CENTER
+primaryImageMode: FIT
+primaryImageFallbackValueInterpreter: LITERAL
+primaryImageFallbackSourceType: URL
+avatarImageValueInterpreter: LITERAL
+primaryImageSourceType: URL
+avatarImageAlign: MIDDLE_CENTER
+avatarImageMode: FIT

@@ -1,0 +1,24 @@
+_package: ENERGINET.references
+_type: Reference
+label: Measurement point - Asset
+_name: PointMeasuresAsset
+description: The equipment the signal measures (empty for station-level points).
+documentation: The equipment the signal measures (empty for station-level points).
+deletePropagation: RESTRICT
+fromEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+fromRoleName: MeasurementPoints
+fromRoleLabel: Measurement points
+fromRolePluralLabel: Measurement points
+physicalName: POINTMEASURESASSET
+toEntity: ENERGINET.entities.Asset.Asset
+toRoleName: Asset
+toRolePhysicalName: ASSET_REF
+toRoleLabel: Asset
+validationScope: PRE_CONSO
+foreignAttribute:
+  _type: ForeignAttribute
+  _name: Asset
+  entity: ENERGINET.entities.Asset.Asset
+  label: Asset
+  physicalName: ASSET_REF
+  searchable: true

@@ -1,0 +1,20 @@
+label: Records contributed, by source system and entity
+chartType: BAR
+pivotQuery:
+  query: SourceContribution
+  rows:
+  - name: Entity
+    attribute: Entity
+  columns:
+  - name: SourceSystem
+    attribute: Source system
+  measures:
+  - name: Records
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

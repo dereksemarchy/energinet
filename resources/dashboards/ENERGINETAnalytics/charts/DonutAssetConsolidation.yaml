@@ -1,0 +1,26 @@
+label: Assets - merged vs single source
+chartType: DONUT
+pivotQuery:
+  query: AssetProfile
+  columns:
+  - name: Consolidation
+    attribute: Consolidation
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+  additionalParameters: []
+donutHoleSizePct: 55
+dataLabels:
+  dataLabelPlacement: AUTO
+  series: LABEL_VALUE
+  categories: LABEL_VALUE
+  showValue: true
+  showPercentage: true
+  showMeasureLabel: null
+documentation: ''
+labelPlacement: TOP

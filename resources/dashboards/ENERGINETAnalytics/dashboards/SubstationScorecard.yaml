@@ -1,0 +1,85 @@
+label: Substation scorecard
+icon: images://mdi/card-account-details.svg
+parameters:
+- name: SubstationCode
+  appliesTo:
+  - dashboardChartName: Assets
+    queryAttribute: SubstationCode
+  - dashboardChartName: Points
+    queryAttribute: SubstationCode
+  - dashboardChartName: Lines
+    queryAttribute: SubstationCode
+  - dashboardChartName: OpenWarnings
+    queryAttribute: SubstationCode
+  - dashboardChartName: AssetMix
+    queryAttribute: SubstationCode
+  - dashboardChartName: Related
+    queryAttribute: SubstationCode
+  - dashboardChartName: WarningList
+    queryAttribute: SubstationCode
+  - dashboardChartName: NotGood
+    queryAttribute: SubstationCode
+  - dashboardChartName: PointsWithIssues
+    queryAttribute: SubstationCode
+tabs:
+- name: Scorecard
+  label: Scorecard
+  icon: images://mdi/card-account-details.svg
+  displayAs: ICON_LABEL
+  content:
+  - type: CHART
+    name: Assets
+    chart: KpiScAssets
+    label: null
+    cells: 2
+    height: 150
+  - type: CHART
+    name: Points
+    chart: KpiScPoints
+    label: null
+    cells: 3
+    height: 150
+  - type: CHART
+    name: Lines
+    chart: KpiScLines
+    label: null
+    cells: 2
+    height: 150
+  - type: CHART
+    name: NotGood
+    chart: KpiNotGood
+    label: null
+    cells: 3
+    height: 150
+  - type: CHART
+    name: OpenWarnings
+    chart: KpiScWarnings
+    label: null
+    cells: 2
+    height: 150
+  - type: CHART
+    name: AssetMix
+    chart: BarAssetsByTypeCriticality
+    label: null
+    cells: 6
+    height: 340
+  - type: CHART
+    name: PointsWithIssues
+    chart: BarPointsWithIssues
+    label: null
+    cells: 6
+    height: 340
+  - type: CHART
+    name: Related
+    chart: PivotScFootprint
+    label: null
+    cells: 6
+    height: 400
+  - type: CHART
+    name: WarningList
+    chart: PivotWarningList
+    label: null
+    cells: 6
+    height: 400
+requiredRole: ''
+globalSlicers: []

@@ -1,0 +1,16 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: Criticality
+label: Criticality
+description: Business criticality used to prioritise maintenance.
+length: 10
+lovValues:
+- code: HIGH
+  label: High
+  description: Failure has system-wide consequences.
+- code: MEDIUM
+  label: Medium
+  description: Failure has local consequences.
+- code: LOW
+  label: Low
+  description: Failure has limited consequences.

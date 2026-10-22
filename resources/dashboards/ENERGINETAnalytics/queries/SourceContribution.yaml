@@ -1,0 +1,38 @@
+dataSource: GridData
+sql: |-
+  with c as (
+    select 'Substation' as entity, b_pubid as pub from md_substation
+    union all select 'Asset', b_pubid from md_asset
+    union all select 'Transmission line', 'NETMODEL' from gd_transmissionline
+    union all select 'Measurement point', 'SCADA' from gd_measurementpoint
+    union all select 'Measurement', 'HISTORIAN' from gd_measurement)
+  select entity as "Entity", 1 as "Records",
+         case pub when 'NETMODEL' then 'Network model' when 'EAM' then 'Asset register'
+              when 'SCADA' then 'SCADA / PMU point list' when 'HISTORIAN' then 'Measurement historian'
+              when 'UI' then 'Manual entry (data steward)' else coalesce(pub, '(unknown)') end as "Source system"
+    from c
+attributes:
+  Entity:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+  Records:
+    dataType: NUMBER
+    usableAsMeasure: true
+    usableAsDimension: false
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+    format:
+      decimalPlaces: 0
+  Source system:
+    dataType: TEXT
+    usableAsMeasure: false
+    usableAsDimension: true
+    usableAsTimeDimension: false
+    showInDrilldown: true
+    sortable: true
+exportEnabled: true

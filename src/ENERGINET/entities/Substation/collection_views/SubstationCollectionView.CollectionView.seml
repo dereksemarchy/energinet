@@ -1,0 +1,84 @@
+_package: ENERGINET.entities.Substation.collection_views
+_type: CollectionView
+_name: SubstationCollectionView
+entity: ENERGINET.entities.Substation.Substation
+default: true
+displayCard: ENERGINET.entities.Substation.display_cards.SubstationDisplayCard
+gridAllowed: false
+gridColumns: 4
+gridTextPosition: BOTTOM
+gridTileHeight: '1:1'
+gridTileLines: 1
+listAllowed: true
+listItemLines: 1
+listShowDisplayCardAvatar: false
+listShowDivider: true
+tableAllowed: true
+tableDisplayCardColumnLabel: Substation
+tableRowLines: 1
+tableShowDisplayCard: true
+tableColumns:
+- _type: IdColumn
+  _name: GoldenId
+  label: Record id
+  value: SubstationCode
+  useCustomLabel: true
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: SubstationName
+  value: SubstationName
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: GridArea
+  value: GridArea
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: HighestVoltageLevel
+  value: HighestVoltageLevel
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: Latitude
+  value: Latitude
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: Longitude
+  value: Longitude
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: OperatingStatus
+  value: OperatingStatus
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: DateColumn
+  _name: CommissioningDate
+  value: CommissioningDate
+  useCustomLabel: false
+  dataType: DATE
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: Description
+  value: Description
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true

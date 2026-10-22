@@ -1,0 +1,25 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: VoltageLevel
+label: Voltage level
+description: |-
+  Nominal voltage level of a grid element.
+
+  AI agent instructions: The code is the nominal voltage in kV: compare and sort numerically on the code, never on the label.
+length: 3
+lovValues:
+- code: '400'
+  label: '400 kV'
+  description: Transmission backbone.
+- code: '220'
+  label: '220 kV'
+  description: Transmission level.
+- code: '150'
+  label: '150 kV'
+  description: Regional transmission (West Denmark).
+- code: '132'
+  label: '132 kV'
+  description: Regional transmission (East Denmark).
+- code: '60'
+  label: '60 kV'
+  description: Sub-transmission / distribution interface.

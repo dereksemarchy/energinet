@@ -1,0 +1,22 @@
+label: Physical columns (verification)
+chartType: PIVOT_TABLE
+pivotQuery:
+  query: SchemaCheck
+  rows:
+  - name: Table
+    attribute: Table
+  - name: Column
+    attribute: Column
+  - name: DataType
+    attribute: Data type
+  measures:
+  - name: Position
+    attribute: Position
+    aggregationType: MIN
+  measuresLocation: LAST_COLUMN
+  showRowTotals: false
+  showColumnTotals: false
+  columns: []
+  additionalParameters: []
+documentation: ''
+labelPlacement: TOP

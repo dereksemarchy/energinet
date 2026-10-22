@@ -1,0 +1,70 @@
+_package: ENERGINET.entities.Measurement.collection_views
+_type: CollectionView
+_name: MeasurementCollectionView
+entity: ENERGINET.entities.Measurement.Measurement
+default: true
+displayCard: ENERGINET.entities.Measurement.display_cards.MeasurementDisplayCard
+gridAllowed: false
+gridColumns: 4
+gridTextPosition: BOTTOM
+gridTileHeight: '1:1'
+gridTileLines: 1
+listAllowed: true
+listItemLines: 1
+listShowDisplayCardAvatar: false
+listShowDivider: true
+tableAllowed: true
+tableDisplayCardColumnLabel: Measurement
+tableRowLines: 1
+tableShowDisplayCard: true
+tableColumns:
+- _type: ReferenceColumn
+  _name: MeasurementPoint
+  value: FDN_MeasurementPoint
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+  referencedEntity: ENERGINET.entities.MeasurementPoint.MeasurementPoint
+- _type: DateColumn
+  _name: PeriodStart
+  value: PeriodStart
+  useCustomLabel: false
+  dataType: DATE
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: AggregationInterval
+  value: AggregationInterval
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: AvgValue
+  value: AvgValue
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: MinValue
+  value: MinValue
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: MaxValue
+  value: MaxValue
+  useCustomLabel: false
+  dataType: DECIMAL
+  columnAlign: LEFT
+  visibleByDefault: true
+- _type: TextColumn
+  _name: QualityFlag
+  value: QualityFlag
+  useCustomLabel: false
+  dataType: STRING
+  columnAlign: LEFT
+  visibleByDefault: true

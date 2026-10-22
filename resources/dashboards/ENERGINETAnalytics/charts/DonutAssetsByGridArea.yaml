@@ -1,0 +1,27 @@
+label: Assets by grid area
+chartType: DONUT
+pivotQuery:
+  query: AssetProfile
+  columns:
+  - name: GridArea
+    attribute: Grid area
+  measures:
+  - name: Assets
+    attribute: Records
+    aggregationType: SUM
+  measuresLocation: LAST_COLUMN
+  additionalParameters:
+  - Substation
+  showRowTotals: false
+  showColumnTotals: false
+  rows: []
+donutHoleSizePct: 55
+dataLabels:
+  dataLabelPlacement: AUTO
+  series: LABEL_VALUE
+  categories: LABEL_VALUE
+  showValue: true
+  showPercentage: true
+  showMeasureLabel: null
+documentation: ''
+labelPlacement: TOP

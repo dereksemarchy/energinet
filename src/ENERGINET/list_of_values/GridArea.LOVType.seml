@@ -1,0 +1,13 @@
+_package: ENERGINET.list_of_values
+_type: LOVType
+_name: GridArea
+label: Grid area
+description: Danish bidding and synchronous area the asset belongs to.
+length: 3
+lovValues:
+- code: DK1
+  label: DK1 - West Denmark
+  description: Western Danish grid area (Jutland and Funen), synchronous with Continental Europe.
+- code: DK2
+  label: DK2 - East Denmark
+  description: Eastern Danish grid area (Zealand and islands), synchronous with the Nordic system.
