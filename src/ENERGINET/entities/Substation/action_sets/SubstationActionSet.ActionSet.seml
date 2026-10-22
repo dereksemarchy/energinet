@@ -22,7 +22,7 @@ actions:
   multipleSelectionAllowed: true
   availableForGoldenData: true
   availableForMasterData: false
-  availableForErrorData: false
+  availableForErrorData: true
   waitDialogEnabled: false
 - _type: MassUpdateAction
   _name: MassUpdate

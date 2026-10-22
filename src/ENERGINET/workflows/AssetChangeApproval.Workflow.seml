@@ -32,15 +32,15 @@ steps:
   conditionOnSelection: '1=1'
   startupParameters:
     attachmentParamRequired: false
-    attachmentParamSupported: false
+    attachmentParamSupported: true
     commentParamRequired: false
     commentParamSupported: true
     descriptionParamSupported: false
     dueDateParamRequired: false
-    dueDateParamSupported: false
+    dueDateParamSupported: true
     nextTaskAssigneeRequired: false
     nextTaskAssigneeSupported: false
-    priorityParamSupported: false
+    priorityParamSupported: true
     showWaitDialog: true
   transition:
     _type: StartEventTransition
@@ -55,6 +55,7 @@ steps:
     x: -400
     y: 0
   application: ENERGINET.applications.ENERGINET
+  assigneeCondition: Username = StepInstance.WorkflowInstance.InitiatorName
   assigneeRequiredRole: GridDataSteward
   assigneeCanRelease: true
   taskType: DATA_AUTHORING
@@ -89,7 +90,7 @@ steps:
       priorityParamSupported: false
       dueDateParamSupported: false
       dueDateParamRequired: false
-      attachmentParamSupported: false
+      attachmentParamSupported: true
       attachmentParamRequired: false
     bendPoints: []
 - _type: UserTask
